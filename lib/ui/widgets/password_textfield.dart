@@ -1,17 +1,15 @@
-import 'package:carrimen_app/core/constants/common.dart';
-import 'package:carrimen_app/core/constants/text_styles.dart';
+import 'package:yes_loyality/core/constants/common.dart';
+import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class PassWordTextfield extends StatefulWidget {
   const PassWordTextfield({
     super.key,
-    required this.sizedBoxwidth,
-    required this.inputHeight,
+ 
     required this.hintText,
   });
 
-  final double sizedBoxwidth;
-  final double inputHeight;
+ 
   final String hintText;
 
   @override
@@ -26,8 +24,8 @@ class _PassWordTextfieldState extends State<PassWordTextfield> {
     double elempaddingHorizontal = elemPaddingHorizontal(context);
     double elempaddingVertical = elemGapVertical(context);
     return SizedBox(
-      width: widget.sizedBoxwidth,
-      height: widget.inputHeight,
+      width: double.infinity,
+      height: 57,
       child: TextField(
         obscureText: _obscureText,
         style: TextStyles.rubikregular16black24w400,

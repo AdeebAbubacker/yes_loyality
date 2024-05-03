@@ -1,8 +1,9 @@
-import 'package:carrimen_app/ui/widgets/buttons.dart';
+import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:carrimen_app/core/constants/common.dart';
-import 'package:carrimen_app/core/constants/const.dart';
-import 'package:carrimen_app/core/constants/text_styles.dart';
+import 'package:yes_loyality/core/constants/common.dart';
+import 'package:yes_loyality/core/constants/const.dart';
+import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class Enter_otp_page extends StatelessWidget {
@@ -28,11 +29,11 @@ class Enter_otp_page extends StatelessWidget {
     final otpwidth = screenwidth * 74 / FigmaConstants.figmaDeviceWidth;
     final otpheight = screenheight * 57 / FigmaConstants.figmaDeviceHeight;
     final spacebtwotp = screenwidth * 10 / FigmaConstants.figmaDeviceWidth;
-
+    EdgeInsets outerpadding = OuterPaddingConstant(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: PaddingConstant.outerPadding,
+        padding: outerpadding,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +66,7 @@ class Enter_otp_page extends StatelessWidget {
                   children: [
                     PinCodeTextField(
                         keyboardType: TextInputType.number,
-                        autofocus: true,
+                        autofocus: false,
                         highlight: true,
                         highlightColor: Colors.blue,
                         defaultBorderColor: Colors.black,
@@ -84,7 +85,16 @@ class Enter_otp_page extends StatelessWidget {
               SizedBox(
                 height: sizedBoxHeight5,
               ),
-              ColoredButton(text: 'Verify', onPressed: () {}),
+              ColoredButton(
+                  text: 'Verify',
+                  onPressed: () {
+                    context.go("/success_alert");
+                    // Navigator.push(context, MaterialPageRoute(
+                    //   builder: (context) {
+                    //     return const EnterOtpVerified();
+                    //   },
+                    // ));
+                  }),
               SizedBox(
                 height: sizedBoxHeight6,
               ),

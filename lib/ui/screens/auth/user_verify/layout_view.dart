@@ -1,9 +1,9 @@
-import 'package:carrimen_app/core/constants/common.dart';
-import 'package:carrimen_app/core/constants/const.dart';
-import 'package:carrimen_app/core/constants/text_styles.dart';
-import 'package:carrimen_app/ui/screens/misc/full_screen_alert/layout_view.dart';
-import 'package:carrimen_app/ui/widgets/buttons.dart';
+import 'package:yes_loyality/core/constants/common.dart';
+import 'package:yes_loyality/core/constants/const.dart';
+import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class VerifyYourAccount extends StatelessWidget {
   const VerifyYourAccount({super.key});
@@ -20,62 +20,66 @@ class VerifyYourAccount extends StatelessWidget {
         screenheight * 24 / FigmaConstants.figmaDeviceHeight;
     double sizedBoxHeight4 =
         screenheight * 14 / FigmaConstants.figmaDeviceHeight;
+    EdgeInsets outerpadding = OuterPaddingConstant(context);
 
     return Scaffold(
       body: Padding(
-        padding: PaddingConstant.outerPadding,
+        padding: outerpadding,
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: sizedBoxHeight1,
-              ),
-              Image.asset(
-                'assets/yes_loyality_log.png',
-              ),
-              SizedBox(
-                height: sizedBoxHeight2,
-              ),
-              Center(
-                  child: Text("Verify Your Account",
-                      style: TextStyles.bold24black24)),
-              SizedBox(
-                height: sizedBoxHeight3,
-              ),
-              Center(
-                  child: Text("(219)555-O114",
-                      style: TextStyles.ibm20black77w700)),
-              SizedBox(
-                height: sizedBoxHeight3,
-              ),
-              Center(
-                  child: Text(
-                      "We will send the authentication code to your mobile number you entered. Do you want to continue?",
-                      textAlign: TextAlign.center,
-                      style: TextStyles.semibold16grey77)),
-              SizedBox(
-                height: sizedBoxHeight2,
-              ),
-              ColoredButton(
-                  text: 'Continue',
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: sizedBoxHeight1,
+                ),
+                Image.asset(
+                  'assets/yes_loyality_log.png',
+                ),
+                SizedBox(
+                  height: sizedBoxHeight2,
+                ),
+                Center(
+                    child: Text("Verify Your Account",
+                        style: TextStyles.bold24black24)),
+                SizedBox(
+                  height: sizedBoxHeight3,
+                ),
+                Center(
+                    child: Text("(219)555-O114",
+                        style: TextStyles.ibm20black77w700)),
+                SizedBox(
+                  height: sizedBoxHeight3,
+                ),
+                Center(
+                    child: Text(
+                        "We will send the authentication code to your mobile number you entered. Do you want to continue?",
+                        textAlign: TextAlign.center,
+                        style: TextStyles.semibold16grey77)),
+                SizedBox(
+                  height: sizedBoxHeight2,
+                ),
+                ColoredButton(
+                    text: 'Continue',
+                    onPressed: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const Enter_otp_page()),
+                      // );
+                      context.go('/user_otp'); 
+                    }),
+                SizedBox(
+                  height: sizedBoxHeight4,
+                ),
+                ColorlessButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const EnterOtpVerified()),
-                    );
-                  }),
-              SizedBox(
-                height: sizedBoxHeight4,
-              ),
-              ColorlessButton(
-                onPressed: () {
-                  // Add your onPressed function here
-                },
-                text: 'Cancel',
-              ),
-            ],
+                    // Add your onPressed function here
+                  },
+                  text: 'Cancel',
+                ),
+              ],
+            ),
           ),
         ),
       ),

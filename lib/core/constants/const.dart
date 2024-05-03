@@ -1,4 +1,4 @@
-import 'package:carrimen_app/core/constants/common.dart';
+import 'package:yes_loyality/core/constants/common.dart';
 import 'package:flutter/material.dart';
 
 class ColorConstants {
@@ -8,7 +8,7 @@ class ColorConstants {
   static const grey = Colors.grey;
   static const greyD9 = Color(0xFFD9D9D9);
   static const greyD7 = Color(0xFFD7D7D7);
-  static const greyF5 = Color(0xFFF5F5F5);
+  static const greyF5 = Color(0xFF2DC962);
   static const Color purpleColorF8 = Color(0xFFFFEBF8);
   static const Color secondaryTextColor = Color(0xFF777777);
   static const Color dividerColor = const Color(0xFFEDEDED);
@@ -20,11 +20,10 @@ class WidthConstants {
   static const double sizedboxWidth = 25;
 }
 
-class PaddingConstant {
-  static const outerPadding = const EdgeInsets.only(left: 30, right: 30);
-  static const innerPadding =
-      const EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 20);
-  static const categoriesPadding = const EdgeInsets.only(left: 30, right: 3);
+EdgeInsets OuterPaddingConstant(BuildContext context) {
+  double screenwidth = MediaQuery.of(context).size.width;
+  double width30 = screenwidth * 30 / FigmaConstants.figmaDeviceWidth;
+  return EdgeInsets.only(left: width30, right: width30);
 }
 
 class FigmaConstants {

@@ -1,15 +1,20 @@
-import 'package:carrimen_app/core/constants/common.dart';
-import 'package:carrimen_app/core/constants/const.dart';
-import 'package:carrimen_app/core/constants/text_styles.dart';
-
+import 'package:yes_loyality/core/constants/common.dart';
+import 'package:yes_loyality/core/constants/const.dart';
+import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class EnterOtpVerified extends StatelessWidget {
   const EnterOtpVerified({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 3), () async {
+     context.go("/sign_in");
+    
+    });
+    
     final screenheight = screenHeight(context);
     //double screenwidth = screenWidth(context);
     final sizedboxh1 = screenheight * 134 / FigmaConstants.figmaDeviceHeight;
@@ -17,12 +22,12 @@ class EnterOtpVerified extends StatelessWidget {
     final sizedboxh3 = screenheight * 29 / FigmaConstants.figmaDeviceHeight;
     final sizedboxh4 = screenheight * 16 / FigmaConstants.figmaDeviceHeight;
 
-
+    EdgeInsets outerpadding = OuterPaddingConstant(context);
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: PaddingConstant.outerPadding,
+            padding: outerpadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
