@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yes_loyality/core/view_model/login/login_bloc.dart';
 import 'package:yes_loyality/core/view_model/register/register_bloc.dart';
 
+//vvvvvvvvvvvvvvv
+//fffff
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
