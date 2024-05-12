@@ -1,8 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:yes_loyality/ui/screens/misc/points_popup/layout_view.dart';
-import 'package:dotted_line/dotted_line.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_svg/svg.dart';
 
 class BarCodePopup extends StatelessWidget {

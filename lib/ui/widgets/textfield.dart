@@ -1,69 +1,38 @@
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:flutter/material.dart';
-
-// class Textfield extends StatelessWidget {
-//   final String hintText;
-//   final TextEditingController textController;
-//   const Textfield({
-//     super.key,
-//     required this.hintText,
-//     required this.textController,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     double elempaddingHorizontal = elemPaddingHorizontal(context);
-//     double elempaddingVertical = elemGapVertical(context);
-//     return SizedBox(
-//       width: double.infinity,
-//       height: 57,
-//       child: TextField(
-//         controller: textController,
-//         style: TextStyles.rubikregular16black24w400,
-//         decoration: InputDecoration(
-//           contentPadding: EdgeInsets.symmetric(
-//               horizontal: elempaddingHorizontal, vertical: elempaddingVertical),
-//           hintText: hintText,
-//           hintStyle: TextStyles.rubikregular16grey77w400,
-//           border: const OutlineInputBorder(
-//             borderSide: BorderSide(
-//               width: 4,
-//               color: Colors.red,
-//             ),
-//             borderRadius: BorderRadius.all(Radius.circular(9)),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
+import 'package:yes_loyality/core/constants/const.dart';
 
 class Textfield extends StatelessWidget {
-  const Textfield({
+   Textfield({
     super.key,
-
-    required this.hintText, this.textEditingController,
+    required this.hintText,
+    this.textEditingController,
+    this.errorText,
+    this.enabled = true,
   });
-
-
+  var errorText;
   final String hintText;
-    final TextEditingController? textEditingController;
+  final bool enabled;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
     double elempaddingHorizontal = elemPaddingHorizontal(context);
     double elempaddingVertical = elemGapVertical(context);
-    return SizedBox(
+    return Container(
       width: double.infinity,
-      height: 57,
+      decoration: const BoxDecoration(
+        color: ColorConstants.greyF7,
+        borderRadius: BorderRadius.all(Radius.circular(9)),
+      ),
       child: TextField(
-      controller: textEditingController,
+        enabled: enabled,
+        controller: textEditingController,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(
               horizontal: elempaddingHorizontal, vertical: elempaddingVertical),
           hintText: hintText,
+          errorText: errorText,
           border: const OutlineInputBorder(
             borderSide: BorderSide(
               width: 4,

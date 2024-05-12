@@ -5,6 +5,7 @@ import 'package:jumping_dot/jumping_dot.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:yes_loyality/core/view_model/login/login_bloc.dart';
+import 'package:yes_loyality/ui/screens/home/layout_view.dart';
 import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:yes_loyality/ui/widgets/password_textfield.dart';
 import 'package:yes_loyality/ui/widgets/textfield.dart';
@@ -18,7 +19,100 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool showDots = false;
+  final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
+  final _emailcontroller = TextEditingController();
+  String? _emailErrorText;
+  String? _passwordErrorText;
+  bool _formSubmitted = false; // Add this boolean flag
 
+  @override
+  void initState() {
+    super.initState();
+    _emailcontroller.addListener(_onEmailChanged);
+    _passwordController.addListener(_onPasswordChanged);
+  }
+
+  @override
+  void dispose() {
+    _emailcontroller.removeListener(_onEmailChanged);
+    _passwordController.removeListener(_onPasswordChanged);
+    super.dispose();
+  }
+
+  void _onEmailChanged() {
+    if (_formSubmitted) {
+      // Only validate if the form has been submitted at least once
+      _validateEmail(_emailcontroller.text);
+    }
+  }
+
+  void _validateEmail(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        _emailErrorText = 'Email is required';
+      });
+    } else {
+      // Clear error if value becomes non-empty
+      if (_emailErrorText != null) {
+        setState(() {
+          _emailErrorText = null;
+        });
+      }
+      if (!isEmailValid(value)) {
+        setState(() {
+          _emailErrorText = 'Enter a valid email address';
+        });
+      }
+    }
+  }
+
+  bool isEmailValid(String email) {
+    // Basic email validation using regex
+    // You can implement more complex validation if needed
+    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
+  }
+
+  void _onPasswordChanged() {
+    if (_formSubmitted) {
+      // Only validate if the form has been submitted at least once
+      _validatePassword(_passwordController.text);
+    }
+  }
+
+  void _validatePassword(String value) {
+    setState(() {
+      if (value.isEmpty) {
+        _passwordErrorText = 'Password is required';
+      } else if (value.length < 8) {
+        _passwordErrorText = 'Password must be at least 8 characters long';
+      } else {
+        _passwordErrorText = null;
+      }
+    });
+  }
+
+  void _submitForm() {
+    setState(() {
+      _formSubmitted =
+          true; // Set form submitted to true when the button is clicked
+      // Validate password field
+      _validateEmail(_emailcontroller.text);
+      _validatePassword(_passwordController.text);
+    });
+
+    BlocProvider.of<LoginBloc>(context).add(
+      LoginEvent.signInWithEmailAndPassword(
+        email: _emailcontroller.text,
+        password: _passwordController.text,
+        // email: emailcontroller.text,
+        // password: emailcontroller.text,
+      ),
+    );
+    setState(() {
+      showDots = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +135,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   // showDots = false;
                 });
                 // Navigate to home screen on successful login
-                context.go('/home');
+                // context.go('/home');
                 // You can also perform any other actions on success
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const HomeScreen();
+                  },
+                ));
               },
               authError: (value) {
                 setState(() {
@@ -50,7 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Login failed: ${value.message}'),
+                    content: Text('Please Enter valid email or password'),
                     duration: const Duration(seconds: 2),
                   ),
                 );
@@ -92,12 +191,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Textfield(
+                            Textfield(
+                              errorText: _emailErrorText,
                               hintText: 'Enter Email',
+                              textEditingController: _emailcontroller,
                             ),
                             SizedBox(height: elementPaddingVertical),
-                            const PassWordTextfield(
+                            PassWordTextfield(
+                              errorText: _passwordErrorText,
                               hintText: 'Enter Password',
+                              textEditingController: _passwordController,
                             ),
                             SizedBox(height: perc187),
                             Align(
@@ -113,56 +216,50 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       SizedBox(height: perc375),
                       ColoredButton(
-                        onPressed: () {
-                          BlocProvider.of<LoginBloc>(context).add(
-                            const LoginEvent.signInWithEmailAndPassword(
-                              email: 'adeep@gmail.com',
-                              password: 'Rishi@123',
-                            ),
-                          );
-                          setState(() {
-                            showDots = true;
-                          });
-                        },
+                        onPressed: _submitForm,
                         text: 'Sign In',
                       ),
                       SizedBox(height: perc187),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Don't have an account?  ",
-                              style: TextStyles.rubikregular16black24w400,
-                            ),
-                            TextSpan(
-                              text: 'Sign Up',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account?  ",
+                            style: TextStyles.rubikregular16black24w400,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              context.go("/user_signup");
+                            },
+                            child: Text(
+                              "Sign Up",
                               style: TextStyles.medium16black3B,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                   Align(
-      alignment: Alignment.bottomCenter,
-      child: Visibility(
-        visible: showDots,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 30),
-          child: Container(
-            width: 120,
-            height: 40,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(137, 212, 210, 210),
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-            ),
-            child: JumpingDots(
-              color: const Color.fromARGB(255, 129, 106, 205),
-            ),
-          ),
-        ),
-      ),
-    ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Visibility(
+                      visible: showDots,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: Container(
+                          width: 120,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(137, 212, 210, 210),
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
+                          child: JumpingDots(
+                            color: const Color.fromARGB(255, 129, 106, 205),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

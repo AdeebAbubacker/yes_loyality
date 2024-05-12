@@ -1,0 +1,35 @@
+import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:yes_loyality/core/model/failure/mainfailure.dart';
+import 'package:yes_loyality/core/model/offers_list/offers_list.dart';
+import 'package:yes_loyality/core/services/get_service/offers_service.dart';
+
+part 'offers_list_event.dart';
+part 'offers_list_state.dart';
+part 'offers_list_bloc.freezed.dart';
+
+class OffersListBloc extends Bloc<OffersListEvent, OffersListState> {
+  OffersListBloc() : super(OffersListState.initial()) {
+    on<_FetchOffersList>((event, emit) async {
+      try {
+        final response = await OffersService.fetchOfferListData();
+        emit(OffersListState(
+          isLoading: false,
+          isError: false,
+          offersList: response,
+          successorFailure: optionOf(right(response)),
+        ));
+        // ignore: avoid_print
+      } catch (e) {
+        emit(OffersListState(
+          isLoading: false,
+          isError: true,
+          offersList: OffersList(),
+          successorFailure:
+              optionOf(left(MainFailure.clientFailure(message: e.toString()))),
+        ));
+      }
+    });
+  }
+}

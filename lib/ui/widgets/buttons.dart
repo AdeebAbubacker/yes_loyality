@@ -47,14 +47,17 @@ class ColorlessButton extends StatelessWidget {
   }
 }
 
-class GreyColorButton extends StatelessWidget {
+class SolidColorButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
+    final Color backgroundColor;
+      final Color borderColor;
 
-  const GreyColorButton({
+  const SolidColorButton({
     super.key,
     required this.text,
-    required this.onPressed,
+    required this.onPressed, required this.backgroundColor,
+    required this.borderColor,
   });
 
   @override
@@ -70,13 +73,14 @@ class GreyColorButton extends StatelessWidget {
         onPressed: onPressed,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-            ColorConstants.greyF5,
+          //  ColorConstants.greyF5,
+            backgroundColor
           ),
           shape: MaterialStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side: const BorderSide(
-                color: ColorConstants.greyF5,
+              side:  BorderSide(
+                color: borderColor,
                 width: 1.0,
               ),
             ),

@@ -6,7 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
+import 'package:yes_loyality/ui/widgets/qr_popup.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
@@ -26,18 +27,11 @@ class _HomeAppBarState extends State<HomeAppBar> {
       if (!mounted) return;
       setState(() {
         qrResult = qrCode.toString();
-      
-        storeQRResult(qrResult);
+        SetSharedPreferences.storeQRResult(qrResult);
       });
     } on PlatformException {
       qrResult = 'Fail to read QR Code';
     }
-  }
-
-// Function to store QR result to SharedPreferences
-  void storeQRResult(String qrResult) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('qrResult', qrResult);
   }
 
   @override
@@ -53,33 +47,33 @@ class _HomeAppBarState extends State<HomeAppBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SvgPicture.asset('assets/back_arrow.svg'),
           const Spacer(),
           Image.asset('assets/yes_loyality_log.png'),
           const Spacer(),
           InkWell(
             borderRadius: BorderRadius.circular(90),
             onTap: () {
-              scanQR();
-              //               showDialog(
-              //   context: context,
-              //   builder: (BuildContext context) {
-              //     return PopScope(
-              //       // Allow dismissing the popup on initial back press
-              //       canPop: true,
-              //       onPopInvoked: (didPop) {
-              //         // Check if it's the first back press
-              //         final isFirstPop = !Navigator.of(context).canPop();
+              // scanQR();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return PopScope(
+                    // Allow dismissing the popup on initial back press
+                    canPop: true,
+                    onPopInvoked: (didPop) {
+                      // Check if it's the first back press
+                      final isFirstPop = !Navigator.of(context).canPop();
 
-              //         if (didPop && isFirstPop) {
-              //           // Close the dialog without navigation
-              //           Navigator.of(context).pop(); // No need for (false) argument
-              //         }
-              //       },
-              //       child: BarCodePopup(), // Your dialog content
-              //     );
-              //   },
-              // );
+                      if (didPop && isFirstPop) {
+                        // Close the dialog without navigation
+                        Navigator.of(context)
+                            .pop(); // No need for (false) argument
+                      }
+                    },
+                    child: QrPopup(), // Your dialog content
+                  );
+                },
+              );
             },
             child: Container(
               width: 70,
@@ -106,6 +100,3 @@ class _HomeAppBarState extends State<HomeAppBar> {
     );
   }
 }
-
-
-

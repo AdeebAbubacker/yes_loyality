@@ -1,29 +1,57 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesService {
-  static SharedPreferences? _prefs;
-
-  // Initialize shared preferences
-  static Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
+class SetSharedPreferences {
+  static Future storeCustomerId(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('customerId', value);
   }
 
-//Set Methods
-  static Future<void> storeccessoken({required String accessToken}) async {
-    await _prefs?.setString("accessToken", accessToken);
+  static Future storeAccessToken(String accessToken) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('accessToken', accessToken);
   }
 
-  static Future<void> storeQrCode({required String qrcode}) async {
-    await _prefs?.setString("qrcode", qrcode);
+  static Future storeQRResult(String qrResult) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('qrResult', qrResult);
   }
 
-//Get Methods
+   static Future storeBranchId(String branchId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('branchId', branchId);
+  }
+     static Future storeBranchNAme(String BranchNAme) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('BranchNAme', BranchNAme);
+  }
+}
 
-  static String getaccesstoken({required String accessToken}) {
-    return _prefs?.getString(accessToken) ?? '';
+class GetSharedPreferences {
+  static Future<int?> getCustomerId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('customerId');
   }
 
-  static String getQrCode() {
-    return _prefs?.getString("qrcode") ?? 'dff';
+  static Future<String?> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('accessToken');
+  }
+
+  static Future<String?> getQRResult() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('qrResult');
+  }
+  static Future<String?> getbranchId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('branchId');
+  }
+    static Future<String?> getBranchNAme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('BranchNAme');
+  }
+
+  static Future<void> deleteBranchId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('branchId');
   }
 }

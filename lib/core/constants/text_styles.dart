@@ -261,6 +261,11 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: const Color(0xFFFFFFFF),
   );
+   static final TextStyle rubik18black33 = regular.copyWith(
+    fontSize: 18,
+   
+    color: const Color(0xFF333333),
+  );
   static final TextStyle rubik16black33w300 = regular.copyWith(
     fontSize: 16,
     fontWeight: FontWeight.w300,
@@ -408,9 +413,11 @@ class TextStyles {
     color: const Color(0xFF707070),
   );
     static final TextStyle rubik10grey70medium = regular.copyWith(
+      
     fontSize: 10,
     fontWeight: FontWeight.w600,
     color: const Color(0xFF707070),
+    
   );
   static final TextStyle ibmMono10grey33 = ibmmono.copyWith(
     fontSize: 10,

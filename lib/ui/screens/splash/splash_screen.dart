@@ -3,6 +3,7 @@ import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -14,10 +15,8 @@ class SplashScreen extends StatelessWidget {
     double spacing1 = screenheight * 320 / FigmaConstants.figmaDeviceHeight;
     double height44 = screenheight * 44 / FigmaConstants.figmaDeviceHeight;
     double height8 = screenheight * 8 / FigmaConstants.figmaDeviceHeight;
-    Future.delayed(const Duration(seconds: 3), () async{
-      context.go('/user_signup'); 
-    });
-    
+    checkAccessToken(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -56,5 +55,20 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void checkAccessToken(BuildContext context) async {
+    final String? accessToken = await GetSharedPreferences.getAccessToken();
+    if (accessToken != null) {
+       Future.delayed(const Duration(seconds: 3), () {
+         context.go('/home'); // Assuming '/home' is the route for the home screen
+      });
+     
+    } else {
+      // If no access token, navigate to sign-in screen after delay
+      Future.delayed(const Duration(seconds: 3), () {
+        context.go('/sign_in');
+      });
+    }
   }
 }

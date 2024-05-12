@@ -1,6 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:yes_loyality/core/view_model/offers_list/offers_list_bloc.dart';
 import 'package:yes_loyality/ui/screens/home/widgets/location_details.dart';
 import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -14,6 +16,10 @@ class Offers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch user details when the widget is built
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      context.read<OffersListBloc>().add(OffersListEvent.fetchOffersList());
+    });
     EdgeInsets outerpadding = OuterPaddingConstant(context);
     double screenheight = screenHeight(context);
     // double screenwidth = screenWidth(context);
@@ -25,41 +31,37 @@ class Offers extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Padding(
-                padding: outerpadding,
-                child: Column(
-                  children: [
-                    const LocationDetails(),
-                    SizedBox(height: height23),
-                    MasonryGridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 19,
-                      crossAxisSpacing: 18,
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        List color1 = const [
-                          Color(0xFF328C76),
-                          Color(0xFFF5A443),
-                          Color(0xFFFFA0BC),
-                          Color.fromARGB(255, 82, 171, 255),
-                        ];
-                        List color2 = const [
-                          Color(0xFF00B288),
-                          Color(0xFFFF9E2D),
-                          Color(0xFFFF1B5E),
-                          Color.fromARGB(255, 63, 162, 255),
-                        ];
-                        return ContentBox(
-                          lineargradient1: color1[index],
-                          lineargradient2: color2[index],
-                        );
-                      },
-                    ),
-                    SizedBox(height: height23),
-                  ],
-                ),
+              Column(
+                children: [
+                  MasonryGridView.count(
+                    padding: outerpadding,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 19,
+                    crossAxisSpacing: 18,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      List color1 = const [
+                        Color(0xFF328C76),
+                        Color(0xFFF5A443),
+                        Color(0xFFFFA0BC),
+                        Color.fromARGB(255, 82, 171, 255),
+                      ];
+                      List color2 = const [
+                        Color(0xFF00B288),
+                        Color(0xFFFF9E2D),
+                        Color(0xFFFF1B5E),
+                        Color.fromARGB(255, 63, 162, 255),
+                      ];
+                      return ContentBox(
+                        lineargradient1: color1[index],
+                        lineargradient2: color2[index],
+                      );
+                    },
+                  ),
+                  SizedBox(height: height23),
+                ],
               ),
             ],
           ),
@@ -368,6 +370,3 @@ class BulletPointList extends StatelessWidget {
     );
   }
 }
-
-
-

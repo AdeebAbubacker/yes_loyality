@@ -1,6 +1,8 @@
+import 'package:flutter/widgets.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
 import 'package:yes_loyality/ui/screens/home/widgets/available_balance.dart';
 import 'package:yes_loyality/ui/screens/home/widgets/expense_list.dart';
 import 'package:yes_loyality/ui/screens/home/widgets/location_details.dart';
@@ -21,8 +23,8 @@ class _ProfileState extends State<Profile> {
   String qrResult = '';
   // Variable to hold the retrieved QR result
   void retrieveQRResult() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String result = prefs.getString('qrResult') ?? 'No data stored';
+    String result =
+        await GetSharedPreferences.getQRResult() ?? 'Access Token empty';
     setState(() {
       qrResult =
           result; // Update qrResult state variable with the retrieved data
@@ -41,6 +43,7 @@ class _ProfileState extends State<Profile> {
     double width20 = screenwidth * 20 / FigmaConstants.figmaDeviceWidth;
     double width30 = screenwidth * 30 / FigmaConstants.figmaDeviceWidth;
     double height10 = screenheight * 10 / FigmaConstants.figmaDeviceHeight;
+    EdgeInsets outerpadding = OuterPaddingConstant(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,15 +51,12 @@ class _ProfileState extends State<Profile> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: width30, right: width30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const LocationDetails(),
-                    SizedBox(height: height10),
-                    const SizedBox(height: 15),
-                    Container(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: outerpadding,
+                    child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                           gradient: const LinearGradient(
@@ -138,38 +138,46 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    SizedBox(height: height23),
-                    Text(
-                      'LOYALTY DEATILS',
-                      style: TextStyles.rubik14black33,
+                  ),
+                  SizedBox(height: height23),
+                  Padding(
+                    padding: outerpadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'LOYALTY DEATILS',
+                          style: TextStyles.rubik14black33,
+                        ),
+                        SizedBox(height: height23),
+                        const ExpenseList(
+                          image: 'assets/points_received.svg',
+                          content: '+12.5% Increase',
+                          points: '200',
+                          status: 'Total Points Received',
+                          isPointRecieved: true,
+                        ),
+                        const SizedBox(height: 27),
+                        const ExpenseList(
+                          image: 'assets/points_utilized.svg',
+                          content: '-50% Decrease',
+                          points: '100',
+                          status: 'Total Points Utilized',
+                          isPointRecieved: false,
+                        ),
+                        const SizedBox(height: 27),
+                        const AvailableBalance(
+                          image: 'assets/available_balance.svg',
+                          content: 'Available Balance',
+                          points: '100',
+                          status: 'Available Balance',
+                        ),
+                        const SizedBox(height: 15),
+                        Text('QR Result: $qrResult'),
+                      ],
                     ),
-                    SizedBox(height: height23),
-                    const ExpenseList(
-                      image: 'assets/points_received.svg',
-                      content: '+12.5% Increase',
-                      points: '200',
-                      status: 'Total Points Received',
-                      isPointRecieved: true,
-                    ),
-                    const SizedBox(height: 27),
-                    const ExpenseList(
-                      image: 'assets/points_utilized.svg',
-                      content: '-50% Decrease',
-                      points: '100',
-                      status: 'Total Points Utilized',
-                      isPointRecieved: false,
-                    ),
-                    const SizedBox(height: 27),
-                    const AvailableBalance(
-                      image: 'assets/available_balance.svg',
-                      content: 'Available Balance',
-                      points: '100',
-                      status: 'Available Balance',
-                    ),
-                    const SizedBox(height: 15),
-                    Text('QR Result: $qrResult'),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

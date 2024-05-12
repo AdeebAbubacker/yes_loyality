@@ -3,14 +3,16 @@ import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class PassWordTextfield extends StatefulWidget {
-  const PassWordTextfield({
+   PassWordTextfield({
     super.key,
- 
     required this.hintText,
+    this.textEditingController,
+    this.errorText,
   });
 
- 
   final String hintText;
+  var errorText;
+  final TextEditingController? textEditingController;
 
   @override
   _PassWordTextfieldState createState() => _PassWordTextfieldState();
@@ -25,8 +27,9 @@ class _PassWordTextfieldState extends State<PassWordTextfield> {
     double elempaddingVertical = elemGapVertical(context);
     return SizedBox(
       width: double.infinity,
-      height: 57,
+     // height: 57,
       child: TextField(
+        controller: widget.textEditingController,
         obscureText: _obscureText,
         style: TextStyles.rubikregular16black24w400,
         decoration: InputDecoration(
@@ -35,6 +38,7 @@ class _PassWordTextfieldState extends State<PassWordTextfield> {
             vertical: elempaddingVertical,
           ),
           hintText: widget.hintText,
+          errorText: widget.errorText,
           hintStyle: TextStyles.rubikregular16grey77w400,
           border: const OutlineInputBorder(
             borderSide: BorderSide(

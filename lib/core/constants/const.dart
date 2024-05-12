@@ -14,6 +14,10 @@ class ColorConstants {
   static const Color dividerColor = const Color(0xFFEDEDED);
 }
 
+class ApiConstants {
+  static const String baseUrl = 'https://yl.tekpeak.in/api/';
+}
+
 class WidthConstants {
   static const double buttonWidth = 330;
   static const double buttonHeight = 50;

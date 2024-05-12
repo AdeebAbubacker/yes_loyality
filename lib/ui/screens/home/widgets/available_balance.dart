@@ -54,7 +54,7 @@ class AvailableBalance extends StatelessWidget {
                   style: TextStyles.rubik16black33w600,
                 ),
                 TextSpan(
-                  text: ' pt', // Percentage sign
+                  text: ' pts', // Percentage sign
                   style: TextStyles.rubik13black33w400,
                 ),
               ],

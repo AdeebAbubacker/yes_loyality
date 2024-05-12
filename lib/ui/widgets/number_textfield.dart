@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class NumberTextField extends StatelessWidget {
-  const NumberTextField({
-    Key? key,
-    required this.hintText,
-    this.textEditingController
-  }) : super(key: key);
+  const NumberTextField(
+      {Key? key, required this.hintText, this.textEditingController})
+      : super(key: key);
 
   final String hintText;
   final TextEditingController? textEditingController;
@@ -45,7 +43,14 @@ class NumberTextField extends StatelessWidget {
 }
 
 class NumberTextFieldWithCountry extends StatefulWidget {
-  const NumberTextFieldWithCountry({super.key});
+  final TextEditingController? phoneController;
+dynamic errorText;
+  final bool enabled;
+   NumberTextFieldWithCountry(
+      {super.key,
+      this.enabled = true,
+      required this.errorText,
+      this.phoneController});
 
   @override
   State<NumberTextFieldWithCountry> createState() =>
@@ -54,12 +59,11 @@ class NumberTextFieldWithCountry extends StatefulWidget {
 
 class _NumberTextFieldWithCountryState
     extends State<NumberTextFieldWithCountry> {
-  final TextEditingController _phoneController = TextEditingController();
   final FocusNode _phoneFocusNode = FocusNode();
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    widget.phoneController?.dispose();
     _phoneFocusNode.dispose();
     super.dispose();
   }
@@ -76,19 +80,21 @@ class _NumberTextFieldWithCountryState
       child: Container(
         color: ColorConstants.greyF7,
         width: double.infinity,
-        height: 57,
+    
         child: IntlPhoneField(
+          
+          enabled: widget.enabled,
           style: TextStyles.rubikregular16black24w400,
-          controller: _phoneController,
+          controller: widget.phoneController,
           disableLengthCheck: true,
           disableAutoFillHints: true,
           focusNode: _phoneFocusNode,
           decoration: InputDecoration(
+            errorText: widget.errorText ,
             contentPadding: EdgeInsets.symmetric(
                 horizontal: elempaddingHorizontal,
                 vertical: elempaddingVertical),
             hintText: 'Phone Number',
-            
             hintStyle: TextStyles.rubikregular16grey77w400,
             border: const OutlineInputBorder(
               borderSide: BorderSide(
@@ -100,7 +106,6 @@ class _NumberTextFieldWithCountryState
           ),
           languageCode: "en",
           initialCountryCode: "AU",
-          
           onChanged: (phone) {
             print(phone.completeNumber);
           },

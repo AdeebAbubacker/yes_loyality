@@ -385,8 +385,9 @@ abstract class _Register implements RegisterEvent {
 mixin _$RegisterState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isError => throw _privateConstructorUsedError;
-  Register get register => throw _privateConstructorUsedError;
-  Option<Either<MainFailure, Register>> get successorFailure =>
+  dynamic get register =>
+      throw _privateConstructorUsedError; // Change type to dynamic
+  Option<Either<MainFailure, dynamic>> get successorFailure =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -403,8 +404,8 @@ abstract class $RegisterStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isError,
-      Register register,
-      Option<Either<MainFailure, Register>> successorFailure});
+      dynamic register,
+      Option<Either<MainFailure, dynamic>> successorFailure});
 }
 
 /// @nodoc
@@ -422,7 +423,7 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
   $Res call({
     Object? isLoading = null,
     Object? isError = null,
-    Object? register = null,
+    Object? register = freezed,
     Object? successorFailure = null,
   }) {
     return _then(_value.copyWith(
@@ -434,14 +435,14 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      register: null == register
+      register: freezed == register
           ? _value.register
           : register // ignore: cast_nullable_to_non_nullable
-              as Register,
+              as dynamic,
       successorFailure: null == successorFailure
           ? _value.successorFailure
           : successorFailure // ignore: cast_nullable_to_non_nullable
-              as Option<Either<MainFailure, Register>>,
+              as Option<Either<MainFailure, dynamic>>,
     ) as $Val);
   }
 }
@@ -457,8 +458,8 @@ abstract class _$$RegisterStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isError,
-      Register register,
-      Option<Either<MainFailure, Register>> successorFailure});
+      dynamic register,
+      Option<Either<MainFailure, dynamic>> successorFailure});
 }
 
 /// @nodoc
@@ -474,7 +475,7 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isError = null,
-    Object? register = null,
+    Object? register = freezed,
     Object? successorFailure = null,
   }) {
     return _then(_$RegisterStateImpl(
@@ -486,14 +487,14 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      register: null == register
+      register: freezed == register
           ? _value.register
           : register // ignore: cast_nullable_to_non_nullable
-              as Register,
+              as dynamic,
       successorFailure: null == successorFailure
           ? _value.successorFailure
           : successorFailure // ignore: cast_nullable_to_non_nullable
-              as Option<Either<MainFailure, Register>>,
+              as Option<Either<MainFailure, dynamic>>,
     ));
   }
 }
@@ -512,9 +513,10 @@ class _$RegisterStateImpl implements _RegisterState {
   @override
   final bool isError;
   @override
-  final Register register;
+  final dynamic register;
+// Change type to dynamic
   @override
-  final Option<Either<MainFailure, Register>> successorFailure;
+  final Option<Either<MainFailure, dynamic>> successorFailure;
 
   @override
   String toString() {
@@ -529,15 +531,14 @@ class _$RegisterStateImpl implements _RegisterState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isError, isError) || other.isError == isError) &&
-            (identical(other.register, register) ||
-                other.register == register) &&
+            const DeepCollectionEquality().equals(other.register, register) &&
             (identical(other.successorFailure, successorFailure) ||
                 other.successorFailure == successorFailure));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, isError, register, successorFailure);
+  int get hashCode => Object.hash(runtimeType, isLoading, isError,
+      const DeepCollectionEquality().hash(register), successorFailure);
 
   @JsonKey(ignore: true)
   @override
@@ -550,8 +551,8 @@ abstract class _RegisterState implements RegisterState {
   const factory _RegisterState(
       {required final bool isLoading,
       required final bool isError,
-      required final Register register,
-      required final Option<Either<MainFailure, Register>>
+      required final dynamic register,
+      required final Option<Either<MainFailure, dynamic>>
           successorFailure}) = _$RegisterStateImpl;
 
   @override
@@ -559,9 +560,9 @@ abstract class _RegisterState implements RegisterState {
   @override
   bool get isError;
   @override
-  Register get register;
-  @override
-  Option<Either<MainFailure, Register>> get successorFailure;
+  dynamic get register;
+  @override // Change type to dynamic
+  Option<Either<MainFailure, dynamic>> get successorFailure;
   @override
   @JsonKey(ignore: true)
   _$$RegisterStateImplCopyWith<_$RegisterStateImpl> get copyWith =>
