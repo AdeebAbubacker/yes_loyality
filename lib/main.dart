@@ -16,9 +16,6 @@ import 'package:yes_loyality/core/view_model/store_list/store_list_bloc.dart';
 import 'package:yes_loyality/core/view_model/transaction_details/transaction_details_bloc.dart';
 import 'package:yes_loyality/core/view_model/user_details/user_details_bloc.dart';
 
-
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

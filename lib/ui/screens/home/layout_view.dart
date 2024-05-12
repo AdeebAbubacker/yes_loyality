@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static final List<Widget> _screens = [
     const History(),
-    Profile(),
+    const Profile(),
     const Offers(),
   ];
 
@@ -54,15 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      a = await GetSharedPreferences.getAccessToken.toString();
+      a = GetSharedPreferences.getAccessToken.toString();
 
-      Timer.periodic(Duration(seconds: 2), (timer) {
+      Timer.periodic(const Duration(seconds: 2), (timer) {
         print('ABra ka dabre ${a.toString()} jh');
       });
       context
           .read<StoreDetailsBloc>()
-          .add(StoreDetailsEvent.fetchStoreDetails());
-      context.read<StoreListBloc>().add(StoreListEvent.fetchStoreList());
+          .add(const StoreDetailsEvent.fetchStoreDetails());
+      context.read<StoreListBloc>().add(const StoreListEvent.fetchStoreList());
       _showModal(context);
     });
   }
@@ -76,18 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
       // Fetch user details
       var userDetails = context.read<StoreListBloc>().state.storeDetails;
 
-      if (userDetails != null) {}
     }
 
-    Timer.periodic(Duration(seconds: 4), (timer) {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
       getProfileData(); // Call the function once immediately
     });
 // Call getData immediately and then start the periodic timer
 
     // Fetch user details when the widget is built
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      context.read<UserDetailsBloc>().add(UserDetailsEvent.fetchUserDetails());
-      context.read<StoreListBloc>().add(StoreListEvent.fetchStoreList());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<UserDetailsBloc>().add(const UserDetailsEvent.fetchUserDetails());
+      context.read<StoreListBloc>().add(const StoreListEvent.fetchStoreList());
     });
 
     // double screenwidth = screenWidth(context);
@@ -103,8 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
         listeners: [
           BlocListener<StoreListBloc, StoreListState>(
             listener: (context, state) async {
-              if (state.storeDetails != null &&
-                  state.storeDetails.data != null) {
+              if (state.storeDetails.data != null) {
                 for (int i = 0; i < state.storeDetails.data!.length; i++) {
                   Map<String, dynamic> row = {
                     'name': '${state.storeDetails.data![i].name}',
@@ -200,7 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showModal(context) {
     showModalBottomSheet(
-      isScrollControlled: true,
+      isDismissible: false,
+      isScrollControlled: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
       ),
@@ -209,15 +205,15 @@ class _HomeScreenState extends State<HomeScreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return DraggableScrollableSheet(
-              initialChildSize: 0.5,
-              minChildSize: 0.2,
+              initialChildSize: 0.7,
+              minChildSize: 0.5,
               maxChildSize: 0.9,
               expand: false,
               builder:
                   (BuildContext context, ScrollController scrollController) {
                 return Column(
                   children: [
-                    SizedBox(height: 21),
+                    const SizedBox(height: 21),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -288,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .deleteBranchId();
                                         context
                                             .read<TransactionDetailsBloc>()
-                                            .add(TransactionDetailsEvent
+                                            .add(const TransactionDetailsEvent
                                                 .fetchTransactionDetails());
                                       });
                                     },
@@ -345,8 +341,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   '${state.storeDetails.data?[index].name.toString()}, ${state.storeDetails.data?[index].locality.toString()}'));
                                       context
                                           .read<TransactionDetailsBloc>()
-                                          .add(TransactionDetailsEvent
+                                          .add(const TransactionDetailsEvent
                                               .fetchTransactionDetails());
+
+                                         Navigator.of(context).pop(); // Close the bottom sheet
                                     },
                                     child: SizedBox(
                                       width: 200,
@@ -467,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-    Widget _buildListItem(int index) {
+    Widget buildListItem(int index) {
       return Padding(
         padding: const EdgeInsets.only(
           left: 14,

@@ -110,7 +110,7 @@ class _NumberTextFieldWithCountryState
             print(phone.completeNumber);
           },
           onCountryChanged: (country) {
-            print('Country changed to: ' + country.name);
+            print('Country changed to: ${country.name}');
           },
         ),
       ),

@@ -1,18 +1,15 @@
-import 'package:flutter/widgets.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
 import 'package:yes_loyality/ui/screens/home/widgets/available_balance.dart';
 import 'package:yes_loyality/ui/screens/home/widgets/expense_list.dart';
-import 'package:yes_loyality/ui/screens/home/widgets/location_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key});
+  const Profile({super.key});
 
   @override
   State<Profile> createState() => _ProfileState();

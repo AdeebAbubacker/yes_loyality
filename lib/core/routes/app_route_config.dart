@@ -19,7 +19,7 @@ class MyappRoutes {
       GoRoute(
         name: 'signupScreen',
         path: '/user_signup',
-        builder: (context, state) => SignupScreen(),
+        builder: (context, state) => const SignupScreen(),
       ),
       GoRoute(
         name: 'verifyYourAccount',

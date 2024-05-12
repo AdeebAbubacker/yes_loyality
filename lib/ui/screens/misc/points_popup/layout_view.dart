@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_line/dotted_line.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PointsCredited extends StatelessWidget {
@@ -151,7 +150,7 @@ class _PaymentStatusWidgetState extends State<PaymentStatusWidget>
       width: 80, // Adjust width as needed
       height: 80, // Adjust height as needed
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 240, 255, 248), // Red background color
+        color: const Color.fromARGB(255, 240, 255, 248), // Red background color
         borderRadius: BorderRadius.circular(80), // Border radius of 80
       ),
       child: Center(

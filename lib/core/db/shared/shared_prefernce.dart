@@ -54,4 +54,9 @@ class GetSharedPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('branchId');
   }
+
+  static Future<void> deleteAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('accessToken');
+  }
 }

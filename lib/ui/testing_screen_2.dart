@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
@@ -10,20 +9,20 @@ import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:yes_loyality/ui/widgets/password_textfield.dart';
 import 'package:yes_loyality/ui/widgets/textfield.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignInScreenSample extends StatefulWidget {
+  const SignInScreenSample({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInScreenSample> createState() => _SignInScreenSampleState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenSampleState extends State<SignInScreenSample> {
   bool showDots = false;
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _emailcontroller = TextEditingController();
-  String? _emailErrorText;
-  String? _passwordErrorText;
+  var _emailErrorText;
+  var _passwordErrorText;
   bool _formSubmitted = false; // Add this boolean flag
 
   @override
@@ -35,16 +34,17 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void dispose() {
-    _emailcontroller.removeListener(_onEmailChanged);
+     _emailcontroller.removeListener(_onEmailChanged);
     _passwordController.removeListener(_onPasswordChanged);
     super.dispose();
   }
 
   void _onEmailChanged() {
-    if (_formSubmitted) {
+     if (_formSubmitted) {
       // Only validate if the form has been submitted at least once
-      _validateEmail(_emailcontroller.text);
+        _validateEmail(_emailcontroller.text);
     }
+
   }
 
   void _validateEmail(String value) {
@@ -128,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
       resizeToAvoidBottomInset: false,
       body: Center(
         child: BlocConsumer<LoginBloc, LoginState>(
-          listener: (context, state) {
+           listener: (context, state) {
             state.maybeMap(
               authsuccess: (value) {
                 setState(() {
@@ -203,14 +203,6 @@ class _SignInScreenState extends State<SignInScreen> {
                               textEditingController: _passwordController,
                             ),
                             SizedBox(height: perc187),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Forgot your password ?',
-                                style: TextStyles.medium11grey66,
-                                textAlign: TextAlign.start,
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -220,23 +212,19 @@ class _SignInScreenState extends State<SignInScreen> {
                         text: 'Sign In',
                       ),
                       SizedBox(height: perc187),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?  ",
-                            style: TextStyles.rubikregular16black24w400,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              context.go("/user_signup");
-                            },
-                            child: Text(
-                              "Sign Up",
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Don't have an account?  ",
+                              style: TextStyles.rubikregular16black24w400,
+                            ),
+                            TextSpan(
+                              text: 'Sign Up',
                               style: TextStyles.medium16black3B,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -1,10 +1,8 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:yes_loyality/core/view_model/transaction_details/transaction_details_bloc.dart';
-import 'package:yes_loyality/ui/screens/home/widgets/location_details.dart';
 import 'package:yes_loyality/ui/screens/misc/points_popup/layout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,20 +20,19 @@ class History extends StatelessWidget {
     });
     double screenheight = screenHeight(context);
     double height10 = screenheight * 10 / FigmaConstants.figmaDeviceHeight;
- 
+
     return Column(
       children: [
         Expanded(
             child: SingleChildScrollView(
                 child: Column(
           children: [
-           
             BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
               builder: (context, state) {
                 if (state.isLoading) {
                   return const CircularProgressIndicator();
                 } else if (state.isError) {
-                  return const Text("ITS ERROR");
+                  return const Text("You have no transaction in this branch");
                 } else if (state.transactionDetails.data == null) {
                   return const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,7 +48,6 @@ class History extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: state.transactionDetails.data?.length ?? 3,
-                  
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15),

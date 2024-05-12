@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/view_model/register/register_bloc.dart';
-import 'package:yes_loyality/ui/screens/home/layout_view.dart';
 import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:yes_loyality/ui/widgets/number_textfield.dart';
 import 'package:yes_loyality/ui/widgets/textfield.dart';
@@ -11,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignupScreen extends StatefulWidget {
-  SignupScreen({super.key});
+  const SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -218,23 +217,23 @@ class _SignupScreenState extends State<SignupScreen> {
             listener: (context, state) {
               if (state.isError) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text(' error in Registration'),
-                    duration: const Duration(seconds: 2),
+                    duration: Duration(seconds: 2),
                   ),
                 );
               } else if (state.isLoading) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text(' loading in Registration'),
-                    duration: const Duration(seconds: 2),
+                    duration: Duration(seconds: 2),
                   ),
                 );
               } else if (state.register != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('Registration Succeesfull'),
-                    duration: const Duration(seconds: 2),
+                    duration: Duration(seconds: 2),
                   ),
                 );
               }

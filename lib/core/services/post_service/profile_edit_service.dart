@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
 
@@ -53,7 +52,7 @@ class ProfileEditService {
         var jsonMap = json.decode(responseBody);
         return jsonMap;
       } else {
-        print("FAILURE ${response}");
+        print("FAILURE $response");
         // Handle non-200 status codes appropriately
         print('Request failed with status: $responseBody');
         throw Exception('Request failed: ${response.statusCode}');

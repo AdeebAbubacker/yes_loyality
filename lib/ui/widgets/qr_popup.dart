@@ -66,5 +66,6 @@ class QrPopup extends StatelessWidget {
   Future<int?> _loadCustomerId() async {
     String accessToken = await GetSharedPreferences.getAccessToken()  ??
         'Access Token empty';
+    return null;
   }
 }

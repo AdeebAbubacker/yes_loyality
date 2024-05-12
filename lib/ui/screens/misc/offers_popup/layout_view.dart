@@ -1,7 +1,6 @@
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OffersPopup extends StatelessWidget {
@@ -66,10 +65,10 @@ class OffersPopup extends StatelessWidget {
                         SvgPicture.asset('assets/Down_arrow.svg'),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     const Text(
                         "Donec vel tortor quis justo iaculis elementum sit amet vel magna."),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Text(

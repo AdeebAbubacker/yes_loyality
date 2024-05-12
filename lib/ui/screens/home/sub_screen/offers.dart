@@ -3,7 +3,6 @@ import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
 import 'package:yes_loyality/core/view_model/offers_list/offers_list_bloc.dart';
-import 'package:yes_loyality/ui/screens/home/widgets/location_details.dart';
 import 'package:yes_loyality/ui/widgets/buttons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -17,8 +16,8 @@ class Offers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Fetch user details when the widget is built
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      context.read<OffersListBloc>().add(OffersListEvent.fetchOffersList());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<OffersListBloc>().add(const OffersListEvent.fetchOffersList());
     });
     EdgeInsets outerpadding = OuterPaddingConstant(context);
     double screenheight = screenHeight(context);

@@ -11,7 +11,7 @@ class ColorConstants {
   static const greyF5 = Color(0xFF2DC962);
   static const Color purpleColorF8 = Color(0xFFFFEBF8);
   static const Color secondaryTextColor = Color(0xFF777777);
-  static const Color dividerColor = const Color(0xFFEDEDED);
+  static const Color dividerColor = Color(0xFFEDEDED);
 }
 
 class ApiConstants {

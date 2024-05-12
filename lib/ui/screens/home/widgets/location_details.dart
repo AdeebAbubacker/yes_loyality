@@ -50,11 +50,11 @@ class _LocationDetailsState extends State<LocationDetails> {
   Widget build(BuildContext context) {
     EdgeInsets outerpadding = OuterPaddingConstant(context);
     // Fetch user details when the widget is built
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       context
           .read<StoreDetailsBloc>()
-          .add(StoreDetailsEvent.fetchStoreDetails());
-      context.read<StoreListBloc>().add(StoreListEvent.fetchStoreList());
+          .add(const StoreDetailsEvent.fetchStoreDetails());
+      context.read<StoreListBloc>().add(const StoreListEvent.fetchStoreList());
     });
     double screenheight = screenHeight(context);
     double screenwidth = screenWidth(context);
@@ -228,7 +228,7 @@ void _showModal(context) {
                                           .deleteBranchId();
                                       context
                                           .read<TransactionDetailsBloc>()
-                                          .add(TransactionDetailsEvent
+                                          .add(const TransactionDetailsEvent
                                               .fetchTransactionDetails());
                                     });
                                   },
@@ -284,7 +284,7 @@ void _showModal(context) {
                                             selctedBranchName:
                                                 '${state.storeDetails.data?[index].name.toString()}, ${state.storeDetails.data?[index].locality.toString()}'));
                                     context.read<TransactionDetailsBloc>().add(
-                                        TransactionDetailsEvent
+                                        const TransactionDetailsEvent
                                             .fetchTransactionDetails());
                                   },
                                   child: SizedBox(
@@ -406,7 +406,7 @@ void _showModal(context) {
       );
     },
   );
-  Widget _buildListItem(int index) {
+  Widget buildListItem(int index) {
     return Padding(
       padding: const EdgeInsets.only(
         left: 14,

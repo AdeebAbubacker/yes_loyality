@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
 import 'package:yes_loyality/core/model/user_details/user_details.dart';

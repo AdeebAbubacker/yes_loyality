@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
 import 'package:yes_loyality/core/constants/text_styles.dart';
-import 'package:yes_loyality/core/services/post_service/profile_edit_service.dart';
+import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
 import 'package:yes_loyality/core/view_model/logout/logout_bloc.dart';
 import 'package:yes_loyality/core/view_model/profile_edit/profile_edit_bloc.dart';
 import 'package:yes_loyality/ui/widgets/appbar.dart';
@@ -88,17 +89,17 @@ class _ProfileEditState extends State<ProfileEdit> {
                         children: _logOutButtonVisible
                             ? [
                                 SizedBox(height: height22),
-                                 Textfield(
+                                Textfield(
                                   hintText: 'Name',
                                   enabled: false,
                                 ),
                                 SizedBox(height: height22),
-                                 Textfield(
+                                Textfield(
                                   hintText: 'email',
                                   enabled: false,
                                 ),
                                 SizedBox(height: height22),
-                                 NumberTextFieldWithCountry(
+                                NumberTextFieldWithCountry(
                                   enabled: false,
                                   errorText: 'dd',
                                 ),
@@ -165,7 +166,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
                                   // Hide log out button when update profile button is clicked
                                   setState(() {
-                                    print('The file i stored is ${file}');
+                                    print('The file i stored is $file');
                                     _logOutButtonVisible =
                                         !_logOutButtonVisible;
                                   });
@@ -182,10 +183,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                       Visibility(
                         visible: _logOutButtonVisible,
                         child: ColorlessButton(
-                          onPressed: () {
+                          onPressed: () async {
                             context
                                 .read<LogoutBloc>()
                                 .add(const LogoutEvent.logout());
+                            await GetSharedPreferences.deleteAccessToken();
+                            // ignore: use_build_context_synchronously
+                            context.go("/sign_in");
                           },
                           text: 'Log out',
                         ),

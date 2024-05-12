@@ -1,12 +1,8 @@
 import 'package:yes_loyality/core/constants/common.dart';
 import 'package:yes_loyality/core/constants/const.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
+
 import 'package:yes_loyality/ui/widgets/qr_popup.dart';
 
 class HomeAppBar extends StatefulWidget {
@@ -20,21 +16,7 @@ class HomeAppBar extends StatefulWidget {
 
 class _HomeAppBarState extends State<HomeAppBar> {
   String qrResult = 'Scanned Data will appear here';
-  Future<void> scanQR() async {
-    try {
-      final qrCode = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-      if (!mounted) return;
-      setState(() {
-        qrResult = qrCode.toString();
-        SetSharedPreferences.storeQRResult(qrResult);
-      });
-    } on PlatformException {
-      qrResult = 'Fail to read QR Code';
-    }
-  }
-
-  @override
+ @override
   Widget build(BuildContext context) {
     final screenwidth = screenWidth(context);
     final paddingw30 = screenwidth * 30 / FigmaConstants.figmaDeviceWidth;
@@ -70,7 +52,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                             .pop(); // No need for (false) argument
                       }
                     },
-                    child: QrPopup(), // Your dialog content
+                    child: const QrPopup(), // Your dialog content
                   );
                 },
               );
