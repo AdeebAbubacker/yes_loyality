@@ -1,4 +1,4 @@
-import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:Yes_Loyalty/core/model/validation_response/validation_response.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yes_loyality/core/model/failure/mainfailure.dart';
-import 'package:yes_loyality/core/model/register/register.dart';
-import 'package:yes_loyality/core/services/auth_service/register_service.dart';
+import 'package:Yes_Loyalty/core/model/failure/mainfailure.dart';
+import 'package:Yes_Loyalty/core/model/register/register.dart';
+import 'package:Yes_Loyalty/core/services/auth_service/register_service.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -13,42 +14,88 @@ part 'register_bloc.freezed.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterState.initial()) {
+    // on<_Register>((event, emit) async {
+    //   emit(state.copyWith(isLoading: true));
+    //   try {
+    //     final response = await RegsiterService.register(
+    //       name: event.name,
+    //       email: event.email,
+    //       phone: event.phone,
+    //       password: event.password,
+    //       password_confirm: event.confirmpassword,
+    //     );
+
+    //     if (response['status'] == 1) {
+    //       // Registration successful
+    //       emit(RegisterState(
+    //         isLoading: false,
+    //         isError: false,
+    //         register: response,
+    //         successorFailure: optionOf(right(response)),
+    //       ));
+    //     } else if (response['status'] == 0) {
+    //       // Validation errors
+    //       var nameError = response['data']['name']?.first;
+    //       var emailError = response['data']['email']?.first;
+    //       var phoneError = response['data']['phone']?.first;
+    //       var passwordError = response['data']['password']?.first;
+    //       var confirmPasswordError = response['data']['confirmPassword']?.first;
+
+    //       emit(RegisterState(
+    //         isLoading: false,
+    //         isError: true,
+    //         register: Register(),
+    //         successorFailure: optionOf(left(MainFailure.clientFailure(message: response['message']))),
+    //         nameError: nameError,
+    //         emailError: emailError,
+    //         phoneError: phoneError,
+    //         passwordError: passwordError,
+    //         confirmPasswordError: confirmPasswordError,
+    //       ));
+    //     } else {
+    //       // Other errors
+    //       emit(RegisterState(
+    //         isLoading: false,
+    //         isError: true,
+    //         register: Register(),
+    //         successorFailure: optionOf(left(MainFailure.clientFailure(message: response['message']))),
+    //       ));
+    //     }
+    //   } catch (e) {
+    //     emit(RegisterState(
+    //       isLoading: false,
+    //       isError: true,
+    //       register: Register(),
+    //       successorFailure: optionOf(left(MainFailure.clientFailure(message: e.toString()))),
+    //     ));
+    //   }
+    // });
+
     on<_Register>((event, emit) async {
-      try {
-        final response = await RegsiterService.register(
-          name: event.name,
-          email: event.email,
-          phone: event.phone,
-          password: event.password,
-          password_confirm: event.confirmpassword,
-        );
-        emit(RegisterState(
-          isLoading: false,
-          isError: false,
-          register: response,
-          successorFailure: optionOf(right(response)),
-        ));
-      } catch (e) {
-        if (e is Map<String, dynamic> && e.containsKey('data')) {
-          emit(RegisterState(
-            isLoading: false,
-            isError: true,
-            register: Register(),
-            successorFailure: optionOf(
-              left(MainFailure.clientFailure(message: json.encode(e['data']))),
-            ),
+      emit(const RegisterState.loading());
+      final result = await RegsiterService.register(
+        name: event.name,
+        email: event.email,
+        phone: event.phone,
+        password: event.password,
+        password_confirm: event.confirmpassword,
+      );
+      result.fold((failure) {
+        if (failure is ValidationResponse) {
+          emit(RegisterState.validationError(
+            nameError: failure.data?.name?.join(', '),
+            emailError: failure.data?.email?.join(', '),
+            phoneError: failure.data?.phone?.join(', '),
+            passwordError: failure.data?.password?.join(', '),
+            passwordConfirmError: failure.data?.password_confirm?.join(', '),
           ));
         } else {
-          emit(RegisterState(
-            isLoading: false,
-            isError: true,
-            register: Register(),
-            successorFailure: optionOf(
-              left(MainFailure.clientFailure(message: e.toString())),
-            ),
-          ));
+          emit(RegisterState.failure(failure.toString()));
         }
-      }
+      }, (success) {
+        emit(RegisterState.success(success));
+      });
     });
   }
 }
+

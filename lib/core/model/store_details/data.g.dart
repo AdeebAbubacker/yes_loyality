@@ -9,13 +9,13 @@ part of 'data.dart';
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
-      locality: json['locality'] as String?,
+      location: json['location'] as String?,
       active: json['active'] as bool?,
-      address: json['address'],
-      coordinates: json['coordinates'],
-      email1: json['email_1'],
+      address: json['address'] as String?,
+      coordinates: json['coordinates'] as String?,
+      email1: json['email_1'] as String?,
       email2: json['email_2'],
-      phone1: json['phone_1'],
+      phone1: json['phone_1'] as String?,
       phone2: json['phone_2'],
       createdAt: json['created_at'] == null
           ? null
@@ -29,7 +29,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'locality': instance.locality,
+      'location': instance.location,
       'active': instance.active,
       'address': instance.address,
       'coordinates': instance.coordinates,

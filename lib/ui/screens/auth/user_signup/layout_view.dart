@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/view_model/register/register_bloc.dart';
-import 'package:yes_loyality/ui/widgets/buttons.dart';
-import 'package:yes_loyality/ui/widgets/number_textfield.dart';
-import 'package:yes_loyality/ui/widgets/textfield.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/view_model/register/register_bloc.dart';
+import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
+import 'package:Yes_Loyalty/ui/widgets/name_textfield.dart';
+import 'package:Yes_Loyalty/ui/widgets/number_textfield.dart';
+import 'package:Yes_Loyalty/ui/widgets/password_textfield.dart';
+import 'package:Yes_Loyalty/ui/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -215,28 +217,37 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Center(
           child: BlocConsumer<RegisterBloc, RegisterState>(
             listener: (context, state) {
-              if (state.isError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(' error in Registration'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              } else if (state.isLoading) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(' loading in Registration'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              } else if (state.register != null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Registration Succeesfull'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              }
+              state.map(
+                initial: (_) {},
+                loading: (_) {},
+                success: (_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Registration Successful')),
+                  );
+                },
+                failure: (state) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text('Registration Failed')),
+                  );
+                },
+                validationError: (state) {
+                  setState(() {
+                    _nameErrorText = state.nameError;
+                    _emailErrorText = state.emailError;
+                    _phoneErrorText = state.phoneError;
+                    _passwordErrorText = state.passwordError;
+                    _confirmpasswordErrorText = state.passwordConfirmError;
+                  });
+                  print('Validation Error:');
+                  print('Name Error: ${state.nameError}');
+                  print('Email Error: ${state.emailError}');
+                  print('Phone Error: ${state.phoneError}');
+                  print('Password Error: ${state.passwordError}');
+                  print(
+                      'Password Confirm Error: ${state.passwordConfirmError}');
+                },
+              );
             },
             builder: (context, state) {
               return Column(
@@ -261,11 +272,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding: EdgeInsets.symmetric(horizontal: devicePadding),
                     child: Column(
                       children: [
-                        Textfield(
-                          errorText: _nameErrorText,
-                          textEditingController: _namecontroller,
-                          hintText: 'Full Name*',
-                        ),
+                        NameTextfield(
+                            errorText: _nameErrorText,
+                            textEditingController: _namecontroller,
+                            hintText: 'Full Name*'),
                         SizedBox(height: elementPaddingVertical),
                         Textfield(
                           errorText: _emailErrorText,
@@ -279,18 +289,19 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         SizedBox(height: elementPaddingVertical),
                         //  Spacer(),
-                        Textfield(
+
+                        PassWordTextfield(
                           errorText: _passwordErrorText,
                           hintText: 'Password*',
                           textEditingController: _passwordController,
                         ),
                         SizedBox(height: elementPaddingVertical),
-
-                        Textfield(
+                        PassWordTextfield(
                           errorText: _confirmpasswordErrorText,
                           hintText: 'Confirm Password*',
                           textEditingController: _confirmpasswordcontroller,
                         ),
+
                         SizedBox(height: perc375),
                         Row(
                           children: [

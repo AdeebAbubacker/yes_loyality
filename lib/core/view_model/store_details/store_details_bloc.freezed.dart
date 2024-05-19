@@ -19,19 +19,19 @@ mixin _$StoreDetailsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() fetchStoreDetails,
+    required TResult Function(String storeId) fetchStoreDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? fetchStoreDetails,
+    TResult? Function(String storeId)? fetchStoreDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? fetchStoreDetails,
+    TResult Function(String storeId)? fetchStoreDetails,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() fetchStoreDetails,
+    required TResult Function(String storeId) fetchStoreDetails,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? fetchStoreDetails,
+    TResult? Function(String storeId)? fetchStoreDetails,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? fetchStoreDetails,
+    TResult Function(String storeId)? fetchStoreDetails,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -181,6 +181,8 @@ abstract class _$$FetchStoreDetailsImplCopyWith<$Res> {
   factory _$$FetchStoreDetailsImplCopyWith(_$FetchStoreDetailsImpl value,
           $Res Function(_$FetchStoreDetailsImpl) then) =
       __$$FetchStoreDetailsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String storeId});
 }
 
 /// @nodoc
@@ -190,54 +192,79 @@ class __$$FetchStoreDetailsImplCopyWithImpl<$Res>
   __$$FetchStoreDetailsImplCopyWithImpl(_$FetchStoreDetailsImpl _value,
       $Res Function(_$FetchStoreDetailsImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? storeId = null,
+  }) {
+    return _then(_$FetchStoreDetailsImpl(
+      storeId: null == storeId
+          ? _value.storeId
+          : storeId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
-  const _$FetchStoreDetailsImpl();
+  _$FetchStoreDetailsImpl({required this.storeId});
+
+  @override
+  final String storeId;
 
   @override
   String toString() {
-    return 'StoreDetailsEvent.fetchStoreDetails()';
+    return 'StoreDetailsEvent.fetchStoreDetails(storeId: $storeId)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$FetchStoreDetailsImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$FetchStoreDetailsImpl &&
+            (identical(other.storeId, storeId) || other.storeId == storeId));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, storeId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchStoreDetailsImplCopyWith<_$FetchStoreDetailsImpl> get copyWith =>
+      __$$FetchStoreDetailsImplCopyWithImpl<_$FetchStoreDetailsImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() fetchStoreDetails,
+    required TResult Function(String storeId) fetchStoreDetails,
   }) {
-    return fetchStoreDetails();
+    return fetchStoreDetails(storeId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? fetchStoreDetails,
+    TResult? Function(String storeId)? fetchStoreDetails,
   }) {
-    return fetchStoreDetails?.call();
+    return fetchStoreDetails?.call(storeId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? fetchStoreDetails,
+    TResult Function(String storeId)? fetchStoreDetails,
     required TResult orElse(),
   }) {
     if (fetchStoreDetails != null) {
-      return fetchStoreDetails();
+      return fetchStoreDetails(storeId);
     }
     return orElse();
   }
@@ -275,7 +302,13 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
 }
 
 abstract class _FetchStoreDetails implements StoreDetailsEvent {
-  const factory _FetchStoreDetails() = _$FetchStoreDetailsImpl;
+  factory _FetchStoreDetails({required final String storeId}) =
+      _$FetchStoreDetailsImpl;
+
+  String get storeId;
+  @JsonKey(ignore: true)
+  _$$FetchStoreDetailsImplCopyWith<_$FetchStoreDetailsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

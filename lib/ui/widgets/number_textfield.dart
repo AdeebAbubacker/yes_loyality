@@ -1,14 +1,17 @@
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class NumberTextField extends StatelessWidget {
-  const NumberTextField(
-      {Key? key, required this.hintText, this.textEditingController})
-      : super(key: key);
-
+  NumberTextField({
+    Key? key,
+    required this.hintText,
+    this.textEditingController,
+    this.errorText,
+  }) : super(key: key);
+  var errorText;
   final String hintText;
   final TextEditingController? textEditingController;
 
@@ -28,6 +31,7 @@ class NumberTextField extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(
               horizontal: elempaddingHorizontal, vertical: elempaddingVertical),
           hintText: hintText,
+          errorText: errorText,
           hintStyle: TextStyles.rubikregular16grey77w400,
           border: const OutlineInputBorder(
             borderSide: BorderSide(
@@ -44,12 +48,14 @@ class NumberTextField extends StatelessWidget {
 
 class NumberTextFieldWithCountry extends StatefulWidget {
   final TextEditingController? phoneController;
-dynamic errorText;
+  dynamic errorText;
   final bool enabled;
-   NumberTextFieldWithCountry(
+  dynamic  textstyle = TextStyles.rubikregular16black24w400;
+  NumberTextFieldWithCountry(
       {super.key,
       this.enabled = true,
       required this.errorText,
+      this.textstyle ,
       this.phoneController});
 
   @override
@@ -80,17 +86,15 @@ class _NumberTextFieldWithCountryState
       child: Container(
         color: ColorConstants.greyF7,
         width: double.infinity,
-    
         child: IntlPhoneField(
-          
           enabled: widget.enabled,
-          style: TextStyles.rubikregular16black24w400,
+          style: widget.textstyle,
           controller: widget.phoneController,
           disableLengthCheck: true,
           disableAutoFillHints: true,
           focusNode: _phoneFocusNode,
           decoration: InputDecoration(
-            errorText: widget.errorText ,
+            errorText: widget.errorText,
             contentPadding: EdgeInsets.symmetric(
                 horizontal: elempaddingHorizontal,
                 vertical: elempaddingVertical),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 
 class QrPopup extends StatelessWidget {
   const QrPopup({Key? key}) : super(key: key);
@@ -23,39 +23,50 @@ class QrPopup extends StatelessWidget {
             return Text('Error: ${snapshot.error}');
           } else {
             // Customer ID loaded successfully, display QR code
-            return Container(
-              width: 310,
-              height: 310,
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
+            return Stack(
+              children: [
+                Container(
+                  width: 280,
+                  height: 260,
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: QrImageView(
+                          data: snapshot.data
+                              .toString(), // Display QR code with customer ID
+                          version: QrVersions.auto,
+                          size: 170,
+                        ),
+                      ),
+                      const SizedBox(height: 9),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Material(
+                    shape: CircleBorder(),
+                    color: Colors.transparent,
+                    child: IconButton(
+                      splashRadius: 50,
+                      onPressed: () {
                         Navigator.pop(context); // Close the dialog
                       },
-                      child: SvgPicture.asset(
+                      icon: SvgPicture.asset(
                         "assets/Close.svg",
+                        color: Colors.black,
                         width: 20,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: QrImageView(
-                      data: snapshot.data
-                          .toString(), // Display QR code with customer ID
-                      version: QrVersions.auto,
-                      size: 170,
-                    ),
-                  ),
-                  const SizedBox(height: 9),
-                ],
-              ),
+                ),
+              ],
             );
           }
         },
@@ -63,9 +74,9 @@ class QrPopup extends StatelessWidget {
     );
   }
 
-  Future<int?> _loadCustomerId() async {
-    String accessToken = await GetSharedPreferences.getAccessToken()  ??
-        'Access Token empty';
-    return null;
+  Future _loadCustomerId() async {
+    var accessToken =
+        await GetSharedPreferences.getCustomerId() ?? 'Access Token empty';
+    return accessToken;
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
-import 'package:yes_loyality/core/model/user_details/user_details.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
+import 'package:Yes_Loyalty/core/model/user_details/user_details.dart';
 
 class FetchUserService {
   static Future<UserDetails> fetchUserData() async {

@@ -6,29 +6,29 @@ part 'datum.g.dart';
 class Datum {
 	int? id;
 	String? name;
-	String? locality;
+	String? location;
 	bool? active;
-	dynamic address;
-	dynamic coordinates;
+	String? address;
+	String? coordinates;
 	@JsonKey(name: 'email_1') 
-	dynamic email1;
+	String? email1;
 	@JsonKey(name: 'email_2') 
 	dynamic email2;
 	@JsonKey(name: 'phone_1') 
-	dynamic phone1;
+	String? phone1;
 	@JsonKey(name: 'phone_2') 
 	dynamic phone2;
 	@JsonKey(name: 'created_at') 
 	DateTime? createdAt;
 	@JsonKey(name: 'updated_at') 
-	dynamic updatedAt;
+	DateTime? updatedAt;
 	@JsonKey(name: 'deleted_at') 
 	dynamic deletedAt;
 
 	Datum({
 		this.id, 
 		this.name, 
-		this.locality, 
+		this.location, 
 		this.active, 
 		this.address, 
 		this.coordinates, 

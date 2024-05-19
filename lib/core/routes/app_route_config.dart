@@ -1,12 +1,14 @@
-import 'package:yes_loyality/ui/screens/auth/user_signup/layout_view.dart';
-import 'package:yes_loyality/ui/screens/auth/user_otp/layout_view.dart';
-import 'package:yes_loyality/ui/screens/auth/user_signin/layout_view.dart';
-import 'package:yes_loyality/ui/screens/auth/user_verify/layout_view.dart';
-import 'package:yes_loyality/ui/screens/home/layout_view.dart';
-import 'package:yes_loyality/ui/screens/misc/full_screen_alert/layout_view.dart';
-import 'package:yes_loyality/ui/screens/misc/profile_edit/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_signup/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_otp/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_verify/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/full_screen_alert/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/profile_edit/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/reset_password/layout_view.dart';
+import 'package:Yes_Loyalty/ui/testing_screen_1%20copy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yes_loyality/ui/screens/splash/splash_screen.dart';
+import 'package:Yes_Loyalty/ui/screens/splash/splash_screen.dart';
 
 class MyappRoutes {
   static final GoRouter routes = GoRouter(
@@ -41,6 +43,7 @@ class MyappRoutes {
         path: '/sign_in',
         builder: (context, state) => const SignInScreen(),
       ),
+     
       GoRoute(
         name: 'home',
         path: '/home',

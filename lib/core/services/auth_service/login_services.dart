@@ -3,8 +3,8 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/model/login/login.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/model/login/login.dart';
 
 class LoginService {
   static Future<Login> login({required String email, required String password}) async {

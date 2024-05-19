@@ -1,7 +1,7 @@
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
-import 'package:yes_loyality/ui/widgets/buttons.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,7 +34,7 @@ class VerifyYourAccount extends StatelessWidget {
                   height: sizedBoxHeight1,
                 ),
                 Image.asset(
-                  'assets/yes_loyality_log.png',
+                  'assets/Yes_Loyalty_log.png',
                 ),
                 SizedBox(
                   height: sizedBoxHeight2,
@@ -62,11 +62,7 @@ class VerifyYourAccount extends StatelessWidget {
                 ColoredButton(
                     text: 'Continue',
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const Enter_otp_page()),
-                      // );
+                 
                       context.go('/user_otp'); 
                     }),
                 SizedBox(

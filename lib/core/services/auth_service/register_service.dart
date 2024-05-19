@@ -1,9 +1,69 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:yes_loyality/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:dartz/dartz.dart';
+import 'package:Yes_Loyalty/core/model/validation_response/validation_response.dart';
+
+// class RegsiterService {
+//   static Future register({
+//     required String name,
+//     required String email,
+//     required String phone,
+//     required String password,
+//     required String password_confirm,
+//   }) async {
+//     final url = Uri.parse('${ApiConstants.baseUrl}user/register');
+
+//     // Define form data
+//     Map<String, String> formData = {
+//       "name": name,
+//       "email": email,
+//       "phone": phone,
+//       "password": password,
+//       "password_confirm": password_confirm,
+//     };
+
+//     // Encode the form data
+//     var request = http.MultipartRequest('POST', url);
+//     formData.forEach((key, value) {
+//       request.fields[key] = value;
+//     });
+
+//     // Send the request
+//     try {
+//       var response = await request.send();
+
+//       // Read the response body
+//       var responseBody = await response.stream.bytesToString();
+      
+//       // Check the response status code
+//       if (response.statusCode == 200) {
+//         // Print response body for debugging
+//         print('Response Body: $responseBody');
+
+//         // Decode the response body
+//         var jsonMap = json.decode(responseBody);
+
+//         return jsonMap;
+//       } else if (response.statusCode == 500){
+//         // Print response body if request failed
+//         print('Request failed with status: $responseBody');
+
+//        return responseBody;
+//       }
+//     } catch (e) {
+//       // Print error
+//       print('Error sending request: $e');
+//       rethrow;
+//     }
+//   }
+// }
+
+
+
 
 class RegsiterService {
-  static Future register({
+  static Future<Either<dynamic, dynamic>> register({
     required String name,
     required String email,
     required String phone,
@@ -33,26 +93,20 @@ class RegsiterService {
 
       // Read the response body
       var responseBody = await response.stream.bytesToString();
-      
+
       // Check the response status code
       if (response.statusCode == 200) {
-        // Print response body for debugging
-        print('Response Body: $responseBody');
-
-        // Decode the response body
         var jsonMap = json.decode(responseBody);
-
-        return jsonMap;
-      } else if (response.statusCode == 500){
-        // Print response body if request failed
-        print('Request failed with status: $responseBody');
-
-       return responseBody;
+        return right(jsonMap);
+      } else if (response.statusCode == 500) {
+        var jsonMap = json.decode(responseBody);
+        var validate = ValidationResponse.fromJson(jsonMap);
+        return left(validate);
       }
     } catch (e) {
-      // Print error
-      print('Error sending request: $e');
-      rethrow;
+      return left(e.toString());
     }
+    return left("Unexpected error occurred");
   }
 }
+

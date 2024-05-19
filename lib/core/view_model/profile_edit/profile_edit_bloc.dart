@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yes_loyality/core/model/failure/mainfailure.dart';
-import 'package:yes_loyality/core/services/post_service/profile_edit_service.dart';
+import 'package:Yes_Loyalty/core/model/failure/mainfailure.dart';
+import 'package:Yes_Loyalty/core/services/post_service/profile_edit_service.dart';
 
 part 'profile_edit_event.dart';
 part 'profile_edit_state.dart';

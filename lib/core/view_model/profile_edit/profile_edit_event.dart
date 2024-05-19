@@ -7,6 +7,6 @@ class ProfileEditEvent with _$ProfileEditEvent {
     required String name,
     required String email,
     required String phone,
-    required dynamic image,
+     dynamic? image,
   }) = _ProfileEdit;
 }

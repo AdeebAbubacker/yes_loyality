@@ -1,14 +1,14 @@
 import 'package:http/http.dart' as http;
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 
 class LogoutService {
   static Future logout() async {
     final url = Uri.parse('${ApiConstants.baseUrl}user/logout');
-  
+
     // Print the stored access token
-    String accessToken = await GetSharedPreferences.getAccessToken() ?? 'Access Token empty';
-   
+    String accessToken =
+        await GetSharedPreferences.getAccessToken() ?? 'Access Token empty';
 
     // Add your Bearer token here
     final token = accessToken;
@@ -21,6 +21,7 @@ class LogoutService {
       );
 
       if (response.statusCode == 200) {
+        print(response.body);
         // Successful logout
         print('Logout successful');
       } else {
@@ -28,6 +29,7 @@ class LogoutService {
         print('Logout failed with status code: ${response.statusCode}');
       }
     } catch (e) {
+      print(e.toString());
       // Handle error
       print('Error during logout: $e');
     }

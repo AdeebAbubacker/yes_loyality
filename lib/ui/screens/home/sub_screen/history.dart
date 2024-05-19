@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
-import 'package:yes_loyality/core/view_model/transaction_details/transaction_details_bloc.dart';
-import 'package:yes_loyality/ui/screens/misc/points_popup/layout_view.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/view_model/transaction_details/transaction_details_bloc.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/points_popup/layout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -141,7 +141,7 @@ class PointsHistory extends StatelessWidget {
                               SvgPicture.asset('assets/increment.svg'),
                               const SizedBox(width: 5),
                               Text(
-                                'Loyality Credited',
+                                'Loyalty Credited',
                                 style: TextStyles.rubik14black33w300,
                               ),
                             ],
@@ -152,7 +152,7 @@ class PointsHistory extends StatelessWidget {
                               SvgPicture.asset('assets/decrement.svg'),
                               const SizedBox(width: 5),
                               Text(
-                                'Loyality Debited',
+                                'Loyalty Debited',
                                 style: TextStyles.rubik14black33w300,
                               ),
                             ],

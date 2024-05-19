@@ -1,4 +1,4 @@
-import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,20 +27,9 @@ class AvailableBalance extends StatelessWidget {
           const SizedBox(width: 16),
           SvgPicture.asset(image),
           const SizedBox(width: 10),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                status,
-                style: TextStyles.rubik14black33,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Total Points',
-                style: TextStyles.rubik12black00,
-              ),
-            ],
+          Text(
+            status,
+            style: TextStyles.rubik16black33,
           ),
           const Spacer(),
           RichText(

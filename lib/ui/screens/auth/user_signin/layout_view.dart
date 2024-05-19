@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
-import 'package:yes_loyality/core/view_model/login/login_bloc.dart';
-import 'package:yes_loyality/ui/screens/home/layout_view.dart';
-import 'package:yes_loyality/ui/widgets/buttons.dart';
-import 'package:yes_loyality/ui/widgets/password_textfield.dart';
-import 'package:yes_loyality/ui/widgets/textfield.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/view_model/login/login_bloc.dart';
+import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
+import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
+import 'package:Yes_Loyalty/ui/widgets/password_textfield.dart';
+import 'package:Yes_Loyalty/ui/widgets/textfield.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -135,13 +135,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   // showDots = false;
                 });
                 // Navigate to home screen on successful login
-                // context.go('/home');
+                 context.go('/home');
                 // You can also perform any other actions on success
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const HomeScreen();
-                  },
-                ));
+             
               },
               authError: (value) {
                 setState(() {

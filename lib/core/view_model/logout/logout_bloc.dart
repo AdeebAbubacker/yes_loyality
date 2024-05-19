@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yes_loyality/core/model/failure/mainfailure.dart';
-import 'package:yes_loyality/core/services/auth_service/logout_service.dart';
+import 'package:Yes_Loyalty/core/model/failure/mainfailure.dart';
+import 'package:Yes_Loyalty/core/services/auth_service/logout_service.dart';
 
 part 'logout_event.dart';
 part 'logout_state.dart';

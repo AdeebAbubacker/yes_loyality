@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
-import 'package:yes_loyality/core/model/login/login.dart';
-import 'package:yes_loyality/core/services/auth_service/login_services.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
+import 'package:Yes_Loyalty/core/model/login/login.dart';
+import 'package:Yes_Loyalty/core/services/auth_service/login_services.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

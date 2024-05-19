@@ -1,6 +1,6 @@
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +32,7 @@ class EnterOtpVerified extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: sizedboxh1),
-                Image.asset('assets/yes_loyality_log.png'),
+                Image.asset('assets/Yes_Loyalty_log.png'),
                 SizedBox(height: sizedboxh2),
                 // Image.asset('assets/verified_success.png'),
                 SvgPicture.asset(

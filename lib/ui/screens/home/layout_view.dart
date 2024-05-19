@@ -2,25 +2,30 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
-import 'package:yes_loyality/core/db/hive_db/adapters/selected_branch_adater.dart/selected_adapter.dart';
-import 'package:yes_loyality/core/db/hive_db/boxes/selected_branch_box.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/adapters/branch_list_adater/branch_list_adapter.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/adapters/selected_branch_adater/selected_adapter.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/adapters/user_details_adapter/user_details_adapter.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/branch_list_box.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/selected_branch_box.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 
-import 'package:yes_loyality/core/view_model/store_details/store_details_bloc.dart';
-import 'package:yes_loyality/core/view_model/store_list/store_list_bloc.dart';
-import 'package:yes_loyality/core/view_model/transaction_details/transaction_details_bloc.dart';
-import 'package:yes_loyality/core/view_model/user_details/user_details_bloc.dart';
-import 'package:yes_loyality/ui/screens/home/sub_screen/history.dart';
-import 'package:yes_loyality/ui/screens/home/sub_screen/profile.dart';
-import 'package:yes_loyality/ui/screens/home/sub_screen/offers.dart';
-import 'package:yes_loyality/ui/screens/home/widgets/location_details.dart';
-import 'package:yes_loyality/ui/widgets/appbar.dart';
+import 'package:Yes_Loyalty/core/view_model/store_details/store_details_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/store_list/store_list_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/transaction_details/transaction_details_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/user_details/user_details_bloc.dart';
+import 'package:Yes_Loyalty/ui/screens/home/sub_screen/history.dart';
+import 'package:Yes_Loyalty/ui/screens/home/sub_screen/profile.dart';
+import 'package:Yes_Loyalty/ui/screens/home/sub_screen/offers.dart';
+import 'package:Yes_Loyalty/ui/screens/home/widgets/location_details.dart';
+import 'package:Yes_Loyalty/ui/widgets/appbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,34 +50,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   var a = '22';
+  List<StoreData> storeDataList = [];
 
   @override
   void initState() {
+    context
+        .read<UserDetailsBloc>()
+        .add(const UserDetailsEvent.fetchUserDetails());
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       a = GetSharedPreferences.getAccessToken.toString();
 
-      Timer.periodic(const Duration(seconds: 2), (timer) {
-        print('ABra ka dabre ${a.toString()} jh');
-      });
       context
           .read<StoreDetailsBloc>()
-          .add(const StoreDetailsEvent.fetchStoreDetails());
-      context.read<StoreListBloc>().add(const StoreListEvent.fetchStoreList());
+          .add(StoreDetailsEvent.fetchStoreDetails(storeId: '1'));
+      context
+          .read<UserDetailsBloc>()
+          .add(const UserDetailsEvent.fetchUserDetails());
       _showModal(context);
     });
   }
 
+  Map bankData = {};
+  var bank;
+
   @override
   Widget build(BuildContext context) {
+    context
+        .read<UserDetailsBloc>()
+        .add(const UserDetailsEvent.fetchUserDetails());
     double screenheight = screenHeight(context);
     double height23 = screenheight * 23 / FigmaConstants.figmaDeviceHeight;
     // Define getData function outside the Timer callback
     void getProfileData() async {
       // Fetch user details
-      var userDetails = context.read<StoreListBloc>().state.storeDetails;
-
+      context.read<StoreListBloc>().state.storeDetails;
     }
 
     Timer.periodic(const Duration(seconds: 4), (timer) {
@@ -82,7 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Fetch user details when the widget is built
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<UserDetailsBloc>().add(const UserDetailsEvent.fetchUserDetails());
+      context
+          .read<UserDetailsBloc>()
+          .add(const UserDetailsEvent.fetchUserDetails());
       context.read<StoreListBloc>().add(const StoreListEvent.fetchStoreList());
     });
 
@@ -99,16 +114,41 @@ class _HomeScreenState extends State<HomeScreen> {
         listeners: [
           BlocListener<StoreListBloc, StoreListState>(
             listener: (context, state) async {
-              if (state.storeDetails.data != null) {
-                for (int i = 0; i < state.storeDetails.data!.length; i++) {
-                  Map<String, dynamic> row = {
-                    'name': '${state.storeDetails.data![i].name}',
-                    'id': '${state.storeDetails.data![i].id}',
-                    'locality': '${state.storeDetails.data![i].locality}',
-                  };
-                  print(row);
-                }
+              for (var store in state.storeDetails.data!) {
+                // Create a new StoreData object for each store
+                var storeData = StoreData(
+                    id: store.id?.toInt() ?? 1,
+                    name: store.name.toString(),
+                    locality: store.location);
+                // Add the StoreData object to the list
+                storeDataList.add(storeData);
               }
+
+              // Add data to Hive box
+              for (var data in storeDataList) {
+                BranchListBox.put(
+                  data.id,
+                  BranchListDB(
+                    id: data.id,
+                    selctedBranchName: data.name,
+                    locality: data.locality,
+                  ),
+                );
+              }
+            },
+          ),
+          BlocListener<UserDetailsBloc, UserDetailsState>(
+            listener: (context, state) async {
+              UserDetailsBox.put(
+                await GetSharedPreferences.getCustomerId(),
+                UserDetailsDB(
+                  customer_id: state.userDetails.data?.customerId,
+                  email: state.userDetails.data!.email.toString(),
+                  image: state.userDetails.data?.image,
+                  name: state.userDetails.data!.name.toString(),
+                  phone: state.userDetails.data!.phone.toString(),
+                ),
+              );
             },
           ),
         ],
@@ -117,9 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
           body: SafeArea(
             child: Column(
               children: [
-                SizedBox(height: height22),
+                SizedBox(height: height23),
                 const HomeAppBar(),
-                SizedBox(height: height10),
+                SizedBox(height: height23),
                 const LocationDetails(),
                 SizedBox(height: height23),
                 Expanded(
@@ -193,6 +233,57 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<bool> showExitPopup(context) async {
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: 90,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Do you want to exit?"),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // ignore: avoid_print
+                          print('yes selected');
+                          SystemNavigator.pop();
+                          //exit(0);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red.shade800),
+                        child: const Text("Yes"),
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                        child: ElevatedButton(
+                      onPressed: () {
+                        // ignore: avoid_print
+                        print('no selected');
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text("No",
+                          style: TextStyle(color: Colors.black)),
+                    ))
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _showModal(context) {
     showModalBottomSheet(
       isDismissible: false,
@@ -223,26 +314,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             "Please select a branch to continue",
                             style: TextStyles.rubik18black33,
                           )
-
-                          // const Padding(
-                          //   padding: EdgeInsets.only(top: 20, bottom: 1, left: 6),
-                          //   child: Text(
-                          //     "Location",
-                          //     style: TextStyle(
-                          //       fontSize: 15,
-                          //       color: Color.fromARGB(255, 92, 91, 90),
-                          //     ),
-                          //   ),
-                          // ),
-                          // IconButton(
-                          //   onPressed: () {
-                          //     Navigator.of(context).pop();
-                          //   },
-                          //   icon: const Icon(
-                          //     Icons.close,
-                          //     color: Colors.red,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -286,6 +357,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .read<TransactionDetailsBloc>()
                                             .add(const TransactionDetailsEvent
                                                 .fetchTransactionDetails());
+                                        Navigator.of(context)
+                                            .pop(); // Close the bottom sheet
                                       });
                                     },
                                   ),
@@ -298,33 +371,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 9),
                     //   SvgPicture.asset("assets/Line.svg"),
-                    BlocBuilder<StoreListBloc, StoreListState>(
-                      builder: (context, state) {
-                        if (state.isLoading) {
+                    ValueListenableBuilder<Box<BranchListDB>>(
+                      valueListenable:
+                          Hive.box<BranchListDB>('BranchListBox').listenable(),
+                      builder: (context, box, _) {
+                        final branchList = box.values.toList();
+                        if (branchList.isEmpty) {
                           return const CircularProgressIndicator();
-                        } else if (state.isError) {
-                          return const Text("ITS ERROR");
-                        } else if (state.storeDetails.data == null) {
-                          return const Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(),
-                            ],
-                          );
-                        } else if (state.storeDetails.data!.isEmpty) {
-                          return const CircularProgressIndicator();
-                        }
-                        if (state.isLoading) {
-                          return const CircularProgressIndicator();
-                        } else if (state.isError) {
-                          return const Text("Some error occured");
-                        } else if (state.storeDetails.data!.isNotEmpty) {
+                        } else {
                           return Expanded(
                             child: ListView.separated(
                               controller: scrollController,
-                              itemCount: state.storeDetails.data!.length,
+                              itemCount: branchList.length,
                               itemBuilder: (context, index) {
+                                final branch = branchList[index];
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                     left: 14,
@@ -332,19 +392,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
+                                      Navigator.of(context)
+                                          .pop(); // Close the bottom sheet
                                       await SetSharedPreferences.storeBranchId(
-                                          '${state.storeDetails.data?[index].id.toString()}');
+                                          '${branch.id.toString()}');
                                       await selectedBranchBox.put(
-                                          'selectedBranchDetail',
-                                          SelectedBranchDB(
-                                              selctedBranchName:
-                                                  '${state.storeDetails.data?[index].name.toString()}, ${state.storeDetails.data?[index].locality.toString()}'));
+                                        'selectedBranchDetail',
+                                        SelectedBranchDB(
+                                            selctedBranchName:
+                                                '${branch.selctedBranchName.toString()}, ${branch.locality.toString()}'),
+                                      );
                                       context
                                           .read<TransactionDetailsBloc>()
-                                          .add(const TransactionDetailsEvent
-                                              .fetchTransactionDetails());
-
-                                         Navigator.of(context).pop(); // Close the bottom sheet
+                                          .add(
+                                            const TransactionDetailsEvent
+                                                .fetchTransactionDetails(),
+                                          );
                                     },
                                     child: SizedBox(
                                       width: 200,
@@ -363,81 +426,64 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     "assets/Map icon.svg"),
                                                 const SizedBox(width: 13),
                                                 Text(
-                                                  "${state.storeDetails.data?[index].name}",
+                                                  "${branch.selctedBranchName ?? 'hhhhh'}",
                                                   style:
                                                       TextStyles.rubik16black33,
                                                 ),
                                                 const Spacer(),
                                                 InkWell(
-                                                    onTap: () {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return PopScope(
-                                                            // Allow dismissing the popup on initial back press
-                                                            canPop: true,
-                                                            onPopInvoked:
-                                                                (didPop) {
-                                                              // Check if it's the first back press
-                                                              final isFirstPop =
-                                                                  !Navigator.of(
-                                                                          context)
-                                                                      .canPop();
-
-                                                              if (didPop &&
-                                                                  isFirstPop) {
-                                                                // Close the dialog without navigation
-                                                                Navigator.of(
+                                                  onTap: () {
+                                                    context
+                                                        .read<
+                                                            StoreDetailsBloc>()
+                                                        .add(StoreDetailsEvent
+                                                            .fetchStoreDetails(
+                                                                storeId: branch
+                                                                    .id
+                                                                    .toString()));
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return PopScope(
+                                                          // Allow dismissing the popup on initial back press
+                                                          canPop: true,
+                                                          onPopInvoked:
+                                                              (didPop) {
+                                                            // Check if it's the first back press
+                                                            final isFirstPop =
+                                                                !Navigator.of(
                                                                         context)
-                                                                    .pop(); // No need for (false) argument
-                                                              }
-                                                            },
-                                                            child:
-                                                                const StoreDetails(), // Your dialog content
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    child: SvgPicture.asset(
-                                                        "assets/Eye icon.svg")),
-                                                // IconButton(
-                                                //     onPressed: () {
-                                                //       showDialog(
-                                                //         context: context,
-                                                //         builder: (BuildContext context) {
-                                                //           return PopScope(
-                                                //             // Allow dismissing the popup on initial back press
-                                                //             canPop: true,
-                                                //             onPopInvoked: (didPop) {
-                                                //               // Check if it's the first back press
-                                                //               final isFirstPop =
-                                                //                   !Navigator.of(context)
-                                                //                       .canPop();
+                                                                    .canPop();
 
-                                                //               if (didPop && isFirstPop) {
-                                                //                 // Close the dialog without navigation
-                                                //                 Navigator.of(context)
-                                                //                     .pop(); // No need for (false) argument
-                                                //               }
-                                                //             },
-                                                //             child:
-                                                //                 const StoreDetails(), // Your dialog content
-                                                //           );
-                                                //         },
-                                                //       );
-                                                //     },
-                                                //     icon: SvgPicture.asset(
-                                                //         "assets/Eye icon.svg")),
+                                                            if (didPop &&
+                                                                isFirstPop) {
+                                                              // Close the dialog without navigation
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop(); // No need for (false) argument
+                                                            }
+                                                          },
+                                                          child: StoreDetails(
+                                                              storeId: branch.id
+                                                                  .toString()), // Your dialog content
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                      "assets/Eye icon.svg"),
+                                                ),
                                               ],
                                             ),
                                             Row(
                                               children: [
                                                 const SizedBox(width: 27),
                                                 Text(
-                                                    "${state.storeDetails.data?[index].locality}, Kerala, India",
-                                                    style: TextStyles
-                                                        .rubik14black33),
+                                                  "${branch.locality?.isEmpty ?? true ? 'Edapally' : branch.locality}, Kerala, India",
+                                                  style:
+                                                      TextStyles.rubik14black33,
+                                                ),
                                               ],
                                             ),
                                             const SizedBox(height: 12),
@@ -454,9 +500,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         }
-                        return const SizedBox();
                       },
-                    ),
+                    )
                   ],
                 );
               },
@@ -510,8 +555,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .pop(); // No need for (false) argument
                                   }
                                 },
-                                child:
-                                    const StoreDetails(), // Your dialog content
+                                child: const StoreDetails(
+                                  storeId: 'h',
+                                ), // Your dialog content
                               );
                             },
                           );
@@ -561,55 +607,30 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
+}
 
-  Future<bool> showExitPopup(context) async {
-    return await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: SizedBox(
-            height: 90,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Do you want to exit?"),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // ignore: avoid_print
-                          print('yes selected');
-                          SystemNavigator.pop();
-                          //exit(0);
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red.shade800),
-                        child: const Text("Yes"),
-                      ),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                        child: ElevatedButton(
-                      onPressed: () {
-                        // ignore: avoid_print
-                        print('no selected');
-                        Navigator.of(context).pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      child: const Text("No",
-                          style: TextStyle(color: Colors.black)),
-                    ))
-                  ],
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+class StoreData {
+  final int id;
+  final String name;
+  var locality;
+
+  StoreData({
+    required this.id,
+    required this.name,
+    required this.locality,
+  });
+}
+
+class UsersData {
+  dynamic customer_id;
+  final String name;
+  final String email;
+  final String image;
+
+  UsersData({
+    required this.customer_id,
+    required this.name,
+    required this.email,
+    required this.image,
+  });
 }

@@ -1,6 +1,6 @@
-import 'package:yes_loyality/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:flutter/material.dart';
-import 'package:yes_loyality/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
 
 class Textfield extends StatelessWidget {
    Textfield({

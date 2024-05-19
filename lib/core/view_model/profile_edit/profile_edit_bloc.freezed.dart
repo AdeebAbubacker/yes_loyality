@@ -20,21 +20,21 @@ mixin _$ProfileEditEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(
-            String name, String email, String phone, dynamic image)
+            String name, String email, String phone, dynamic? image)
         profileEdit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String name, String email, String phone, dynamic image)?
+    TResult? Function(String name, String email, String phone, dynamic? image)?
         profileEdit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String name, String email, String phone, dynamic image)?
+    TResult Function(String name, String email, String phone, dynamic? image)?
         profileEdit,
     required TResult orElse(),
   }) =>
@@ -118,7 +118,7 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(
-            String name, String email, String phone, dynamic image)
+            String name, String email, String phone, dynamic? image)
         profileEdit,
   }) {
     return started();
@@ -128,7 +128,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String name, String email, String phone, dynamic image)?
+    TResult? Function(String name, String email, String phone, dynamic? image)?
         profileEdit,
   }) {
     return started?.call();
@@ -138,7 +138,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String name, String email, String phone, dynamic image)?
+    TResult Function(String name, String email, String phone, dynamic? image)?
         profileEdit,
     required TResult orElse(),
   }) {
@@ -190,7 +190,7 @@ abstract class _$$ProfileEditImplCopyWith<$Res> {
           _$ProfileEditImpl value, $Res Function(_$ProfileEditImpl) then) =
       __$$ProfileEditImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String name, String email, String phone, dynamic image});
+  $Res call({String name, String email, String phone, dynamic? image});
 }
 
 /// @nodoc
@@ -225,7 +225,7 @@ class __$$ProfileEditImplCopyWithImpl<$Res>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as dynamic?,
     ));
   }
 }
@@ -237,7 +237,7 @@ class _$ProfileEditImpl implements _ProfileEdit {
       {required this.name,
       required this.email,
       required this.phone,
-      required this.image});
+      this.image});
 
   @override
   final String name;
@@ -246,7 +246,7 @@ class _$ProfileEditImpl implements _ProfileEdit {
   @override
   final String phone;
   @override
-  final dynamic image;
+  final dynamic? image;
 
   @override
   String toString() {
@@ -279,7 +279,7 @@ class _$ProfileEditImpl implements _ProfileEdit {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(
-            String name, String email, String phone, dynamic image)
+            String name, String email, String phone, dynamic? image)
         profileEdit,
   }) {
     return profileEdit(name, email, phone, image);
@@ -289,7 +289,7 @@ class _$ProfileEditImpl implements _ProfileEdit {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String name, String email, String phone, dynamic image)?
+    TResult? Function(String name, String email, String phone, dynamic? image)?
         profileEdit,
   }) {
     return profileEdit?.call(name, email, phone, image);
@@ -299,7 +299,7 @@ class _$ProfileEditImpl implements _ProfileEdit {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String name, String email, String phone, dynamic image)?
+    TResult Function(String name, String email, String phone, dynamic? image)?
         profileEdit,
     required TResult orElse(),
   }) {
@@ -346,12 +346,12 @@ abstract class _ProfileEdit implements ProfileEditEvent {
       {required final String name,
       required final String email,
       required final String phone,
-      required final dynamic image}) = _$ProfileEditImpl;
+      final dynamic? image}) = _$ProfileEditImpl;
 
   String get name;
   String get email;
   String get phone;
-  dynamic get image;
+  dynamic? get image;
   @JsonKey(ignore: true)
   _$$ProfileEditImplCopyWith<_$ProfileEditImpl> get copyWith =>
       throw _privateConstructorUsedError;

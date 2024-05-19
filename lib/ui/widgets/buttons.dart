@@ -1,6 +1,6 @@
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class ColorlessButton extends StatelessWidget {

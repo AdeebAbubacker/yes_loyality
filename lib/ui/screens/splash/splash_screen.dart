@@ -1,9 +1,9 @@
-import 'package:yes_loyality/core/constants/common.dart';
-import 'package:yes_loyality/core/constants/const.dart';
-import 'package:yes_loyality/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/const.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yes_loyality/core/db/shared/shared_prefernce.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -30,7 +30,7 @@ class SplashScreen extends StatelessWidget {
             ),
             SizedBox(height: height8),
             Text(
-              "Copyright @ 2024 yes loyality",
+              "Copyright @ 2024 Yes Loyalty",
               style: TextStyles.rubikregular14grey66,
             ),
             SizedBox(height: height8),
