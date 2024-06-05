@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:Yes_Loyalty/ui/animations/offer_shimmer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
@@ -10,9 +13,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
-class Offers extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
+
+
+class Offers extends StatefulWidget {
   const Offers({super.key});
+
+  @override
+  State<Offers> createState() => _OffersState();
+}
+
+class _OffersState extends State<Offers> {
+
+
+ List<Color> baseColors = [];
+  List<Color> gradientColors = [];
+    Color _generateDarkColor() {
+    Random random = Random();
+    return Color.fromARGB(
+      255,
+      random.nextInt(156), // Limit to 0-155 to ensure dark color
+      random.nextInt(156),
+      random.nextInt(156),
+    );
+  }
+  Color _generateSlightVariationColor(Color baseColor) {
+    HSLColor hslColor = HSLColor.fromColor(baseColor);
+    double newLightness = (hslColor.lightness + 0.1).clamp(0.0, 0.5); // Ensure it remains dark
+    return hslColor.withLightness(newLightness).toColor();
+  }
+
+
+
+
   String _formatExpiryDateWithMonthAsString(String? expiryEnd) {
     if (expiryEnd == null) return '';
 
@@ -82,77 +121,137 @@ class Offers extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    // Fetch user details when the widget is built
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context
           .read<OffersListBloc>()
           .add(const OffersListEvent.fetchOffersList());
     });
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Fetch user details when the widget is built
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   context
+    //       .read<OffersListBloc>()
+    //       .add(const OffersListEvent.fetchOffersList());
+    // });
     EdgeInsets outerpadding = OuterPaddingConstant(context);
     double screenheight = screenHeight(context);
     // double screenwidth = screenWidth(context);
     double height23 = screenheight * 23 / FigmaConstants.figmaDeviceHeight;
 
-    return BlocBuilder<OffersListBloc, OffersListState>(
-      builder: (context, state) {
+    return SingleChildScrollView(
+      child: BlocBuilder<OffersListBloc, OffersListState>(
+          builder: (context, state) {
         if (state.isLoading) {
-          return CircularProgressIndicator();
+          return Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade200,
+            child: Container(
+              height: 110,
+              width: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                color: Colors.white,
+              ),
+            ),
+          );
         } else if (state.isError) {
           return Text("Error");
         }
+        if (state.offersList.data != null &&
+            state.offersList.data!.isNotEmpty) {
+               if (baseColors.isEmpty || gradientColors.isEmpty) {
+              for (var i = 0; i < state.offersList.data!.length; i++) {
+                Color baseColor = _generateDarkColor();
+                baseColors.add(baseColor);
+                gradientColors.add(_generateSlightVariationColor(baseColor));
+              }
+            }
+          return Column(
+            children: [
+              MasonryGridView.count(
+                padding: outerpadding,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                mainAxisSpacing: 19,
+                crossAxisSpacing: 18,
+                itemCount: state.offersList.data?.length ?? 3,
+                itemBuilder: (context, index) {
+                  List color1 = const [
+                    Color(0xFF328C76),
+                    Color(0xFFF5A443),
+                    Color(0xFFFFA0BC),
+                    Color.fromARGB(255, 82, 171, 255),
+                    Color(0xFF328C76),
+                    Color(0xFFF5A443),
+                    Color(0xFFFFA0BC),
+                    Color.fromARGB(255, 82, 171, 255),
+                  ];
+                  List color2 = const [
+                    Color(0xFF00B288),
+                    Color(0xFFFF9E2D),
+                    Color(0xFFFF1B5E),
+                    Color.fromARGB(255, 63, 162, 255),
+                    Color(0xFF328C76),
+                    Color(0xFFF5A443),
+                    Color(0xFFFFA0BC),
+                    Color.fromARGB(255, 82, 171, 255),
+                  ];
+                  return ContentBox(
+                    lineargradient1: baseColors[index],
+                      lineargradient2: gradientColors[index],
+                    offerinfo: '${state.offersList.data?[index].name}' ??
+                        'Special Offer',
+                    // comments:
+                    //     '${state.offersList.data?[index].comments}',
+                    comments: 'Hurry Up',
+                    expiryDate: 'Valid Up to - 04 th May 2024',
+
+                    // expiryDate:
+                    //     'Valid Up to - ${_formatExpiryDateWithMonthAsString('${state.offersList.data?[index].expiryEnd}')}',
+                  );
+                },
+              ),
+              SizedBox(height: height23),
+            ],
+          );
+        }
+       
         return Column(
           children: [
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Column(
-                    children: [
-                      MasonryGridView.count(
-                        padding: outerpadding,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 19,
-                        crossAxisSpacing: 18,
-                        itemCount: state.offersList.data?.length ?? 4,
-                        itemBuilder: (context, index) {
-                          List color1 = const [
-                            Color(0xFF328C76),
-                            Color(0xFFF5A443),
-                            Color(0xFFFFA0BC),
-                            Color.fromARGB(255, 82, 171, 255),
-                          ];
-                          List color2 = const [
-                            Color(0xFF00B288),
-                            Color(0xFFFF9E2D),
-                            Color(0xFFFF1B5E),
-                            Color.fromARGB(255, 63, 162, 255),
-                          ];
-                          return ContentBox(
-                            lineargradient1: color1[index],
-                            lineargradient2: color2[index],
-                            offerinfo: '${state.offersList.data?[index].name}',
-                            // comments:
-                            //     '${state.offersList.data?[index].comments}',
-                            comments: 'Hurry Up',
-                            expiryDate: 'Valid Up to - 04 th May 2024',
-
-                            // expiryDate:
-                            //     'Valid Up to - ${_formatExpiryDateWithMonthAsString('${state.offersList.data?[index].expiryEnd}')}',
-                          );
-                        },
-                      ),
-                      SizedBox(height: height23),
-                    ],
+            MasonryGridView.count(
+              padding: outerpadding,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              mainAxisSpacing: 19,
+              crossAxisSpacing: 18,
+              itemCount: state.offersList.data?.length ?? 4,
+              itemBuilder: (context, index) {
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade200,
+                  child: Container(
+                    height: 110,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.white,
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
+            SizedBox(height: height23),
           ],
         );
-      },
+      }),
     );
   }
 }

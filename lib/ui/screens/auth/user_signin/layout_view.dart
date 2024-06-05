@@ -1,3 +1,5 @@
+import 'package:Yes_Loyalty/ui/animations/toast.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_signup/layout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -128,31 +130,49 @@ class _SignInScreenState extends State<SignInScreen> {
       resizeToAvoidBottomInset: false,
       body: Center(
         child: BlocConsumer<LoginBloc, LoginState>(
-          listener: (context, state) {
+          listener: (context, state)
+              {
             state.maybeMap(
               authsuccess: (value) {
                 setState(() {
-                  // showDots = false;
+                  showDots = false;
                 });
                 // Navigate to home screen on successful login
-                 context.go('/home');
+               context.push('/home');
+            
                 // You can also perform any other actions on success
-             
               },
               authError: (value) {
                 setState(() {
                   showDots = false;
                 });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please Enter valid email or password'),
-                    duration: Duration(seconds: 2),
-                  ),
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text(value.message),
+                //     duration: const Duration(seconds: 2),
+                //   ),
+                // );
+                showCustomToast(
+                  context, "${value.message}",
+                  MediaQuery.of(context).size.height *
+                      0.9, // Adjust vertical position here
                 );
-                // You can also perform any other actions on failure
               },
-              loading: (_) {
-                // You can show loading indicators or perform other actions during loading
+              validationError: (value) {
+                setState(() {
+                  showDots = false;
+                });
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text(value.Error),
+                //     duration: const Duration(seconds: 2),
+                //   ),
+                // );
+                showCustomToast(
+                  context, "${value.Error}",
+                  MediaQuery.of(context).size.height *
+                      0.9, // Adjust vertical position here
+                );
               },
               orElse: () {
                 // Handle other states or do nothing
@@ -166,9 +186,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 80,
-                      ),
+                      // const SizedBox(
+                      //   height: 70,
+                      // ),
                       Image.asset('assets/yes_loyality_log.png'),
                       SizedBox(height: perc20),
                       Text(
@@ -225,7 +245,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              context.go("/user_signup");
+                              context.push("/user_signup");
+                          
                             },
                             child: Text(
                               "Sign Up",

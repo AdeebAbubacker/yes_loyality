@@ -1,7 +1,8 @@
+import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/country_code_adapter.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
+import 'package:Yes_Loyalty/core/view_model/change_password/change_password_bloc.dart';
 import 'package:Yes_Loyalty/firebase_options.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/branch_list_adater/branch_list_adapter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/selected_branch_adater/selected_adapter.dart';
@@ -38,22 +39,26 @@ void main() async {
   Hive.registerAdapter(SelectedBranchDBAdapter());
   Hive.registerAdapter(BranchListDBAdapter());
   Hive.registerAdapter(UserDetailsDBAdapter());
+ Hive.registerAdapter(CountryCodeDBAdapter());
   selectedBranchBox = await Hive.openBox<SelectedBranchDB>('selectedBranchBox');
+ countryCodeBox = await Hive.openBox<CountryCodeDB>('countryCodeBox');
   BranchListBox = await Hive.openBox<BranchListDB>('BranchListBox');
   UserDetailsBox = await Hive.openBox<UserDetailsDB>('UserDetailsBox');
 
   ///----------------lock in portrait mode----------------------------------
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(const MyApp()
-        // DevicePreview(
-        //   // enabled: !kReleaseMode,
-        //    enabled: true,
-        //   builder: (context) => const MyApp(), // Wrap your app
-        // ),
-        );
+    runApp(const MyApp());
+    // DevicePreview(
+    //   // enabled: !kReleaseMode,
+    //   enabled: true,
+    //   builder: (context) => const MyApp(), // Wrap your app
+
+    // );
   });
 }
+
+//-----------
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -92,11 +97,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ProfileEditBloc(),
         ),
+        BlocProvider(
+          create: (context) => ChangePasswordBloc(),
+        ),
       ],
       child: MaterialApp.router(
-       // useInheritedMediaQuery: true,
-        //locale: DevicePreview.locale(context),
-        //builder: DevicePreview.appBuilder,
+        // useInheritedMediaQuery: true,
+        // locale: DevicePreview.locale(context),
+        // builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(useMaterial3: false),
         routerConfig: MyappRoutes.routes,
@@ -104,3 +112,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+

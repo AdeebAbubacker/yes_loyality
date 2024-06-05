@@ -20,7 +20,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
           userDetails: response,
           successorFailure: optionOf(right(response)),
         ));
-        print('This is the homescreen response $response');
+        print('This is the homescreen response ${response}');
         // ignore: avoid_print
       } catch (e) {
         print('This is the homescreen response $e');

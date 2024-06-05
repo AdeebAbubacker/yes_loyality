@@ -7,14 +7,14 @@ class ProfileEditState with _$ProfileEditState {
     return  ProfileEditState(
       isLoading: false,
       isError: false,
-      register: null, // Set initial value to null for dynamic type
+      register: Register(), // Set initial value to null for dynamic type
       successorFailure: None(),
     );
   }
   const factory ProfileEditState({
     required bool isLoading,
     required bool isError,
-    required dynamic register, // Change type to dynamic
-    required Option<Either<MainFailure, dynamic>> successorFailure, // Change type to dynamic
+    required Register register, // Change type to dynamic
+    required Option<Either<MainFailure, Register>> successorFailure, // Change type to dynamic
   }) = _ProfileEditState;
 }

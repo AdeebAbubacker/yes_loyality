@@ -16,13 +16,19 @@ class SetSharedPreferences {
     await prefs.setString('qrResult', qrResult);
   }
 
-   static Future storeBranchId(String branchId) async {
+  static Future storeBranchId(String branchId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('branchId', branchId);
   }
-     static Future storeBranchNAme(String BranchNAme) async {
+
+  static Future storeBranchNAme(String BranchNAme) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('BranchNAme', BranchNAme);
+  }
+
+  static Future homescreenLoaded(bool profileLoaded) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('profileLoaded', false);
   }
 }
 
@@ -41,11 +47,13 @@ class GetSharedPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('qrResult');
   }
+
   static Future<String?> getbranchId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('branchId');
   }
-    static Future<String?> getBranchNAme() async {
+
+  static Future<String?> getBranchNAme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('BranchNAme');
   }
@@ -58,5 +66,10 @@ class GetSharedPreferences {
   static Future<void> deleteAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('accessToken');
+  }
+
+  static Future homeScreenLoaded() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('profileLoaded');
   }
 }

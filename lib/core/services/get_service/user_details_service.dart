@@ -25,9 +25,10 @@ class FetchUserService {
         final jsonData = json.decode(response.body);
         UserDetails userDetails = UserDetails.fromJson(jsonData);
          await SetSharedPreferences.storeCustomerId(userDetails.data!.customerId as int);
-         print("fetching successfull ${userDetails.data?.image}");
+         print("fetching successfull ${response.body}");
         return userDetails; // Return UserDetails object
       } else {
+          print("fetching fa ${response.body}");
         final jsonData = json.decode(response.body);
         return jsonData; // Return UserDetails object
       }

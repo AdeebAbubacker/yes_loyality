@@ -13,6 +13,9 @@ class Datum {
 	int? cashierId;
 	@JsonKey(name: 'invoice_no') 
 	String? invoiceNo;
+  @JsonKey(name: 'branch') 
+	String? branch;
+  
 	@JsonKey(name: 'invoice_amt') 
 	int? invoiceAmt;
 	@JsonKey(name: 'offer_id') 
@@ -36,6 +39,7 @@ class Datum {
 		this.cashierId, 
 		this.invoiceNo, 
 		this.invoiceAmt, 
+    this.branch,
 		this.offerId, 
 		this.coins, 
 		this.coinType, 

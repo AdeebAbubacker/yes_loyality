@@ -21,14 +21,20 @@ class UserDetailsDBAdapter extends TypeAdapter<UserDetailsDB> {
       name: fields[1] as String,
       email: fields[2] as dynamic,
       image: fields[3] as dynamic,
+      cacheimage: fields[8] as Uint8List?,
       phone: fields[4] as dynamic,
+      wallet_total: fields[7] as dynamic,
+      wallet_balance: fields[5] as dynamic,
+      wallet_used: fields[6] as dynamic,
+      countryDialcode: fields[10] as String,
+      countrycode: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserDetailsDB obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.customer_id)
       ..writeByte(1)
@@ -38,7 +44,19 @@ class UserDetailsDBAdapter extends TypeAdapter<UserDetailsDB> {
       ..writeByte(3)
       ..write(obj.image)
       ..writeByte(4)
-      ..write(obj.phone);
+      ..write(obj.phone)
+      ..writeByte(5)
+      ..write(obj.wallet_balance)
+      ..writeByte(6)
+      ..write(obj.wallet_used)
+      ..writeByte(7)
+      ..write(obj.wallet_total)
+      ..writeByte(8)
+      ..write(obj.cacheimage)
+      ..writeByte(9)
+      ..write(obj.countrycode)
+      ..writeByte(10)
+      ..write(obj.countryDialcode);
   }
 
   @override

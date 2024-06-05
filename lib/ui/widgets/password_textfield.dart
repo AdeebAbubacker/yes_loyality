@@ -3,16 +3,17 @@ import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class PassWordTextfield extends StatefulWidget {
+    final String hintText;
+  final errorText;
+   TextEditingController textEditingController = TextEditingController();
+
    PassWordTextfield({
     super.key,
     required this.hintText,
-    this.textEditingController,
+ required   this.textEditingController,
     this.errorText,
   });
 
-  final String hintText;
-  var errorText;
-  final TextEditingController? textEditingController;
 
   @override
   _PassWordTextfieldState createState() => _PassWordTextfieldState();

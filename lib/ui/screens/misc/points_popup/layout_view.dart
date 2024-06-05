@@ -7,7 +7,19 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PointsCredited extends StatelessWidget {
-  const PointsCredited({Key? key}) : super(key: key);
+  final String paymentTime;
+  final String barnchName;
+  final String invoiceId;
+    final String coins;
+  final bool isCredited;
+  const PointsCredited({
+    Key? key,
+    required this.paymentTime,
+     required this.coins,
+    required this.barnchName,
+    required this.invoiceId,
+       required this.isCredited,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +38,12 @@ class PointsCredited extends StatelessWidget {
               children: [
                 const PaymentStatusWidget(),
                 const SizedBox(height: 10),
-                const Text(
-                  'Loyalty Credited',
+                 Text(
+                 isCredited? 'Loyalty Credited' : 'Loyalty Debited',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const Text('200',
+                 Text(coins,
                     style:
                         TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 20),
@@ -48,32 +60,32 @@ class PointsCredited extends StatelessWidget {
                   dashGapRadius: 2,
                 ),
                 const SizedBox(height: 20),
-                const Row(
+                Row(
                   children: [
                     Text('Payment Time',
                         style: TextStyle(fontSize: 10, color: Colors.grey)),
                     Spacer(),
-                    Text('25-02-2023, 13:22:16',
+                    Text(paymentTime,
                         style: TextStyle(fontSize: 10, color: Colors.black)),
                   ],
                 ),
                 const SizedBox(height: 9),
-                const Row(
+                 Row(
                   children: [
                     Text('Invoice ID',
                         style: TextStyle(fontSize: 10, color: Colors.grey)),
                     Spacer(),
-                    Text('000085752257',
+                    Text(invoiceId,
                         style: TextStyle(fontSize: 10, color: Colors.black)),
                   ],
                 ),
                 const SizedBox(height: 9),
-                const Row(
+                 Row(
                   children: [
                     Text('Branch',
                         style: TextStyle(fontSize: 10, color: Colors.grey)),
                     Spacer(),
-                    Text('Kakkanad',
+                    Text(barnchName,
                         style: TextStyle(fontSize: 10, color: Colors.black)),
                   ],
                 ),

@@ -1,3 +1,6 @@
+import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/country_code_adapter.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
+import 'package:Yes_Loyalty/testing/profile_edit_testing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
@@ -10,6 +13,7 @@ import 'package:Yes_Loyalty/ui/widgets/password_textfield.dart';
 import 'package:Yes_Loyalty/ui/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -31,6 +35,8 @@ class _SignupScreenState extends State<SignupScreen> {
   var _confirmpasswordErrorText;
   var _nameErrorText;
   bool _formSubmitted = false; // Add this boolean flag
+  String? selectedDialCode = "";
+  String? selectedCountryCode = "";
 
   @override
   void initState() {
@@ -40,6 +46,20 @@ class _SignupScreenState extends State<SignupScreen> {
     _phonecontroller.addListener(_onPhoneChanged);
     _passwordController.addListener(_onPasswordChanged);
     _confirmpasswordcontroller.addListener(_onConfirmPasswordChanged);
+    _loadCountryCodeFromHive();
+  }
+
+  void _loadCountryCodeFromHive() async {
+    // Open the countryCodeBox if not already opened
+    if (countryCodeBox == null) {
+      countryCodeBox = await Hive.box<CountryCodeDB>('countryCodeBox');
+    }
+
+    // Try retrieving the saved country code
+    final countryCodeDB = countryCodeBox.get(0);
+    if (countryCodeDB != null) {
+      selectedDialCode = countryCodeDB.dial_code;
+    }
   }
 
   @override
@@ -149,8 +169,8 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       if (value.isEmpty) {
         _phoneErrorText = 'Phone no is required';
-      } else if (value.length < 10) {
-        _phoneErrorText = 'Phone no must be at least 10 characters long';
+      } else if (value.length < 7) {
+        _phoneErrorText = 'Phone no must be at least 7 characters long';
       } else {
         _phoneErrorText = null;
       }
@@ -184,11 +204,13 @@ class _SignupScreenState extends State<SignupScreen> {
     BlocProvider.of<RegisterBloc>(context).add(RegisterEvent.register(
       name: _namecontroller.text.toString(),
       email: _emailcontroller.text.toString(),
-      phone: _phonecontroller.text.toString(),
-      password: _confirmpasswordcontroller.text.toString(),
+      phone:
+          '+${selectedDialCode.toString()}${_phonecontroller.text.toString()}',
+      password: _passwordController.text.toString(),
       confirmpassword: _confirmpasswordcontroller.text.toString(),
     ));
-
+    print('${_phonecontroller.text.toString()}');
+    print('+${selectedDialCode}${_phonecontroller.text.toString()}');
     setState(() {
       showDots = true;
     });
@@ -221,14 +243,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 initial: (_) {},
                 loading: (_) {},
                 success: (_) {
+                  Future.delayed(Duration(seconds: 2), () async {
+                     context.go('/sign_in'); // Pop back to the sign-in screen
+                  
+                  });
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Registration Successful')),
                   );
                 },
                 failure: (state) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text('Registration Failed')),
+                    SnackBar(content: Text('Registration Failed')),
                   );
                 },
                 validationError: (state) {
@@ -246,6 +272,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   print('Password Error: ${state.passwordError}');
                   print(
                       'Password Confirm Error: ${state.passwordConfirmError}');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Registration Failed')),
+                  );
                 },
               );
             },
@@ -273,6 +302,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Column(
                       children: [
                         NameTextfield(
+                          textstyle: TextStyles.rubikregular16black24w400,
                             errorText: _nameErrorText,
                             textEditingController: _namecontroller,
                             hintText: 'Full Name*'),
@@ -283,10 +313,29 @@ class _SignupScreenState extends State<SignupScreen> {
                           textEditingController: _emailcontroller,
                         ),
                         SizedBox(height: elementPaddingVertical),
-                        NumberTextFieldWithCountry(
-                          errorText: _phoneErrorText,
-                          phoneController: _phonecontroller,
-                        ),
+
+                        ValueListenableBuilder<Box<CountryCodeDB>>(
+                            valueListenable:
+                                Hive.box<CountryCodeDB>('countryCodeBox')
+                                    .listenable(),
+                            builder: (context, box, _) {
+                              final countryCodeDB = box.get(
+                                  0); // Assuming you are using the first entry
+
+                              selectedDialCode =
+                                  countryCodeDB?.dial_code ?? '61';
+                              selectedDialCode =
+                                  countryCodeDB?.dial_code ?? 'AU';
+
+                              return NumberTextFieldWithCountry(
+                                selectedCountryCode: selectedCountryCode,
+                              //  selectedDialCode: selectedDialCode,
+                                errorText: _phoneErrorText,
+                                phoneController: _phonecontroller,
+                              );
+                            }),
+                       
+                       
                         SizedBox(height: elementPaddingVertical),
                         //  Spacer(),
 
@@ -342,6 +391,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       InkWell(
                         onTap: () {
                           context.go("/sign_in");
+                       
                         },
                         child: Text(
                           "Sign in",
@@ -360,3 +410,64 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+
+//  Padding(
+//         padding:  EdgeInsets.only(left: width16),
+//         child:
+
+//         Stack(
+//           children: [
+//             Row(
+//               children: [
+//                 IconButton(
+//                   onPressed: () {
+//                     setState(() {
+//                       isChecked = !isChecked;
+//                     });
+//                   },
+//                   icon: MSHCheckbox(
+//                     size: 20,
+//                     value: isChecked,
+//                     colorConfig:
+//                         MSHColorConfig.fromCheckedUncheckedDisabled(
+//                       checkedColor: Colors.red,
+//                     ),
+//                     style: MSHCheckboxStyle.stroke,
+//                     onChanged: (selected) {
+//                       setState(() {
+//                         isChecked = selected;
+//                       });
+//                     },
+//                   ),
+//                 ),
+//                 SizedBox(width: width203),
+//               ],
+//             ),
+//             const SizedBox(width: 30),
+//             Positioned(
+//               left: 49,
+//               top: 15,
+//               child: Row(
+//                 children: [
+//                   RichText(
+//                     text: TextSpan(
+//                       children: [
+//                         TextSpan(
+//                           text: 'I agree to the  ',
+//                           style:
+//                               TextStyles.rubikregular14grey66w500,
+//                         ),
+//                         TextSpan(
+//                           text: 'Terms of Service',
+//                           style:
+//                               TextStyles.rubikregular14black3Bw500,
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),

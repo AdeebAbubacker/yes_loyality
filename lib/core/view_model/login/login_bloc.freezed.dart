@@ -348,6 +348,7 @@ mixin _$LoginState {
     required TResult Function() loading,
     required TResult Function(Login user) authsuccess,
     required TResult Function(String message) authError,
+    required TResult Function(dynamic Error) validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -356,6 +357,7 @@ mixin _$LoginState {
     TResult? Function()? loading,
     TResult? Function(Login user)? authsuccess,
     TResult? Function(String message)? authError,
+    TResult? Function(dynamic Error)? validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -364,6 +366,7 @@ mixin _$LoginState {
     TResult Function()? loading,
     TResult Function(Login user)? authsuccess,
     TResult Function(String message)? authError,
+    TResult Function(dynamic Error)? validationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -373,6 +376,7 @@ mixin _$LoginState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authsuccess value) authsuccess,
     required TResult Function(_AuthError value) authError,
+    required TResult Function(_ValidationError value) validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -381,6 +385,7 @@ mixin _$LoginState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authsuccess value)? authsuccess,
     TResult? Function(_AuthError value)? authError,
+    TResult? Function(_ValidationError value)? validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -389,6 +394,7 @@ mixin _$LoginState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Authsuccess value)? authsuccess,
     TResult Function(_AuthError value)? authError,
+    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -454,6 +460,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function(Login user) authsuccess,
     required TResult Function(String message) authError,
+    required TResult Function(dynamic Error) validationError,
   }) {
     return initial();
   }
@@ -465,6 +472,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function(Login user)? authsuccess,
     TResult? Function(String message)? authError,
+    TResult? Function(dynamic Error)? validationError,
   }) {
     return initial?.call();
   }
@@ -476,6 +484,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function(Login user)? authsuccess,
     TResult Function(String message)? authError,
+    TResult Function(dynamic Error)? validationError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -491,6 +500,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authsuccess value) authsuccess,
     required TResult Function(_AuthError value) authError,
+    required TResult Function(_ValidationError value) validationError,
   }) {
     return initial(this);
   }
@@ -502,6 +512,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authsuccess value)? authsuccess,
     TResult? Function(_AuthError value)? authError,
+    TResult? Function(_ValidationError value)? validationError,
   }) {
     return initial?.call(this);
   }
@@ -513,6 +524,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Authsuccess value)? authsuccess,
     TResult Function(_AuthError value)? authError,
+    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -568,6 +580,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function(Login user) authsuccess,
     required TResult Function(String message) authError,
+    required TResult Function(dynamic Error) validationError,
   }) {
     return loading();
   }
@@ -579,6 +592,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function(Login user)? authsuccess,
     TResult? Function(String message)? authError,
+    TResult? Function(dynamic Error)? validationError,
   }) {
     return loading?.call();
   }
@@ -590,6 +604,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function(Login user)? authsuccess,
     TResult Function(String message)? authError,
+    TResult Function(dynamic Error)? validationError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -605,6 +620,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authsuccess value) authsuccess,
     required TResult Function(_AuthError value) authError,
+    required TResult Function(_ValidationError value) validationError,
   }) {
     return loading(this);
   }
@@ -616,6 +632,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authsuccess value)? authsuccess,
     TResult? Function(_AuthError value)? authError,
+    TResult? Function(_ValidationError value)? validationError,
   }) {
     return loading?.call(this);
   }
@@ -627,6 +644,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Authsuccess value)? authsuccess,
     TResult Function(_AuthError value)? authError,
+    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -708,6 +726,7 @@ class _$AuthsuccessImpl implements _Authsuccess {
     required TResult Function() loading,
     required TResult Function(Login user) authsuccess,
     required TResult Function(String message) authError,
+    required TResult Function(dynamic Error) validationError,
   }) {
     return authsuccess(user);
   }
@@ -719,6 +738,7 @@ class _$AuthsuccessImpl implements _Authsuccess {
     TResult? Function()? loading,
     TResult? Function(Login user)? authsuccess,
     TResult? Function(String message)? authError,
+    TResult? Function(dynamic Error)? validationError,
   }) {
     return authsuccess?.call(user);
   }
@@ -730,6 +750,7 @@ class _$AuthsuccessImpl implements _Authsuccess {
     TResult Function()? loading,
     TResult Function(Login user)? authsuccess,
     TResult Function(String message)? authError,
+    TResult Function(dynamic Error)? validationError,
     required TResult orElse(),
   }) {
     if (authsuccess != null) {
@@ -745,6 +766,7 @@ class _$AuthsuccessImpl implements _Authsuccess {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authsuccess value) authsuccess,
     required TResult Function(_AuthError value) authError,
+    required TResult Function(_ValidationError value) validationError,
   }) {
     return authsuccess(this);
   }
@@ -756,6 +778,7 @@ class _$AuthsuccessImpl implements _Authsuccess {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authsuccess value)? authsuccess,
     TResult? Function(_AuthError value)? authError,
+    TResult? Function(_ValidationError value)? validationError,
   }) {
     return authsuccess?.call(this);
   }
@@ -767,6 +790,7 @@ class _$AuthsuccessImpl implements _Authsuccess {
     TResult Function(_Loading value)? loading,
     TResult Function(_Authsuccess value)? authsuccess,
     TResult Function(_AuthError value)? authError,
+    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (authsuccess != null) {
@@ -853,6 +877,7 @@ class _$AuthErrorImpl implements _AuthError {
     required TResult Function() loading,
     required TResult Function(Login user) authsuccess,
     required TResult Function(String message) authError,
+    required TResult Function(dynamic Error) validationError,
   }) {
     return authError(message);
   }
@@ -864,6 +889,7 @@ class _$AuthErrorImpl implements _AuthError {
     TResult? Function()? loading,
     TResult? Function(Login user)? authsuccess,
     TResult? Function(String message)? authError,
+    TResult? Function(dynamic Error)? validationError,
   }) {
     return authError?.call(message);
   }
@@ -875,6 +901,7 @@ class _$AuthErrorImpl implements _AuthError {
     TResult Function()? loading,
     TResult Function(Login user)? authsuccess,
     TResult Function(String message)? authError,
+    TResult Function(dynamic Error)? validationError,
     required TResult orElse(),
   }) {
     if (authError != null) {
@@ -890,6 +917,7 @@ class _$AuthErrorImpl implements _AuthError {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authsuccess value) authsuccess,
     required TResult Function(_AuthError value) authError,
+    required TResult Function(_ValidationError value) validationError,
   }) {
     return authError(this);
   }
@@ -901,6 +929,7 @@ class _$AuthErrorImpl implements _AuthError {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authsuccess value)? authsuccess,
     TResult? Function(_AuthError value)? authError,
+    TResult? Function(_ValidationError value)? validationError,
   }) {
     return authError?.call(this);
   }
@@ -912,6 +941,7 @@ class _$AuthErrorImpl implements _AuthError {
     TResult Function(_Loading value)? loading,
     TResult Function(_Authsuccess value)? authsuccess,
     TResult Function(_AuthError value)? authError,
+    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (authError != null) {
@@ -927,5 +957,158 @@ abstract class _AuthError implements LoginState {
   String get message;
   @JsonKey(ignore: true)
   _$$AuthErrorImplCopyWith<_$AuthErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ValidationErrorImplCopyWith<$Res> {
+  factory _$$ValidationErrorImplCopyWith(_$ValidationErrorImpl value,
+          $Res Function(_$ValidationErrorImpl) then) =
+      __$$ValidationErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({dynamic Error});
+}
+
+/// @nodoc
+class __$$ValidationErrorImplCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$ValidationErrorImpl>
+    implements _$$ValidationErrorImplCopyWith<$Res> {
+  __$$ValidationErrorImplCopyWithImpl(
+      _$ValidationErrorImpl _value, $Res Function(_$ValidationErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? Error = freezed,
+  }) {
+    return _then(_$ValidationErrorImpl(
+      Error: freezed == Error
+          ? _value.Error
+          : Error // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ValidationErrorImpl implements _ValidationError {
+  const _$ValidationErrorImpl({this.Error});
+
+  @override
+  final dynamic Error;
+
+  @override
+  String toString() {
+    return 'LoginState.validationError(Error: $Error)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ValidationErrorImpl &&
+            const DeepCollectionEquality().equals(other.Error, Error));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(Error));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
+      __$$ValidationErrorImplCopyWithImpl<_$ValidationErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Login user) authsuccess,
+    required TResult Function(String message) authError,
+    required TResult Function(dynamic Error) validationError,
+  }) {
+    return validationError(Error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Login user)? authsuccess,
+    TResult? Function(String message)? authError,
+    TResult? Function(dynamic Error)? validationError,
+  }) {
+    return validationError?.call(Error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Login user)? authsuccess,
+    TResult Function(String message)? authError,
+    TResult Function(dynamic Error)? validationError,
+    required TResult orElse(),
+  }) {
+    if (validationError != null) {
+      return validationError(Error);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Authsuccess value) authsuccess,
+    required TResult Function(_AuthError value) authError,
+    required TResult Function(_ValidationError value) validationError,
+  }) {
+    return validationError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Authsuccess value)? authsuccess,
+    TResult? Function(_AuthError value)? authError,
+    TResult? Function(_ValidationError value)? validationError,
+  }) {
+    return validationError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Authsuccess value)? authsuccess,
+    TResult Function(_AuthError value)? authError,
+    TResult Function(_ValidationError value)? validationError,
+    required TResult orElse(),
+  }) {
+    if (validationError != null) {
+      return validationError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ValidationError implements LoginState {
+  const factory _ValidationError({final dynamic Error}) = _$ValidationErrorImpl;
+
+  dynamic get Error;
+  @JsonKey(ignore: true)
+  _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

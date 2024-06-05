@@ -14,62 +14,6 @@ part 'register_bloc.freezed.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterState.initial()) {
-    // on<_Register>((event, emit) async {
-    //   emit(state.copyWith(isLoading: true));
-    //   try {
-    //     final response = await RegsiterService.register(
-    //       name: event.name,
-    //       email: event.email,
-    //       phone: event.phone,
-    //       password: event.password,
-    //       password_confirm: event.confirmpassword,
-    //     );
-
-    //     if (response['status'] == 1) {
-    //       // Registration successful
-    //       emit(RegisterState(
-    //         isLoading: false,
-    //         isError: false,
-    //         register: response,
-    //         successorFailure: optionOf(right(response)),
-    //       ));
-    //     } else if (response['status'] == 0) {
-    //       // Validation errors
-    //       var nameError = response['data']['name']?.first;
-    //       var emailError = response['data']['email']?.first;
-    //       var phoneError = response['data']['phone']?.first;
-    //       var passwordError = response['data']['password']?.first;
-    //       var confirmPasswordError = response['data']['confirmPassword']?.first;
-
-    //       emit(RegisterState(
-    //         isLoading: false,
-    //         isError: true,
-    //         register: Register(),
-    //         successorFailure: optionOf(left(MainFailure.clientFailure(message: response['message']))),
-    //         nameError: nameError,
-    //         emailError: emailError,
-    //         phoneError: phoneError,
-    //         passwordError: passwordError,
-    //         confirmPasswordError: confirmPasswordError,
-    //       ));
-    //     } else {
-    //       // Other errors
-    //       emit(RegisterState(
-    //         isLoading: false,
-    //         isError: true,
-    //         register: Register(),
-    //         successorFailure: optionOf(left(MainFailure.clientFailure(message: response['message']))),
-    //       ));
-    //     }
-    //   } catch (e) {
-    //     emit(RegisterState(
-    //       isLoading: false,
-    //       isError: true,
-    //       register: Register(),
-    //       successorFailure: optionOf(left(MainFailure.clientFailure(message: e.toString()))),
-    //     ));
-    //   }
-    // });
 
     on<_Register>((event, emit) async {
       emit(const RegisterState.loading());

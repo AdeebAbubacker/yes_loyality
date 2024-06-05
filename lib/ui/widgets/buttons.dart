@@ -68,7 +68,7 @@ class SolidColorButton extends StatelessWidget {
     final buttonheigth = screenheight * 56 / FigmaConstants.figmaDeviceHeight;
     return SizedBox(
       width: buttonwidth,
-      height: buttonheigth,
+      height: 56,
       child: TextButton(
         onPressed: onPressed,
         style: ButtonStyle(

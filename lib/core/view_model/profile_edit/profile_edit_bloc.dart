@@ -1,5 +1,10 @@
+
+
+import 'package:Yes_Loyalty/core/model/register/register.dart';
+import 'package:Yes_Loyalty/core/view_model/user_details/user_details_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:Yes_Loyalty/core/model/failure/mainfailure.dart';
 import 'package:Yes_Loyalty/core/services/post_service/profile_edit_service.dart';
@@ -23,13 +28,14 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
           register: response,
           successorFailure: optionOf(right(response)),
         ));
-        
+            // Fetch user details when the widget is built
+  
         // ignore: avoid_print
       } catch (e) {
         emit(ProfileEditState(
           isLoading: false,
           isError: true,
-          register: const None(),
+          register: Register(),
           successorFailure:
               optionOf(left(MainFailure.clientFailure(message: e.toString()))),
         ));

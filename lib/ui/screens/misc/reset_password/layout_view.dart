@@ -152,7 +152,7 @@ class ResetPasswordWidget extends StatelessWidget {
           style: TextStyles.rubik16black33w600,
         ),
         SizedBox(height: 13),
-        Textfield(hintText: "Enter your mail"),
+        Textfield(hintText: "Enter your mail",textEditingController: TextEditingController(),),
         SizedBox(height: 22),
         SizedBox(height: 26),
         ColoredButton(text: "Reset Password", onPressed: () {}),

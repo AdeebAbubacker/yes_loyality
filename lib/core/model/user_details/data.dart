@@ -10,7 +10,7 @@ class Data {
 	String? name;
 	String? email;
 	String? phone;
-	dynamic image;
+	String? image;
 	@JsonKey(name: 'role_id') 
 	int? roleId;
 	dynamic branch;
@@ -22,6 +22,7 @@ class Data {
 	int? walletBalance;
 	@JsonKey(name: 'email_verified_at') 
 	dynamic emailVerifiedAt;
+	dynamic mode;
 	int? active;
 	@JsonKey(name: 'created_at') 
 	DateTime? createdAt;
@@ -29,6 +30,14 @@ class Data {
 	DateTime? updatedAt;
 	@JsonKey(name: 'deleted_at') 
 	dynamic deletedAt;
+	@JsonKey(name: 'country_alpha_code') 
+	String? countryAlphaCode;
+	@JsonKey(name: 'country_code') 
+	String? countryCode;
+	@JsonKey(name: 'phone_number') 
+	String? phoneNumber;
+	@JsonKey(name: 'img_url') 
+	String? imgUrl;
 
 	Data({
 		this.id, 
@@ -43,10 +52,15 @@ class Data {
 		this.walletUsed, 
 		this.walletBalance, 
 		this.emailVerifiedAt, 
+		this.mode, 
 		this.active, 
 		this.createdAt, 
 		this.updatedAt, 
 		this.deletedAt, 
+		this.countryAlphaCode, 
+		this.countryCode, 
+		this.phoneNumber, 
+		this.imgUrl, 
 	});
 
 	factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);

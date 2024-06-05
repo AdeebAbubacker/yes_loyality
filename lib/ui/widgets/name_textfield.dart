@@ -1,29 +1,35 @@
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/services.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:flutter/material.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 
 
-
-
-class NameTextfield extends StatelessWidget {
-   NameTextfield({
+class NameTextfield extends StatefulWidget {
+  var errorText;
+  final String? hintText;
+  final bool enabled;
+   TextEditingController textEditingController = TextEditingController();
+  final TextStyle textstyle;
+  NameTextfield({
     super.key,
     required this.hintText,
-    this.textEditingController,
+    required this.textEditingController,
+    required this.textstyle,
     this.errorText,
     this.enabled = true,
   });
-  var errorText;
-  final String hintText;
-  final bool enabled;
-  final TextEditingController? textEditingController;
 
+  @override
+  State<NameTextfield> createState() => _NameTextfieldState();
+}
+
+class _NameTextfieldState extends State<NameTextfield> {
   @override
   Widget build(BuildContext context) {
     double elempaddingHorizontal = elemPaddingHorizontal(context);
     double elempaddingVertical = elemGapVertical(context);
-      // Create an input formatter to accept only strings
+    // Create an input formatter to accept only strings
     final inputFormatter =
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]'));
     return Container(
@@ -33,14 +39,15 @@ class NameTextfield extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(9)),
       ),
       child: TextField(
-        enabled: enabled,
-        controller: textEditingController,
+        enabled: widget.enabled,
+        style: widget.textstyle,
+        controller: widget.textEditingController,
         inputFormatters: [inputFormatter], // Set the input formatter
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(
               horizontal: elempaddingHorizontal, vertical: elempaddingVertical),
-          hintText: hintText,
-          errorText: errorText,
+          hintText: widget.hintText,
+          errorText: widget.errorText,
           border: const OutlineInputBorder(
             borderSide: BorderSide(
               width: 4,
@@ -53,3 +60,6 @@ class NameTextfield extends StatelessWidget {
     );
   }
 }
+
+
+

@@ -89,10 +89,7 @@ class Enter_otp_page extends StatelessWidget {
                   text: 'Verify',
                   onPressed: () {
                     context.go("/success_alert");
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context) {
-                    //     return const EnterOtpVerified();
-                    //   },
+                  
                     // ));
                   }),
               SizedBox(

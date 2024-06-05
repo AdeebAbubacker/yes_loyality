@@ -361,9 +361,9 @@ abstract class _ProfileEdit implements ProfileEditEvent {
 mixin _$ProfileEditState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isError => throw _privateConstructorUsedError;
-  dynamic get register =>
+  Register get register =>
       throw _privateConstructorUsedError; // Change type to dynamic
-  Option<Either<MainFailure, dynamic>> get successorFailure =>
+  Option<Either<MainFailure, Register>> get successorFailure =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -380,8 +380,8 @@ abstract class $ProfileEditStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isError,
-      dynamic register,
-      Option<Either<MainFailure, dynamic>> successorFailure});
+      Register register,
+      Option<Either<MainFailure, Register>> successorFailure});
 }
 
 /// @nodoc
@@ -399,7 +399,7 @@ class _$ProfileEditStateCopyWithImpl<$Res, $Val extends ProfileEditState>
   $Res call({
     Object? isLoading = null,
     Object? isError = null,
-    Object? register = freezed,
+    Object? register = null,
     Object? successorFailure = null,
   }) {
     return _then(_value.copyWith(
@@ -411,14 +411,14 @@ class _$ProfileEditStateCopyWithImpl<$Res, $Val extends ProfileEditState>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      register: freezed == register
+      register: null == register
           ? _value.register
           : register // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Register,
       successorFailure: null == successorFailure
           ? _value.successorFailure
           : successorFailure // ignore: cast_nullable_to_non_nullable
-              as Option<Either<MainFailure, dynamic>>,
+              as Option<Either<MainFailure, Register>>,
     ) as $Val);
   }
 }
@@ -434,8 +434,8 @@ abstract class _$$ProfileEditStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isError,
-      dynamic register,
-      Option<Either<MainFailure, dynamic>> successorFailure});
+      Register register,
+      Option<Either<MainFailure, Register>> successorFailure});
 }
 
 /// @nodoc
@@ -451,7 +451,7 @@ class __$$ProfileEditStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isError = null,
-    Object? register = freezed,
+    Object? register = null,
     Object? successorFailure = null,
   }) {
     return _then(_$ProfileEditStateImpl(
@@ -463,14 +463,14 @@ class __$$ProfileEditStateImplCopyWithImpl<$Res>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      register: freezed == register
+      register: null == register
           ? _value.register
           : register // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Register,
       successorFailure: null == successorFailure
           ? _value.successorFailure
           : successorFailure // ignore: cast_nullable_to_non_nullable
-              as Option<Either<MainFailure, dynamic>>,
+              as Option<Either<MainFailure, Register>>,
     ));
   }
 }
@@ -489,10 +489,10 @@ class _$ProfileEditStateImpl implements _ProfileEditState {
   @override
   final bool isError;
   @override
-  final dynamic register;
+  final Register register;
 // Change type to dynamic
   @override
-  final Option<Either<MainFailure, dynamic>> successorFailure;
+  final Option<Either<MainFailure, Register>> successorFailure;
 
   @override
   String toString() {
@@ -507,14 +507,15 @@ class _$ProfileEditStateImpl implements _ProfileEditState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isError, isError) || other.isError == isError) &&
-            const DeepCollectionEquality().equals(other.register, register) &&
+            (identical(other.register, register) ||
+                other.register == register) &&
             (identical(other.successorFailure, successorFailure) ||
                 other.successorFailure == successorFailure));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isError,
-      const DeepCollectionEquality().hash(register), successorFailure);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, isError, register, successorFailure);
 
   @JsonKey(ignore: true)
   @override
@@ -528,8 +529,8 @@ abstract class _ProfileEditState implements ProfileEditState {
   const factory _ProfileEditState(
       {required final bool isLoading,
       required final bool isError,
-      required final dynamic register,
-      required final Option<Either<MainFailure, dynamic>>
+      required final Register register,
+      required final Option<Either<MainFailure, Register>>
           successorFailure}) = _$ProfileEditStateImpl;
 
   @override
@@ -537,9 +538,9 @@ abstract class _ProfileEditState implements ProfileEditState {
   @override
   bool get isError;
   @override
-  dynamic get register;
+  Register get register;
   @override // Change type to dynamic
-  Option<Either<MainFailure, dynamic>> get successorFailure;
+  Option<Either<MainFailure, Register>> get successorFailure;
   @override
   @JsonKey(ignore: true)
   _$$ProfileEditStateImplCopyWith<_$ProfileEditStateImpl> get copyWith =>

@@ -1,3 +1,4 @@
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
 import 'package:http/http.dart' as http;
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
@@ -21,6 +22,7 @@ class LogoutService {
       );
 
       if (response.statusCode == 200) {
+        UserDetailsBox.clear();
         print(response.body);
         // Successful logout
         print('Logout successful');

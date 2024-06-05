@@ -1,19 +1,29 @@
 import 'package:Yes_Loyalty/core/constants/common.dart';
+import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 
 class Textfield extends StatelessWidget {
+  //  Textfield({
+  //   super.key,
+  //   required this.hintText,
+  //   this.textEditingController,
+  //   this.errorText,
+  //   this.enabled = true,
+  // });
    Textfield({
     super.key,
-    required this.hintText,
-    this.textEditingController,
+     this.hintText,
+  required  this.textEditingController,
+    TextStyle? textstyle,
     this.errorText,
     this.enabled = true,
-  });
+  }) : textstyle = textstyle ?? TextStyles.rubikregular16black24w400;
   var errorText;
-  final String hintText;
+  final String? hintText;
   final bool enabled;
-  final TextEditingController? textEditingController;
+   TextEditingController textEditingController = TextEditingController();
+  final TextStyle textstyle;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +36,7 @@ class Textfield extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(9)),
       ),
       child: TextField(
+           style: textstyle,
         enabled: enabled,
         controller: textEditingController,
         decoration: InputDecoration(
