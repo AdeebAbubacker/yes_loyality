@@ -34,7 +34,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  ///-------------Register Adapter----------------------------
+  ///-------------Register Adapter----
 
   Hive.registerAdapter(SelectedBranchDBAdapter());
   Hive.registerAdapter(BranchListDBAdapter());
