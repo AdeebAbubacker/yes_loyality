@@ -281,6 +281,11 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: const Color(0xFF333333),
   );
+  static final TextStyle rubik18greyw500 = regular.copyWith(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: const Color(0xFF777777),
+  );
   static final TextStyle rubik18whiteFFw600 = regular.copyWith(
     fontSize: 18,
     fontWeight: FontWeight.w600,

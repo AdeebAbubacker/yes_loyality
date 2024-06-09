@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/ui/animations/offer_shimmer.dart';
+import 'package:Yes_Loyalty/ui/screens/settings/support/support_screen.dart';
 import 'package:Yes_Loyalty/ui/screens/settings/user/user_settings.dart';
+import 'package:Yes_Loyalty/ui/widgets/appbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
@@ -74,33 +77,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.only(left: 30),
-          child: Text(
-            "Settings",
-            style: TextStyles.ibm20black77w700,
-          ),
-        ),
         const SizedBox(height: 10),
         SettingsContent(
             description: 'User Settings',
-            icon: Icons.settings,
+            icon: SvgPicture.asset('assets/user_settings.svg'),
             onTap: () {
               print("sss");
-              context.push("/user_settings");
-           
+
+            navigateToUserSettings(context);
             }),
         SettingsContent(
             description: 'Get Support',
-            icon: Icons.support,
+            icon: SvgPicture.asset('assets/support_settings.svg'),
             onTap: () {
-              print("sss");
+             navigateToGetSupport(context);
               //  context.push("/user_signup");
             }),
         SettingsContent(
             description: 'Privacy Policy',
-            icon: Icons.privacy_tip,
+            icon: SvgPicture.asset('assets/privacy_settings.svg'),
             onTap: () {
               setState(() {
                 _launched = _launchInBrowser(privacyLink);
@@ -111,18 +106,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         //ccc
         SettingsContent(
           description: 'Terms and conditions',
-          icon: Icons.app_blocking,
+          icon: SvgPicture.asset('assets/terms&c.svg'),
           onTap: () {
             setState(() {
               _launched = _launchInBrowser(termsandService);
             });
           },
         ),
-        SettingsContent(
+        ApppVersionContent(
           description: 'App Version',
-          icon: Icons.app_blocking,
+          icon: SvgPicture.asset('assets/app_version_settings.svg'),
           onTap: () {
-           //  context.push("/testing");
+            //  context.push("/testing");
           },
         ),
       ],
@@ -155,16 +150,51 @@ class SettingsContent extends StatelessWidget {
                 padding: EdgeInsets.only(left: 30, right: 5),
                 child: Row(
                   children: [
-                    Icon(
-                      icon,
-                      color: const Color.fromARGB(168, 244, 67, 54),
-                      size: 30,
-                    ),
+                    icon,
                     SizedBox(width: 30),
-                    Text(description),
+                    Text(description, style: TextStyles.rubik16black33w400),
                   ],
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ApppVersionContent extends StatelessWidget {
+  final icon;
+  final description;
+  final VoidCallback onTap;
+  const ApppVersionContent({
+    super.key,
+    this.icon,
+    this.description,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: EdgeInsets.only(top: 24, bottom: 24),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 30, right: 5),
+                child: icon,
+              ),
+              SizedBox(width: 30),
+              Expanded(
+                child: Text(description, style: TextStyles.rubik16black33w400),
+              ),
+              Text('V.1.0.0', style: TextStyles.rubik16black33w400),
+              SizedBox(width: 20),
             ],
           ),
         ),

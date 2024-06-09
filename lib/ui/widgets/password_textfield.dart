@@ -1,8 +1,10 @@
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class PassWordTextfield extends StatefulWidget {
+  final FocusNode focusNode;
     final String hintText;
   final errorText;
    TextEditingController textEditingController = TextEditingController();
@@ -11,6 +13,7 @@ class PassWordTextfield extends StatefulWidget {
     super.key,
     required this.hintText,
  required   this.textEditingController,
+ required this.focusNode,
     this.errorText,
   });
 
@@ -30,6 +33,7 @@ class _PassWordTextfieldState extends State<PassWordTextfield> {
       width: double.infinity,
      // height: 57,
       child: TextField(
+        focusNode: widget.focusNode,
         controller: widget.textEditingController,
         obscureText: _obscureText,
         style: TextStyles.rubikregular16black24w400,

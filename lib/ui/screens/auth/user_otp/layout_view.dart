@@ -88,9 +88,8 @@ class Enter_otp_page extends StatelessWidget {
               ColoredButton(
                   text: 'Verify',
                   onPressed: () {
-                    context.go("/success_alert");
-                  
-                    // ));
+                    
+                
                   }),
               SizedBox(
                 height: sizedBoxHeight6,

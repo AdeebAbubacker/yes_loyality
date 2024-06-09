@@ -1,6 +1,7 @@
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
+import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Version 1.0.2",
+                  "Version 1.0.0",
                   style: TextStyles.rubikregular14black3B,
                 ),
                 SizedBox(height: height8),
@@ -59,14 +60,12 @@ class SplashScreen extends StatelessWidget {
     final String? accessToken = await GetSharedPreferences.getAccessToken();
     if (accessToken != null) {
       Future.delayed(const Duration(seconds: 3), () {
-        context
-            .push('/home'); // Assuming '/home' is the route for the home screen
+       return navigateToHomeCleared(context);
       });
     } else {
       // If no access token, navigate to sign-in screen after delay
       Future.delayed(const Duration(seconds: 3), () {
-        context.go('/sign_in');
+        return navigateTosiginCleared(context);
       });
-    }
-  }
+    }  }
 }

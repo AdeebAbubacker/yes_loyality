@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/country_code_adapter.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/branch_list_box%20copy.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
+import 'package:Yes_Loyalty/core/db/hive_db/boxes/selected_branch_box.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
+import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/core/view_model/user_details/user_details_bloc.dart';
-import 'package:Yes_Loyalty/testing/profile_edit_testing.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,40 +41,39 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   bool _isEditable = false;
   final TextEditingController namecontroller = TextEditingController();
-  final TextEditingController addrresscontroller = TextEditingController();
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController phonecontroller = TextEditingController();
+    final FocusNode namefocusNode = FocusNode();
+  final FocusNode emailfocusNode  = FocusNode();
+  final FocusNode phonefocusNode = FocusNode();
   String? fileName = '';
   String? filePath = '';
   bool myVisibility = false;
   String? selectedDialCode = "+61";
   String? selectedCountryCode = "AU";
-
+  var _emailErrorText;
   var _phoneErrorText;
+  var _nameErrorText;
+
   bool _formSubmitted = false; // Add this boolean flag
   late final ValueNotifier<UserDetailsDB?> _userDetailsNotifier;
+  late final ValueNotifier<CountryCodeDB?> _countrucodeNotifier;
   dynamic img_url;
 
   @override
   void initState() {
     super.initState();
-
+    _loadCountryCode();
     _userDetailsNotifier = ValueNotifier<UserDetailsDB?>(null);
+    _countrucodeNotifier = ValueNotifier<CountryCodeDB?>(null);
     phonecontroller.addListener(_onPhoneChanged);
-    _initHive();
-  }
-
-  Future<void> _initHive() async {
-    // Open the Hive box
-    countryCodeBox = await Hive.openBox<CountryCodeDB>('countryCodeBox');
-    // Load user details from Hive after the box is opened
     _loadDataFromHive(UserDetailsBox);
-    // Load country code after the box is opened
+    _loadCountryDataFromHive(countryCodeBox);
   }
 
-  void _loadDataFromHive(UserDetailsBox) async {
+  _loadDataFromHive(UserDetailsBox) async {
     final customerId = await GetSharedPreferences.getCustomerId();
-    final userDetails = UserDetailsBox.get(customerId);
+    UserDetailsDB userDetails = UserDetailsBox.get(0);
     if (userDetails != null) {
       // Update the text controllers with data from userDetails
       namecontroller.text = userDetails.name;
@@ -81,6 +83,25 @@ class _ProfileEditState extends State<ProfileEdit> {
     }
     setState(() {
       _userDetailsNotifier.value = userDetails;
+    });
+  }
+
+  _loadCountryDataFromHive(countryCodeBox) async {
+    CountryCodeDB codeDB = countryCodeBox.get(0);
+    if (codeDB != null) {
+      setState(() {
+        selectedDialCode = codeDB.dial_code;
+        selectedCountryCode = codeDB.country_code;
+        _countrucodeNotifier.value = codeDB;
+      });
+    }
+  }
+
+  Future<void> _loadCountryCode() async {
+    String? countryCode = await GetSharedPreferences.getCountrycodes();
+
+    setState(() {
+      selectedCountryCode = countryCode ?? 'AU';
     });
   }
 
@@ -97,29 +118,56 @@ class _ProfileEditState extends State<ProfileEdit> {
     }
   }
 
-  void _openFilePicker() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+  void _openFilePicker(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image, // Only allow image files
+    );
 
     if (result != null) {
-      setState(() {
-        filePath = result.files.single.path!;
-        fileName = basename(filePath!);
+      String? selectedFilePath = result.files.single.path;
+      String? selectedFileName = basename(selectedFilePath!);
 
-        print("Selected file: $fileName");
+      // Validate the file type (ensure it's an image file)
+      if (!_isValidImageFile(selectedFileName)) {
+        showCustomToast(
+            context, 'Please select a valid image file (PNG or JPEG)', 200);
+        return; // Exit early if the file type is invalid
+      }
+
+      setState(() {
+        filePath = selectedFilePath;
+        fileName = selectedFileName;
       });
+
+      print("Selected file: $fileName");
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Invalid image format')));
     }
+  }
+
+  bool _isValidImageFile(String fileName) {
+    String extension = fileName.split('.').last.toLowerCase();
+    return extension == 'png' || extension == 'jpeg' || extension == 'jpg';
   }
 
   void _validatePhone(String value) {
     setState(() {
       if (value.isEmpty) {
         _phoneErrorText = 'Phone no is required';
-      } else if (value.length < 10) {
-        _phoneErrorText = 'Phone no must be at least 10 characters long';
-      } else {
+      }  else {
         _phoneErrorText = null;
       }
     });
+  }
+
+  Future<void> _saveCountryCodeToHive(
+      String dialCode, String countryCode) async {
+    final box = await Hive.openBox<CountryCodeDB>('countryCodeBox');
+    final countryCodeDB =
+        CountryCodeDB(dial_code: dialCode, country_code: countryCode);
+    await box.put(0, countryCodeDB);
+    print("Saved to Hive: $dialCode, $countryCode"); // Debug print
   }
 
   void _submitForm(BuildContext context) async {
@@ -127,30 +175,8 @@ class _ProfileEditState extends State<ProfileEdit> {
       context
           .read<UserDetailsBloc>()
           .add(const UserDetailsEvent.fetchUserDetails());
-      BlocListener<UserDetailsBloc, UserDetailsState>(
-          listener: (context, state) async {
-        setState(() async {
-          UserDetailsBox.put(
-            await GetSharedPreferences.getCustomerId(),
-            UserDetailsDB(
-              customer_id: state.userDetails.data?.customerId.toString(),
-              email: state.userDetails.data!.email.toString(),
-              image: state.userDetails.data?.imgUrl.toString(),
-              name: state.userDetails.data!.name.toString(),
-              phone: state.userDetails.data!.phoneNumber.toString(),
-              wallet_balance: state.userDetails.data!.walletBalance.toString(),
-              wallet_total: state.userDetails.data!.walletTotal.toString(),
-              wallet_used: state.userDetails.data!.walletUsed.toString(),
-            ),
-          );
-        });
-      });
     });
 
-    showCustomToast(
-      context, "Profile updated successfully!",
-      MediaQuery.of(context).size.height * 0.7, // Adjust vertical position here
-    );
     // Set form submitted and validate phone
     setState(() {
       _formSubmitted =
@@ -165,53 +191,53 @@ class _ProfileEditState extends State<ProfileEdit> {
         (filePath!.toLowerCase().endsWith('.jpg') ||
             filePath!.toLowerCase().endsWith('.jpeg') ||
             filePath!.toLowerCase().endsWith('.png'))) {
-      file = File(filePath!);
-      await UserDetailsBox.put(
-        customerId,
-        UserDetailsDB(
-          customer_id: customerId,
-          name: namecontroller.text,
-          email: emailcontroller.text,
-          phone: phonecontroller.text,
-        ),
-      );
+      // file = File(filePath!);
+      // await UserDetailsBox.put(
+      //   0,
+      //   UserDetailsDB(
+      //     customer_id: customerId,
+      //     name: namecontroller.text,
+      //     email: emailcontroller.text,
+      //     phone: phonecontroller.text,
+      //   ),
+      // );
       context.read<ProfileEditBloc>().add(
             ProfileEditEvent.profileEdit(
               image: file,
               name: namecontroller.text,
               email: emailcontroller.text,
-              phone: phonecontroller.text,
+              phone: '+${selectedDialCode}${phonecontroller.text}',
             ),
           );
     } else {
-      await UserDetailsBox.put(
-        customerId,
-        UserDetailsDB(
-          customer_id: customerId,
-          name: namecontroller.text,
-          email: emailcontroller.text,
-          phone: phonecontroller.text,
-        ),
-      );
+      // await UserDetailsBox.put(
+      //   0,
+      //   UserDetailsDB(
+      //     customer_id: customerId,
+      //     name: namecontroller.text,
+      //     email: emailcontroller.text,
+      //     phone: phonecontroller.text,
+      //   ),
+      // );
       context.read<ProfileEditBloc>().add(
             ProfileEditEvent.profileEdit(
               name: namecontroller.text,
               email: emailcontroller.text,
-              phone: phonecontroller.text,
+              phone: '+${selectedDialCode}${phonecontroller.text}',
             ),
           );
     }
 
-    await UserDetailsBox.put(
-      customerId,
-      UserDetailsDB(
-        customer_id: customerId,
-        name: namecontroller.text,
-        email: emailcontroller.text,
-        phone: phonecontroller.text,
-        image: file,
-      ),
-    );
+    // await UserDetailsBox.put(
+    //   0,
+    //   UserDetailsDB(
+    //     customer_id: customerId,
+    //     name: namecontroller.text,
+    //     email: emailcontroller.text,
+    //     phone: phonecontroller.text,
+    //     image: file,
+    //   ),
+    // );
 
     // Update state synchronously
     setState(() {
@@ -243,336 +269,378 @@ class _ProfileEditState extends State<ProfileEdit> {
     double height86 = screenheight * 86 / FigmaConstants.figmaDeviceHeight;
     EdgeInsets outerpadding = OuterPaddingConstant(context);
 
-    return WillPopScope(
-      onWillPop: _onBackPressed,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Column(
-                  children: [
-                    SizedBox(height: height23),
-                    HomeAppBar(
-                      isthereback: true,
-                      isthereQr: false,
-                      onBackTap: _onBackPressed,
-                    ),
-                    SizedBox(height: height23),
-                    Center(
-                      child: Padding(
-                        padding: outerpadding,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: !_isEditable
-                                  ? null
-                                  : () {
-                                      _openFilePicker();
-                                    },
-                              customBorder: const CircleBorder(),
-                              child: CircleAvatar(
-                                radius: 40,
-                                backgroundColor:
-                                    const Color.fromARGB(255, 235, 234, 234),
-                                child: filePath != null && filePath!.isNotEmpty
-                                    ? ClipOval(
-                                        child: Image.file(
-                                          File(filePath!),
-                                          fit: BoxFit.cover,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<UserDetailsBloc, UserDetailsState>(
+          listener: (context, state) async {
+            if (state.userDetails.data != null) {
+              UserDetailsBox.put(
+                0,
+                UserDetailsDB(
+                  customer_id: state.userDetails.data?.customerId,
+                  email: state.userDetails.data!.email.toString(),
+                  image: state.userDetails.data?.imgUrl.toString(),
+                  name: state.userDetails.data!.name.toString(),
+                  phone: state.userDetails.data!.phoneNumber.toString(),
+                  wallet_balance:
+                      state.userDetails.data!.walletBalance.toString(),
+                  wallet_total: state.userDetails.data!.walletTotal.toString(),
+                  wallet_used: state.userDetails.data!.walletUsed.toString(),
+                ),
+              );
+            }
+            if (state.userDetails.data != null) {
+              // Update the Hive database with new user details
+              await countryCodeBox.put(
+                0,
+                CountryCodeDB(
+                  country_code:
+                      state.userDetails.data!.countryAlphaCode.toString(),
+                  dial_code:
+                      state.userDetails.data!.countryAlphaCode.toString(),
+                ),
+              );
 
-                                          width:
-                                              77, // Adjusted to fit within the padding
-                                          height:
-                                              77, // Adjusted to fit within the padding
-                                        ),
-                                      )
-                                    : (img_url != null && img_url.isNotEmpty
+              print("Data updated in Hive:");
+              print("Country Code: //${state.userDetails.data!.countryCode}");
+              print("Dial Code: ${state.userDetails.data!.countryAlphaCode}");
+            }
+          },
+        ),
+        BlocListener<ProfileEditBloc, ProfileEditState>(
+          listener: (context, state) {
+            state.maybeMap(
+              loading: (_) {},
+              success: (successState) {
+                context
+                    .read<UserDetailsBloc>()
+                    .add(UserDetailsEvent.fetchUserDetails());
+
+                showCustomToast(
+                  context, "Profile updated successfully!",
+                  MediaQuery.of(context).size.height *
+                      0.7, // Adjust vertical position here
+                );
+              },
+              failure: (failureState) {
+                // Show failure message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(failureState.error)),
+                );
+              },
+              validationError: (validationErrorState) {
+                setState(() {
+                  _nameErrorText = validationErrorState.nameError;
+                  _emailErrorText = validationErrorState.emailError;
+                  _phoneErrorText = validationErrorState.phoneError;
+                });
+                String errorMessage;
+                if (_emailErrorText != null && _emailErrorText.isNotEmpty) {
+                  errorMessage = _emailErrorText;
+                } else if (_nameErrorText != null &&
+                    _nameErrorText.isNotEmpty) {
+                  errorMessage = _nameErrorText;
+                } else if (_phoneErrorText != null &&
+                    _phoneErrorText.isNotEmpty) {
+                  errorMessage = _phoneErrorText;
+                } else {
+                  errorMessage = "OOPS SOMETHING WENT WRONG";
+                }
+
+                showCustomToast(
+                  context,
+                  errorMessage,
+                  MediaQuery.of(context).size.height *
+                      0.7, // Adjust vertical position here
+                );
+              },
+              orElse: () {},
+            );
+          },
+        ),
+        BlocListener<LogoutBloc, LogoutState>(
+          listener: (context, state) async {
+            if (state.isError) {
+              showCustomToast(context, 'Failed to logout',
+                  MediaQuery.of(context).size.height * 0.7);
+            } else if (!state.isLoading && state.statusCode != 0) {
+              await GetSharedPreferences.deleteAccessToken();
+              await selectedBranchBox.clear();
+              await UserDetailsBox.clear();
+              await countryCodeBox.clear();
+              if (context.mounted) {
+              return  navigateTosiginCleared(context);
+              }
+            }
+          },
+        ),
+      ],
+      child: WillPopScope(
+        onWillPop: _onBackPressed,
+        child: GestureDetector(
+          onTap: (){
+            namefocusNode.unfocus();
+            emailfocusNode.unfocus();
+            phonefocusNode.unfocus();
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Column(
+                      children: [
+                        SizedBox(height: height23),
+                        HomeAppBar(
+                          isthereback: true,
+                          isthereQr: false,
+                          onBackTap: _onBackPressed,
+                        ),
+                        SizedBox(height: height23),
+                        Center(
+                          child: Padding(
+                            padding: outerpadding,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: !_isEditable
+                                      ? null
+                                      : () {
+                                          _openFilePicker(context);
+                                        },
+                                  customBorder: const CircleBorder(),
+                                  child: CircleAvatar(
+                                    radius: 40,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 235, 234, 234),
+                                    child: filePath != null &&
+                                            filePath!.isNotEmpty
                                         ? ClipOval(
-                                            child: Image.network(
-                                              img_url,
+                                            child: Image.file(
+                                              File(filePath!),
                                               fit: BoxFit.cover,
+          
                                               width:
                                                   77, // Adjusted to fit within the padding
                                               height:
                                                   77, // Adjusted to fit within the padding
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null) {
-                                                  return child;
-                                                }
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    value: loadingProgress
-                                                                .expectedTotalBytes !=
-                                                            null
-                                                        ? loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!
-                                                        : null,
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder: (context, error,
-                                                      stackTrace) =>
-                                                  const Icon(
-                                                Icons.person,
-                                                color: Colors.grey,
-                                                size: 30,
-                                              ),
                                             ),
                                           )
-                                        : ClipOval(
-                                            child: Container(
-                                              color: const Color.fromARGB(
-                                                  255, 235, 234, 234),
-                                              child: const Icon(
-                                                Icons.person,
-                                                size: 59,
-                                                color: Colors.grey,
-                                              ),
+                                        : (img_url != null && img_url.isNotEmpty
+                                            ? ClipOval(
+                                                child: Image.network(
+                                                  img_url,
+                                                  fit: BoxFit.cover,
+                                                  width:
+                                                      77, // Adjusted to fit within the padding
+                                                  height:
+                                                      77, // Adjusted to fit within the padding
+                                                  loadingBuilder: (context, child,
+                                                      loadingProgress) {
+                                                    if (loadingProgress == null) {
+                                                      return child;
+                                                    }
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                loadingProgress
+                                                                    .expectedTotalBytes!
+                                                            : null,
+                                                      ),
+                                                    );
+                                                  },
+                                                  errorBuilder: (context, error,
+                                                          stackTrace) =>
+                                                      const Icon(
+                                                    Icons.person,
+                                                    color: Colors.grey,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                              )
+                                            : ClipOval(
+                                                child: Container(
+                                                  color: const Color.fromARGB(
+                                                      255, 235, 234, 234),
+                                                  child: const Icon(
+                                                    Icons.person,
+                                                    size: 59,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              )),
+                                  ),
+                                ),
+                                SizedBox(height: height8),
+                                Text(
+                                  namecontroller.text,
+                                  style: TextStyles.rubik16red23w700,
+                                ),
+                                Column(
+                                    children: _isEditable
+                                        ? [
+                                            SizedBox(height: height22),
+                                            NameTextfield(
+                                              focusNode: namefocusNode,
+                                              hintText: '',
+                                              textstyle: TextStyle(),
+                                              textEditingController:
+                                                  namecontroller,
+                                              errorText: _nameErrorText,
                                             ),
-                                          )),
-                              ),
+                                            SizedBox(height: height22),
+                                            Textfield(
+                                              focusNode: emailfocusNode,
+                                              textEditingController:
+                                                  emailcontroller,
+                                              errorText: _emailErrorText,
+                                            ),
+                                            SizedBox(height: height22),
+                                            NumberTextFieldWithCountry(
+                                              focusNode: phonefocusNode,
+                                              selectedCountryCode:
+                                                  selectedCountryCode,
+                                              selectedDialCode:
+                                                  selectedCountryCode,
+                                              phoneController: phonecontroller,
+                                              onCountryChanged: (String
+                                                      newDialCode,
+                                                  String newCountryCode) async {
+                                                setState(() {
+                                                  selectedDialCode = newDialCode;
+                                                  selectedCountryCode =
+                                                      newCountryCode;
+                                                });
+                                              },
+                                              errorText: _phoneErrorText,
+                                            ),
+                                            SizedBox(height: height86),
+                                          ]
+                                        : [
+                                            SizedBox(height: height22),
+                                            NameTextfield(
+                                              focusNode: namefocusNode,
+                                              hintText: '',
+                                              textstyle:
+                                                  TextStyles.rubikregular16hint,
+                                              enabled: false,
+                                              textEditingController:
+                                                  namecontroller,
+                                              errorText: _nameErrorText,
+                                            ),
+                                            SizedBox(height: height22),
+                                            Textfield(
+                                              focusNode: emailfocusNode,
+                                              textstyle:
+                                                  TextStyles.rubikregular16hint,
+                                              textEditingController:
+                                                  emailcontroller,
+                                              errorText: _emailErrorText,
+                                              enabled: false,
+                                            ),
+                                            SizedBox(height: height22),
+                                            NumberTextFieldWithCountry(
+                                              focusNode: phonefocusNode,
+                                              enabled: false,
+                                              selectedCountryCode:
+                                                  selectedCountryCode,
+                                              selectedDialCode:
+                                                  selectedCountryCode,
+                                              phoneController: phonecontroller,
+                                              onCountryChanged: (String
+                                                      newDialCode,
+                                                  String newCountryCode) async {
+                                                setState(() {
+                                                  selectedDialCode = newDialCode;
+                                                  selectedCountryCode =
+                                                      newCountryCode;
+                                                });
+                                              },
+                                              errorText: _phoneErrorText,
+                                            ),
+                                            SizedBox(height: height86),
+                                          ]),
+                              ],
                             ),
-                            SizedBox(height: height8),
-                            Text(
-                              namecontroller.text,
-                              style: TextStyles.rubik16red23w700,
-                            ),
-                            Column(
-                                children: _isEditable
-                                    ? [
-                                        SizedBox(height: height22),
-                                        NameTextfield(
-                                          hintText: '',
-                                          textstyle: TextStyle(),
-                                          textEditingController: namecontroller,
-                                        ),
-                                        SizedBox(height: height22),
-                                        Textfield(
-                                          textEditingController:
-                                              emailcontroller,
-                                        ),
-                                        SizedBox(height: height22),
-                                        NumberTextFieldWithCountry(
-                                            selectedCountryCode: 'AU',
-                                            selectedDialCode: '+61',
-                                            phoneController: phonecontroller),
-                                        // ValueListenableBuilder<
-                                        //     Box<CountryCodeDB>>(
-                                        //   valueListenable:
-                                        //       Hive.box<CountryCodeDB>(
-                                        //               'countryCodeBox')
-                                        //           .listenable(),
-                                        //   builder: (context, box, _) {
-                                        //     final countryCodeDB = box.get(0);
-
-                                        //     final dialCode =
-                                        //         countryCodeDB?.dial_code ??
-                                        //             'AU';
-                                        //     final countryCode =
-                                        //         countryCodeDB?.country_code ??
-                                        //             'AU';
-                                        //     return NumberTextFieldWithCountry(
-                                        //       selectedCountryCode: dialCode,
-                                        //       selectedDialCode: dialCode,
-                                        //       errorText: _phoneErrorText,
-                                        //       phoneController: phonecontroller,
-                                        //     );
-                                        //   },
-                                        // ),
-                                        SizedBox(height: height86),
-                                      ]
-                                    : [
-                                        SizedBox(height: height22),
-                                        NameTextfield(
-                                          hintText: '',
-                                          textstyle:
-                                              TextStyles.rubikregular16hint,
-                                          enabled: false,
-                                          textEditingController: namecontroller,
-                                        ),
-                                        SizedBox(height: height22),
-                                        Textfield(
-                                          textstyle:
-                                              TextStyles.rubikregular16hint,
-                                          textEditingController:
-                                              emailcontroller,
-                                          enabled: false,
-                                        ),
-                                        SizedBox(height: height22),
-                                        NumberTextFieldWithCountry(
-                                            enabled: false,
-                                            selectedCountryCode: 'AU',
-                                            selectedDialCode: '+61',
-                                            phoneController: phonecontroller),
-                                        // ValueListenableBuilder<
-                                        //     Box<CountryCodeDB>>(
-                                        //   valueListenable:
-                                        //       Hive.box<CountryCodeDB>(
-                                        //               'countryCodeBox')
-                                        //           .listenable(),
-                                        //   builder: (context, box, _) {
-                                        //     final countryCodeDB = box.get(0);
-
-                                        //     final dialCode =
-                                        //         countryCodeDB?.dial_code ??
-                                        //             'AU';
-                                        //     final countryCode =
-                                        //         countryCodeDB?.country_code ??
-                                        //             'AU';
-                                        //     return NumberTextFieldWithCountry(
-                                        //       enabled: false,
-                                        //       selectedCountryCode: dialCode,
-                                        //       selectedDialCode: dialCode,
-                                        //       errorText: _phoneErrorText,
-                                        //       phoneController: phonecontroller,
-                                        //     );
-                                        //   },
-                                        // ),
-                                        SizedBox(height: height86),
-                                      ]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Padding(
+                        padding: outerpadding,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            _isEditable
+                                ? SolidColorButton(
+                                    text: 'Save',
+                                    onPressed: () async {
+                                      _submitForm(context);
+                                    },
+                                    backgroundColor: const Color(0xFF2DC962),
+                                    borderColor: const Color(0xFF2DC962),
+                                  )
+                                : SolidColorButton(
+                                    text: 'Edit Profile',
+                                    onPressed: () {
+                                      // Hide log out button when update profile button is clicked
+                                      setState(() {
+                                        _isEditable = !_isEditable;
+                                      });
+                                      // Put your update profile logic here
+                                    },
+                                    backgroundColor: const Color(0xFF1B92FF),
+                                    borderColor: const Color(0xFF1B92FF),
+                                  ),
+                            const SizedBox(height: 12),
+                            Visibility(
+                                visible: !_isEditable,
+                                child: ColorlessButton(
+                                  onPressed: () async {
+                                    try {
+                                   
+                                      context
+                                          .read<LogoutBloc>()
+                                          .add(const LogoutEvent.logout());
+          
+                                    
+                                    } catch (e) {
+                                      // Handle any errors that occur during the asynchronous operations
+                                      print('Error during logout: $e');
+                                      showCustomToast(
+                                          context,
+                                          'Failed to log out. Please try again.',
+                                          MediaQuery.of(context).size.height *
+                                              0.7);
+                                    }
+                                  },
+                                  text: 'Log out',
+                                )),
+                            const SizedBox(height: 34)
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Padding(
-                    padding: outerpadding,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        _isEditable
-                            ? MultiBlocListener(
-                                listeners: [
-                                  BlocListener<ProfileEditBloc,
-                                      ProfileEditState>(
-                                    listener: (context, state) {
-                                      if (state.register != null) {
-                                        // Call UserDetailsBloc to fetch user details
-                                      }
-                                    },
-                                  ),
-                                  BlocListener<UserDetailsBloc,
-                                      UserDetailsState>(
-                                    listener: (context, state) async {
-                                      if (state.userDetails.data != null) {
-                                        Future.delayed(Duration(seconds: 2),
-                                            () async {
-                                          UserDetailsBox.put(
-                                            await GetSharedPreferences
-                                                .getCustomerId(),
-                                            UserDetailsDB(
-                                              customer_id: state
-                                                  .userDetails.data?.customerId,
-                                              email: state
-                                                  .userDetails.data!.email
-                                                  .toString(),
-                                              image: state
-                                                  .userDetails.data?.imgUrl
-                                                  .toString(),
-                                              name: state.userDetails.data!.name
-                                                  .toString(),
-                                              phone: state
-                                                  .userDetails.data!.phoneNumber
-                                                  .toString(),
-                                              wallet_balance: state.userDetails
-                                                  .data!.walletBalance
-                                                  .toString(),
-                                              wallet_total: state
-                                                  .userDetails.data!.walletTotal
-                                                  .toString(),
-                                              wallet_used: state
-                                                  .userDetails.data!.walletUsed
-                                                  .toString(),
-                                            ),
-                                          );
-                                        });
-                                      }
-                                      if (state.userDetails.data != null) {
-                                        // Update the Hive database with new user details
-                                        await countryCodeBox.put(
-                                          0,
-                                          CountryCodeDB(
-                                            country_code: state
-                                                .userDetails.data!.countryCode
-                                                .toString(),
-                                            dial_code: state.userDetails.data!
-                                                .countryAlphaCode
-                                                .toString(),
-                                          ),
-                                        );
-
-                                        print("Data updated in Hive:");
-                                        print(
-                                            "Country Code: ${state.userDetails.data!.countryCode}");
-                                        print(
-                                            "Dial Code: ${state.userDetails.data!.countryAlphaCode}");
-                                      }
-                                    },
-                                  ),
-
-                                  // Add more BlocListeners if needed
-                                ],
-                                child: SolidColorButton(
-                                  text: 'Save',
-                                  onPressed: () async {
-                                    _submitForm(context);
-                                  },
-                                  backgroundColor: const Color(0xFF2DC962),
-                                  borderColor: const Color(0xFF2DC962),
-                                ),
-                              )
-                            : SolidColorButton(
-                                text: 'Edit Profile',
-                                onPressed: () {
-                                  // Hide log out button when update profile button is clicked
-                                  setState(() {
-                                    _isEditable = !_isEditable;
-                                  });
-                                  // Put your update profile logic here
-                                },
-                                backgroundColor: const Color(0xFF1B92FF),
-                                borderColor: const Color(0xFF1B92FF),
-                              ),
-                        const SizedBox(height: 12),
-                        Visibility(
-                          visible: !_isEditable,
-                          child: ColorlessButton(
-                            onPressed: () async {
-                              context
-                                  .read<LogoutBloc>()
-                                  .add(const LogoutEvent.logout());
-                              await GetSharedPreferences.deleteAccessToken();
-                              await UserDetailsBox.clear();
-                              // ignore: use_build_context_synchronously
-                              context.go("/sign_in");
-                            },
-                            text: 'Log out',
-                          ),
-                        ),
-                        const SizedBox(height: 34)
-                      ],
-                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

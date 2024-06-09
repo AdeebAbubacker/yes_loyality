@@ -2,6 +2,10 @@ import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/countr
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/user_details_adapter/user_details_adapter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
+import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
+import 'package:Yes_Loyalty/testing/final_testing.dart';
+import 'package:Yes_Loyalty/testing/profile_edit.dart';
+
 import 'package:Yes_Loyalty/ui/animations/point_details_shimmer.dart';
 import 'package:Yes_Loyalty/ui/animations/profile_shimmer.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
@@ -114,7 +118,7 @@ class _ProfileSectionState extends State<ProfileSection> {
     BlocListener<UserDetailsBloc, UserDetailsState>(
       listener: (context, state) async {
         await UserDetailsBox.put(
-          await GetSharedPreferences.getCustomerId(),
+          0,
           UserDetailsDB(
             customer_id: state.userDetails.data?.customerId.toString(),
             email: state.userDetails.data!.email.toString(),
@@ -124,8 +128,6 @@ class _ProfileSectionState extends State<ProfileSection> {
             wallet_balance: state.userDetails.data!.walletBalance.toString(),
             wallet_total: state.userDetails.data!.walletTotal.toString(),
             wallet_used: state.userDetails.data!.walletUsed.toString(),
-            countryDialcode: state.userDetails.data!.countryCode.toString(),
-            countrycode: state.userDetails.data!.countryAlphaCode.toString(),
           ),
         );
         if (state.userDetails.data != null) {
@@ -170,7 +172,7 @@ class _ProfileSectionState extends State<ProfileSection> {
         print(
             " my image is ------------------- ${state.userDetails.data?.imgUrl}");
         UserDetailsBox.put(
-          await GetSharedPreferences.getCustomerId(),
+          0,
           UserDetailsDB(
             customer_id: state.userDetails.data!.customerId.toString(),
             email: state.userDetails.data!.email.toString(),
@@ -180,8 +182,6 @@ class _ProfileSectionState extends State<ProfileSection> {
             wallet_balance: state.userDetails.data!.walletBalance.toString(),
             wallet_total: state.userDetails.data!.walletTotal.toString(),
             wallet_used: state.userDetails.data!.walletUsed.toString(),
-            countryDialcode: state.userDetails.data!.countryCode.toString(),
-            countrycode: state.userDetails.data!.countryAlphaCode.toString(),
           ),
         );
       },
@@ -306,7 +306,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        "${userDetails[0].email}",
+                                        limitString(
+                                            '${userDetails[0].email}', 18),
                                         style: TextStyles.rubik14whiteFF,
                                       ),
                                       const SizedBox(height: 4),
@@ -386,8 +387,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                                 top: 20,
                                 child: IconButton(
                                   onPressed: () {
-                                  context.push('/profile_edit');
-                    
+                                    navigateToprofileEdit(context);
                                   },
                                   icon: SvgPicture.asset(
                                     "assets/Eye icon.svg",

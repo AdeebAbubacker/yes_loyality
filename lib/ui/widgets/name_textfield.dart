@@ -8,6 +8,7 @@ import 'package:Yes_Loyalty/core/constants/const.dart';
 class NameTextfield extends StatefulWidget {
   var errorText;
   final String? hintText;
+  final FocusNode focusNode;
   final bool enabled;
    TextEditingController textEditingController = TextEditingController();
   final TextStyle textstyle;
@@ -15,6 +16,7 @@ class NameTextfield extends StatefulWidget {
     super.key,
     required this.hintText,
     required this.textEditingController,
+    required this.focusNode,
     required this.textstyle,
     this.errorText,
     this.enabled = true,
@@ -39,6 +41,7 @@ class _NameTextfieldState extends State<NameTextfield> {
         borderRadius: BorderRadius.all(Radius.circular(9)),
       ),
       child: TextField(
+        focusNode: widget.focusNode,
         enabled: widget.enabled,
         style: widget.textstyle,
         controller: widget.textEditingController,

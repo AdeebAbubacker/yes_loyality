@@ -10,36 +10,17 @@ part 'logout_bloc.freezed.dart';
 
 class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
   LogoutBloc() : super(LogoutState.initial()) {
-    on<_Logout>((event, emit) async {
+        on<_Logout>((event, emit) async {
+      emit(state.copyWith(isLoading: true, isError: false, statusCode: 0));
       try {
         final response = await LogoutService.logout();
-        emit(LogoutState(
-          isLoading: false,
-          isError: false,
-          register: response,
-          successorFailure: optionOf(right(response)),
-        ));
+        emit(state.copyWith(isLoading: false, isError: false, statusCode: response));
       } catch (e) {
-        if (e is Map<String, dynamic> && e.containsKey('data')) {
-          emit(LogoutState(
-            isLoading: false,
-            isError: true,
-            register: null,
-            successorFailure: optionOf(
-              left(const MainFailure.clientFailure(message: "Something Went wrong")),
-            ),
-          ));
-        } else {
-          emit(LogoutState(
-            isLoading: false,
-            isError: true,
-            register: null,
-            successorFailure: optionOf(
-              left(MainFailure.clientFailure(message: e.toString())),
-            ),
-          ));
-        }
+        print('Error: ${e.toString()}');
+        emit(state.copyWith(isLoading: false, isError: true, statusCode: 0));
       }
     });
+
+ 
   }
 }

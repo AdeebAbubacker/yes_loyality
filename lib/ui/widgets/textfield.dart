@@ -4,17 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 
 class Textfield extends StatelessWidget {
-  //  Textfield({
-  //   super.key,
-  //   required this.hintText,
-  //   this.textEditingController,
-  //   this.errorText,
-  //   this.enabled = true,
-  // });
+ 
    Textfield({
     super.key,
      this.hintText,
   required  this.textEditingController,
+  required this.focusNode,
     TextStyle? textstyle,
     this.errorText,
     this.enabled = true,
@@ -22,6 +17,7 @@ class Textfield extends StatelessWidget {
   var errorText;
   final String? hintText;
   final bool enabled;
+  final FocusNode focusNode;
    TextEditingController textEditingController = TextEditingController();
   final TextStyle textstyle;
 
@@ -36,6 +32,7 @@ class Textfield extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(9)),
       ),
       child: TextField(
+        focusNode: focusNode,
            style: textstyle,
         enabled: enabled,
         controller: textEditingController,
@@ -56,3 +53,5 @@ class Textfield extends StatelessWidget {
     );
   }
 }
+
+

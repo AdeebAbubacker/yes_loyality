@@ -1,7 +1,21 @@
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/country_code_adapter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
 import 'package:Yes_Loyalty/core/view_model/change_password/change_password_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/delete_account/delete_account_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/get_support/get_support_bloc.dart';
 import 'package:Yes_Loyalty/firebase_options.dart';
+import 'package:Yes_Loyalty/testing/call_mapi.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/user_signup/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/profile_edit/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/settings/support/support_screen.dart';
+import 'package:Yes_Loyalty/ui/screens/settings/user/change_password/change_password.dart';
+import 'package:Yes_Loyalty/ui/screens/settings/user/delete_account/delete_account.dart';
+import 'package:Yes_Loyalty/ui/screens/settings/user/user_settings.dart';
+
+import 'package:Yes_Loyalty/ui/screens/splash/splash_screen.dart';
+import 'package:Yes_Loyalty/ui/widgets/number_textfield_cache.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/branch_list_adater/branch_list_adapter.dart';
@@ -34,14 +48,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  ///-------------Register Adapter----
+  ///-------------Register Adapter----------------------------
 
   Hive.registerAdapter(SelectedBranchDBAdapter());
   Hive.registerAdapter(BranchListDBAdapter());
   Hive.registerAdapter(UserDetailsDBAdapter());
- Hive.registerAdapter(CountryCodeDBAdapter());
+  Hive.registerAdapter(CountryCodeDBAdapter());
   selectedBranchBox = await Hive.openBox<SelectedBranchDB>('selectedBranchBox');
- countryCodeBox = await Hive.openBox<CountryCodeDB>('countryCodeBox');
+  countryCodeBox = await Hive.openBox<CountryCodeDB>('countryCodeBox');
   BranchListBox = await Hive.openBox<BranchListDB>('BranchListBox');
   UserDetailsBox = await Hive.openBox<UserDetailsDB>('UserDetailsBox');
 
@@ -66,58 +80,73 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => LoginBloc(),
-        ),
-        BlocProvider(
-          create: (context) => RegisterBloc(),
-        ),
-        BlocProvider(
-          create: (context) => LogoutBloc(),
-        ),
-        BlocProvider(
-          create: (context) => UserDetailsBloc(),
-        ),
-        BlocProvider(
-          create: (context) => OffersListBloc(),
-        ),
-        BlocProvider(
-          create: (context) => OfferInfoBloc(),
-        ),
-        BlocProvider(
-          create: (context) => StoreDetailsBloc(),
-        ),
-        BlocProvider(
-          create: (context) => StoreListBloc(),
-        ),
-        BlocProvider(
-          create: (context) => TransactionDetailsBloc(),
-        ),
-        BlocProvider(
-          create: (context) => ProfileEditBloc(),
-        ),
-        BlocProvider(
-          create: (context) => ChangePasswordBloc(),
-        ),
-      ],
-      child: MaterialApp.router(
-        // useInheritedMediaQuery: true,
-        // locale: DevicePreview.locale(context),
-        // builder: DevicePreview.appBuilder,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(useMaterial3: false),
-        routerConfig: MyappRoutes.routes,
-      ),
-    );
+        providers: [
+          BlocProvider(
+            create: (context) => LoginBloc(),
+          ),
+          BlocProvider(
+            create: (context) => RegisterBloc(),
+          ),
+          BlocProvider(
+            create: (context) => LogoutBloc(),
+          ),
+          BlocProvider(
+            create: (context) => UserDetailsBloc(),
+          ),
+          BlocProvider(
+            create: (context) => OffersListBloc(),
+          ),
+          BlocProvider(
+            create: (context) => OfferInfoBloc(),
+          ),
+          BlocProvider(
+            create: (context) => StoreDetailsBloc(),
+          ),
+          BlocProvider(
+            create: (context) => StoreListBloc(),
+          ),
+          BlocProvider(
+            create: (context) => TransactionDetailsBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ProfileEditBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ChangePasswordBloc(),
+          ),
+          BlocProvider(
+            create: (context) => GetSupportBloc(),
+          ),
+          BlocProvider(
+            create: (context) => DeleteAccountBloc(),
+          ),
+        ],
+        child:
+
+            // MaterialApp(
+            //   // useInheritedMediaQuery: true,
+            //   // locale: DevicePreview.locale(context),
+            //   // builder: DevicePreview.appBuilder,
+
+            //   // routerConfig: MyappRoutes.routes,
+            //    home: SplashScreen(),
+
+            // ),
+            MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(useMaterial3: false),
+          initialRoute: '/', // Set the initial route (Screen1)
+          routes: {
+             '/': (context) => SplashScreen(),
+            '/sigin': (context) => SignInScreen(),
+            '/signup': (context) => SignupScreen(),
+            '/profileEdit': (context) => ProfileEdit(),
+            '/userSettings': (context) => UserSettings(),
+            '/getSupport': (context) => GetSupportScreen(),
+            '/changepassword': (context) => ChangePassWord(),
+            '/deleteAccount': (context) => DeleteAccount(),
+            '/home': (context) => HomeScreen(), // Define the home route
+          },
+        ));
   }
 }
-
-
-
-
-
-
-
-
-

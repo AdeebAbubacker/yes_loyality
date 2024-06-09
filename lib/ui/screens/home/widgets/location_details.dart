@@ -18,7 +18,7 @@ import 'package:Yes_Loyalty/core/view_model/transaction_details/transaction_deta
 import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
 
 class LocationDetails extends StatefulWidget {
- final  bool isVisible;
+  final bool isVisible;
   const LocationDetails({
     super.key,
     this.isVisible = true,
@@ -46,6 +46,14 @@ class _LocationDetailsState extends State<LocationDetails> {
     _selectedBranchNotifier.dispose();
     _isModalOpenNotifier.dispose();
     super.dispose();
+  }
+
+  String limitString(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + '...';
+    }
   }
 
   Future<void> _getSelectedBranch() async {
@@ -130,9 +138,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                                   _textEditingController, // Assign the controller
 
                               onChanged: (value) {
-                               
-                                  searchTerm = value;
-                                
+                                searchTerm = value;
                               },
                               decoration: InputDecoration(
                                 hintText: "Search Location",
@@ -199,6 +205,13 @@ class _LocationDetailsState extends State<LocationDetails> {
                                       onTap: () async {
                                         await GetSharedPreferences
                                             .deleteBranchId();
+
+                                        await selectedBranchBox.put(
+                                          'selectedBranchDetail',
+                                          SelectedBranchDB(
+                                              selctedBranchName:
+                                                  'All Branches'),
+                                        );
                                         context
                                             .read<TransactionDetailsBloc>()
                                             .add(const TransactionDetailsEvent
@@ -406,7 +419,7 @@ class _LocationDetailsState extends State<LocationDetails> {
     double width6 = screenwidth * 6 / FigmaConstants.figmaDeviceWidth;
     double padding12 = screenheight * 12 / FigmaConstants.figmaDeviceHeight;
     return Visibility(
-      visible:  widget.isVisible,
+      visible: widget.isVisible,
       child: Padding(
         padding: outerpadding,
         child: InkWell(
@@ -429,7 +442,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                   SizedBox(width: width19),
                   SvgPicture.asset("assets/Map icon.svg"),
                   SizedBox(width: width6),
-      
+
                   ValueListenableBuilder<Box<SelectedBranchDB>>(
                     valueListenable:
                         Hive.box<SelectedBranchDB>('selectedBranchBox')
@@ -437,15 +450,16 @@ class _LocationDetailsState extends State<LocationDetails> {
                     builder: (context, box, _) {
                       final selectedBranch = box.get('selectedBranchDetail');
                       return Text(
-                        selectedBranch?.selctedBranchName ??
-                            'All branches',
+                        limitString(
+                            selectedBranch?.selctedBranchName ?? 'All branches',
+                            20),
                         style: TextStyles.rubik16black33,
                       );
                     },
                   ),
-      
+
                   const Spacer(),
-      
+
                   ValueListenableBuilder<bool>(
                     valueListenable: _isModalOpenNotifier,
                     builder: (context, isModalOpen, child) {
@@ -453,19 +467,21 @@ class _LocationDetailsState extends State<LocationDetails> {
                         width: 40,
                         height: 40,
                         decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(80))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(80))),
                         child: Center(
                           child: SizedBox(
                               width: 12,
                               height: 12,
                               child: isModalOpen
                                   ? SvgPicture.asset('assets/dropup_icon.svg')
-                                  : SvgPicture.asset('assets/dropdown_icon.svg')),
+                                  : SvgPicture.asset(
+                                      'assets/dropdown_icon.svg')),
                         ),
                       );
                     },
                   ),
-      
+
                   // InkWell(
                   //     onTap: () {
                   //       _showModal(context);

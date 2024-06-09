@@ -22,18 +22,24 @@ class LogoutService {
       );
 
       if (response.statusCode == 200) {
+            // Handle other status codes
+        print('Logout sssss with status code: ${response.statusCode}');
+            // Handle other status codes
+        print('Logout failed with status code: ${response.body}');
         UserDetailsBox.clear();
-        print(response.body);
-        // Successful logout
-        print('Logout successful');
+        return 1;
       } else {
         // Handle other status codes
         print('Logout failed with status code: ${response.statusCode}');
+            // Handle other status codes
+        print('Logout failed with status code: ${response.body}');
+        return 0;
       }
     } catch (e) {
       print(e.toString());
       // Handle error
       print('Error during logout: $e');
+      return 0;
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:Yes_Loyalty/core/view_model/change_password/change_password_bloc.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
 import 'package:Yes_Loyalty/ui/screens/home/sub_screen/settings.dart';
+import 'package:Yes_Loyalty/ui/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:math';
@@ -13,7 +14,7 @@ import 'package:shimmer/shimmer.dart';
 
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/country_code_adapter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
-import 'package:Yes_Loyalty/testing/profile_edit_testing.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
@@ -44,7 +45,9 @@ class _ChangePassWordState extends State<ChangePassWord> {
   var _currentpasswordErorText;
   var _newpasswordErorText;
   var _confirmpasswordErorText;
-
+  final FocusNode currentpassFocusnode = FocusNode();
+  final FocusNode newpassFocusnode = FocusNode();
+  final FocusNode confirmpassFocusnode = FocusNode();
   bool _formSubmitted = false; // Add this boolean flag
   String? selectedDialCode = "";
 
@@ -147,119 +150,142 @@ class _ChangePassWordState extends State<ChangePassWord> {
     //     screenHeight * 0.0240; // 2.81% of the screen height
     double perc375 = screenHeight * 0.0375; // 3.75% of the screen height
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
-                listener: (context, state) {
-                  state.map(
-                    initial: (_) {},
-                    loading: (_) {},
-                    success: (_) {
-                      showCustomToast(
-                        context, "Password Changed succefully",
-                        MediaQuery.of(context).size.height *
-                            0.7, // Adjust vertical position here
-                      );
-                      Future.delayed(const Duration(microseconds: 100),
-                          () async {
-                        context
-                            .go('/sign_in'); // Pop back to the sign-in screen
-                      });
+    return GestureDetector(
+      onTap: () {
+        confirmpassFocusnode.unfocus();
+        newpassFocusnode.unfocus();
+        currentpassFocusnode.unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
+                  listener: (context, state) {
+                    state.map(
+                      initial: (_) {},
+                      loading: (_) {},
+                      success: (_) {
+                        showCustomToast(
+                          context, "Password Changed succefully",
+                          MediaQuery.of(context).size.height *
+                              0.7, // Adjust vertical position here
+                        );
+                        Future.delayed(const Duration(microseconds: 100),
+                            () async {
+                          context
+                              .go('/sign_in'); // Pop back to the sign-in screen
+                        });
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Password Chnanged Successfully')),
-                      );
-                    },
-                    failure: (state) {
-                      showCustomToast(
-                        context, "Password Change Failed",
-                        MediaQuery.of(context).size.height *
-                            0.7, // Adjust vertical position here
-                      );
-                    },
-                    validationError: (state) {
-                      setState(() {
-                        _currentpasswordErorText = state.currentPasswordError;
-                        _newpasswordErorText = state.newPasswordError;
-                        _confirmpasswordErorText = state.confirmPasswordError;
-                      });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Password Chnanged Successfully')),
+                        );
+                      },
+                      failure: (state) {
+                        showCustomToast(
+                          context, "Password Change Failed",
+                          MediaQuery.of(context).size.height *
+                              0.7, // Adjust vertical position here
+                        );
+                      },
+                      validationError: (state) {
+                        setState(() {
+                          _currentpasswordErorText = state.currentPasswordError;
+                          _newpasswordErorText = state.newPasswordError;
+                          _confirmpasswordErorText = state.confirmPasswordError;
+                        });
 
-                      showCustomToast(
-                        context, "Password Change Failed",
-                        MediaQuery.of(context).size.height *
-                            0.7, // Adjust vertical position here
-                      );
-                    },
-                  );
-                },
-                builder: (context, state) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Text(
-                          "Change Password",
-                          style: TextStyles.ibm20black77w700,
+                        showCustomToast(
+                          context, "Password Change Failed",
+                          MediaQuery.of(context).size.height *
+                              0.7, // Adjust vertical position here
+                        );
+                      },
+                    );
+                  },
+                  builder: (context, state) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 20),
+                        HomeAppBar(
+                          onBackTap: () async {
+                            Navigator.of(context).pop();
+                          },
                         ),
-                      ),
-                      const SizedBox(height: 50),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: devicePadding),
-                        child: Column(
-                          children: [
-                            PassWordTextfield(
-                              errorText: _currentpasswordErorText,
-                              hintText: 'Current Password*',
-                              textEditingController: _currentpasswordController,
-                            ),
-                            SizedBox(height: elementPaddingVertical),
-                            PassWordTextfield(
-                              errorText: _newpasswordErorText,
-                              hintText: 'New Password*',
-                              textEditingController: _newpasswordController,
-                            ),
-                            SizedBox(height: elementPaddingVertical),
-                            PassWordTextfield(
-                              errorText: _confirmpasswordErorText,
-                              hintText: 'Confirm Password*',
-                              textEditingController: _confirmpasswordController,
-                            ),
-                          ],
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Text(
+                            "Set a new password",
+                            style: TextStyles.rubik20black33w600,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: perc187),
-                      SizedBox(height: perc187),
-                      SizedBox(height: perc20),
-                    ],
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: ColoredButton(
-                  onPressed: _submitForm,
-                  text: 'Change Password',
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: devicePadding),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Create a new password. Ensure it differs from previous ones for security',
+                                style: TextStyles.rubik16black77w400,
+                              ),
+                              const SizedBox(height: 20),
+                              PassWordTextfield(
+                                focusNode: currentpassFocusnode,
+                                errorText: _currentpasswordErorText,
+                                hintText: 'Current Password*',
+                                textEditingController:
+                                    _currentpasswordController,
+                              ),
+                              SizedBox(height: elementPaddingVertical),
+                              PassWordTextfield(
+                                focusNode: newpassFocusnode,
+                                errorText: _newpasswordErorText,
+                                hintText: 'New Password*',
+                                textEditingController: _newpasswordController,
+                              ),
+                              SizedBox(height: elementPaddingVertical),
+                              PassWordTextfield(
+                                focusNode: confirmpassFocusnode,
+                                errorText: _confirmpasswordErorText,
+                                hintText: 'Confirm Password*',
+                                textEditingController:
+                                    _confirmpasswordController,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: perc187),
+                        SizedBox(height: perc187),
+                        SizedBox(height: perc20),
+                      ],
+                    );
+                  },
                 ),
               ),
-            )
-          ],
+              Positioned(
+                bottom: 90,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: ColoredButton(
+                    onPressed: _submitForm,
+                    text: 'Update Password',
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

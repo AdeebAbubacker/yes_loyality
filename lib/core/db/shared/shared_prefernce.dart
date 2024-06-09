@@ -30,6 +30,11 @@ class SetSharedPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('profileLoaded', false);
   }
+
+  static Future storeCountrycode(String countrycode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('key', countrycode);
+  }
 }
 
 class GetSharedPreferences {
@@ -71,5 +76,10 @@ class GetSharedPreferences {
   static Future homeScreenLoaded() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('profileLoaded');
+  }
+
+   static Future getCountrycodes() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('key');
   }
 }

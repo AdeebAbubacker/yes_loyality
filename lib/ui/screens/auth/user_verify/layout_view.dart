@@ -63,7 +63,7 @@ class VerifyYourAccount extends StatelessWidget {
                     text: 'Continue',
                     onPressed: () {
                  
-                      context.go('/user_otp'); 
+                   
                     }),
                 SizedBox(
                   height: sizedBoxHeight4,

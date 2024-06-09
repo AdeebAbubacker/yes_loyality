@@ -64,6 +64,9 @@ dependencies:
   firebase_core: ^2.31.0
   msh_checkbox: ^2.0.1
   shimmer: ^3.0.0
+  rename_app: ^1.4.0
+  flutter_launcher_icons: ^0.13.1
+ 
 
 
 
@@ -74,6 +77,14 @@ dev_dependencies:
   intl: ^0.18.0
   json_serializable: ^6.7.1
   share_plus: ^6.3.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+  adaptive_icon_background: "#FF0000" # Red background color
+  adaptive_icon_foreground: "assets/logo.png"
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -90,6 +101,8 @@ flutter:
     - assets/
     - assets/bottom_nav/
     - assets/appbar/
+   
+  
 
 
   fonts:

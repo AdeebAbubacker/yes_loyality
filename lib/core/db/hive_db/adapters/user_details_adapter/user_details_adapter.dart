@@ -22,27 +22,22 @@ class UserDetailsDB {
   dynamic wallet_used;
   @HiveField(7)
   dynamic wallet_total;
-    @HiveField(8)
+  @HiveField(8)
   Uint8List? cacheimage;
-   @HiveField(9)
-  String countrycode;
-   @HiveField(10)
-  String countryDialcode;
-
+  @HiveField(9)
+   String? dial_code; // Make dial_code nullable
 
   UserDetailsDB({
     this.customer_id,
     this.name = '',
     this.email,
-    this.image,
+    this.image = '',
     this.cacheimage,
     this.phone,
     this.wallet_total = 0,
     this.wallet_balance = 0,
     this.wallet_used = 0,
-    this.countryDialcode = '+61',
-    this.countrycode = 'AU',
- 
+    this.dial_code = "+61",
   });
 
   factory UserDetailsDB.fromJson(Map<String, dynamic> json) {
@@ -56,8 +51,7 @@ class UserDetailsDB {
       wallet_balance: json['wallet_balance'],
       wallet_total: json['wallet_total'],
       wallet_used: json['wallet_used'],
-  countryDialcode: json['countryDialcode'],
-      countrycode: json['countrycode'],
+        dial_code: json['dial_code'] ?? "+61",
     );
   }
 
@@ -72,8 +66,7 @@ class UserDetailsDB {
     data['wallet_balance'] = wallet_balance;
     data['wallet_total'] = wallet_total;
     data['wallet_used'] = wallet_used;
- data['countrycode'] = countrycode;
-    data['countryDialcode'] = countryDialcode;
+    data['dial_code'] = dial_code;
     return data;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/country_code_adapter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
-import 'package:Yes_Loyalty/testing/profile_edit_testing.dart';
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
@@ -14,6 +15,8 @@ import 'package:Yes_Loyalty/ui/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:msh_checkbox/msh_checkbox.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -35,9 +38,15 @@ class _SignupScreenState extends State<SignupScreen> {
   var _confirmpasswordErrorText;
   var _nameErrorText;
   bool _formSubmitted = false; // Add this boolean flag
-  String? selectedDialCode = "";
-  String? selectedCountryCode = "";
-
+  String selectedDialCode = "61";
+  String? selectedCountryCode = "AU";
+  bool isTermsAgreed = false;
+  Future<void>? _launched;
+  FocusNode namefocusNode = FocusNode();
+  FocusNode emailfocusNode = FocusNode();
+  FocusNode phonefocusNode = FocusNode();
+  FocusNode passwordfocusNode = FocusNode();
+  FocusNode confirmpassfocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -46,19 +55,14 @@ class _SignupScreenState extends State<SignupScreen> {
     _phonecontroller.addListener(_onPhoneChanged);
     _passwordController.addListener(_onPasswordChanged);
     _confirmpasswordcontroller.addListener(_onConfirmPasswordChanged);
-    _loadCountryCodeFromHive();
   }
 
-  void _loadCountryCodeFromHive() async {
-    // Open the countryCodeBox if not already opened
-    if (countryCodeBox == null) {
-      countryCodeBox = await Hive.box<CountryCodeDB>('countryCodeBox');
-    }
-
-    // Try retrieving the saved country code
-    final countryCodeDB = countryCodeBox.get(0);
-    if (countryCodeDB != null) {
-      selectedDialCode = countryCodeDB.dial_code;
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -169,8 +173,6 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       if (value.isEmpty) {
         _phoneErrorText = 'Phone no is required';
-      } else if (value.length < 7) {
-        _phoneErrorText = 'Phone no must be at least 7 characters long';
       } else {
         _phoneErrorText = null;
       }
@@ -187,37 +189,51 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  void _submitForm() {
-    setState(() {
-      _formSubmitted =
-          true; // Set form submitted to true when the button is clicked
-      // Validate password field
-      _validateName(_namecontroller.text);
-      _validateEmail(_emailcontroller.text);
-      _validatePassword(_passwordController.text);
-      _validateConfirmPassword(
-          password: _passwordController.text,
-          confirmpassword: _confirmpasswordcontroller.text);
-      _validatePhone(_phonecontroller.text);
-    });
+  // Future<void> _saveCountryCodeToHive(
+  //     String dialCode, String countryCode) async {
+  //   final box = await Hive.openBox<CountryCodeDB>('countryCodeBox');
+  //   final countryCodeDB =
+  //       CountryCodeDB(dial_code: dialCode, country_code: countryCode);
+  //   await box.put(0, countryCodeDB);
+  //   print("Saved to Hive: $dialCode, $countryCode"); // Debug print
+  // }
 
-    BlocProvider.of<RegisterBloc>(context).add(RegisterEvent.register(
-      name: _namecontroller.text.toString(),
-      email: _emailcontroller.text.toString(),
-      phone:
-          '+${selectedDialCode.toString()}${_phonecontroller.text.toString()}',
-      password: _passwordController.text.toString(),
-      confirmpassword: _confirmpasswordcontroller.text.toString(),
-    ));
-    print('${_phonecontroller.text.toString()}');
-    print('+${selectedDialCode}${_phonecontroller.text.toString()}');
-    setState(() {
-      showDots = true;
-    });
+  void _submitForm() {
+    if (isTermsAgreed) {
+      setState(() {
+        _formSubmitted =
+            true; // Set form submitted to true when the button is clicked
+        // Validate password field
+        _validateName(_namecontroller.text);
+        _validateEmail(_emailcontroller.text);
+        _validatePassword(_passwordController.text);
+        _validateConfirmPassword(
+            password: _passwordController.text,
+            confirmpassword: _confirmpasswordcontroller.text);
+        _validatePhone(_phonecontroller.text);
+        showDots = true;
+      });
+      BlocProvider.of<RegisterBloc>(context).add(RegisterEvent.register(
+        name: _namecontroller.text.toString(),
+        email: _emailcontroller.text.toString(),
+        phone:
+            '+${selectedDialCode.toString()}${_phonecontroller.text.toString()}',
+        password: _passwordController.text.toString(),
+        confirmpassword: _confirmpasswordcontroller.text.toString(),
+      ));
+      print('aaaaaaaaaaaaaa${_phonecontroller.text.toString()}');
+      print(
+          'vvvvvvvvvvvvvvvvvvv+${selectedDialCode}${_phonecontroller.text.toString()}');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final Uri termsandService = Uri(
+      scheme: 'https',
+      host: 'yl.tekpeak.in',
+      path: '/term-conditions',
+    );
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     double devicePadding = outerPadding(context);
@@ -232,242 +248,298 @@ class _SignupScreenState extends State<SignupScreen> {
     // double elementPaddingVertical =
     //     screenHeight * 0.0240; // 2.81% of the screen height
     double perc375 = screenHeight * 0.0375; // 3.75% of the screen height
+    double adeebpadding = MediaQuery.of(context).size.width * 0.04;
+    return GestureDetector(
+      onTap: () {
+        namefocusNode.unfocus();
+        emailfocusNode.unfocus();
+        phonefocusNode.unfocus();
+        passwordfocusNode.unfocus();
+        confirmpassfocusNode.unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Center(
+            child: BlocConsumer<RegisterBloc, RegisterState>(
+              listener: (context, state) {
+                state.map(
+                  initial: (_) {},
+                  loading: (_) {},
+                  success: (_) {
+                    Future.delayed(Duration(seconds: 2), () async {
+                      Navigator.of(context).pop();
+                    });
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Center(
-          child: BlocConsumer<RegisterBloc, RegisterState>(
-            listener: (context, state) {
-              state.map(
-                initial: (_) {},
-                loading: (_) {},
-                success: (_) {
-                  Future.delayed(Duration(seconds: 2), () async {
-                     context.go('/sign_in'); // Pop back to the sign-in screen
-                  
-                  });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Registration Successful')),
+                    );
+                  },
+                  failure: (state) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Registration Failed')),
+                    );
+                  },
+                  validationError: (state) {
+                    setState(() {
+                      _nameErrorText = state.nameError;
+                      _emailErrorText = state.emailError;
+                      _phoneErrorText = state.phoneError;
+                      _passwordErrorText = state.passwordError;
+                      _confirmpasswordErrorText = state.passwordConfirmError;
+                    });
+                    print('Validation Error:');
+                    print('Name Error: ${state.nameError}');
+                    print('Email Error: ${state.emailError}');
+                    print('Phone Error: ${state.phoneError}');
+                    print('Password Error: ${state.passwordError}');
+                    print(
+                        'Password Confirm Error: ${state.passwordConfirmError}');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Registration Failed')),
+                    );
+                  },
+                );
+              },
+              builder: (context, state) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: perc727),
+                    FractionallySizedBox(
+                      widthFactor: 0.75, // Take full available width
+                      child: Image.asset(
+                        'assets/yes_loyality_s.png',
+                        fit: BoxFit
+                            .contain, // Maintain aspect ratio while fitting the image within the box
+                      ),
+                    ),
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Registration Successful')),
-                  );
-                },
-                failure: (state) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Registration Failed')),
-                  );
-                },
-                validationError: (state) {
-                  setState(() {
-                    _nameErrorText = state.nameError;
-                    _emailErrorText = state.emailError;
-                    _phoneErrorText = state.phoneError;
-                    _passwordErrorText = state.passwordError;
-                    _confirmpasswordErrorText = state.passwordConfirmError;
-                  });
-                  print('Validation Error:');
-                  print('Name Error: ${state.nameError}');
-                  print('Email Error: ${state.emailError}');
-                  print('Phone Error: ${state.phoneError}');
-                  print('Password Error: ${state.passwordError}');
-                  print(
-                      'Password Confirm Error: ${state.passwordConfirmError}');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Registration Failed')),
-                  );
-                },
-              );
-            },
-            builder: (context, state) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: perc727),
-                  Image.asset('assets/yes_loyality_log.png'),
-                  SizedBox(height: perc20),
-                  Text(
-                    'Create an Account',
-                    style: TextStyles.rubik24black24w600,
-                  ),
-                  SizedBox(height: perc20),
-                  Text(
-                    'Sign up to join',
-                    style: TextStyles.rubiksemibold16grey77w400,
-                  ),
-                  SizedBox(height: perc281),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: devicePadding),
-                    child: Column(
-                      children: [
-                        NameTextfield(
-                          textstyle: TextStyles.rubikregular16black24w400,
-                            errorText: _nameErrorText,
-                            textEditingController: _namecontroller,
-                            hintText: 'Full Name*'),
-                        SizedBox(height: elementPaddingVertical),
-                        Textfield(
-                          errorText: _emailErrorText,
-                          hintText: 'Email*',
-                          textEditingController: _emailcontroller,
-                        ),
-                        SizedBox(height: elementPaddingVertical),
+                    SizedBox(height: perc20),
+                    Text(
+                      'Create an Account',
+                      style: TextStyles.rubik24black24w600,
+                    ),
+                    SizedBox(height: perc20),
+                    Text(
+                      'Sign up to join',
+                      style: TextStyles.rubiksemibold16grey77w400,
+                    ),
+                    SizedBox(height: perc281),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: devicePadding),
+                      child: Column(
+                        children: [
+                          NameTextfield(
+                              focusNode: namefocusNode,
+                              textstyle: TextStyles.rubikregular16black24w400,
+                              errorText: _nameErrorText,
+                              textEditingController: _namecontroller,
+                              hintText: 'Full Name*'),
+                          SizedBox(height: elementPaddingVertical),
+                          Textfield(
+                            focusNode: emailfocusNode,
+                            errorText: _emailErrorText,
+                            hintText: 'Email*',
+                            textEditingController: _emailcontroller,
+                          ),
+                          SizedBox(height: elementPaddingVertical),
 
-                        ValueListenableBuilder<Box<CountryCodeDB>>(
-                            valueListenable:
-                                Hive.box<CountryCodeDB>('countryCodeBox')
-                                    .listenable(),
-                            builder: (context, box, _) {
-                              final countryCodeDB = box.get(
-                                  0); // Assuming you are using the first entry
+                          NumberTextFieldWithCountry(
+                            focusNode: phonefocusNode,
+                            errorText: _phoneErrorText,
+                            selectedCountryCode: selectedCountryCode,
+                            selectedDialCode: selectedDialCode,
+                            phoneController: _phonecontroller,
+                            onCountryChanged: (String newDialCode,
+                                String newCountryCode) async {
+                              // await _saveCountryCodeToHive(
+                              //     newDialCode, newCountryCode);
 
-                              selectedDialCode =
-                                  countryCodeDB?.dial_code ?? '61';
-                              selectedDialCode =
-                                  countryCodeDB?.dial_code ?? 'AU';
+                              // await StoreNumberDetaisl(
+                              //   newCountryCode,
+                              //   newDialCode,
+                              // );
 
-                              return NumberTextFieldWithCountry(
-                                selectedCountryCode: selectedCountryCode,
-                              //  selectedDialCode: selectedDialCode,
-                                errorText: _phoneErrorText,
-                                phoneController: _phonecontroller,
-                              );
-                            }),
-                       
-                       
-                        SizedBox(height: elementPaddingVertical),
-                        //  Spacer(),
+                              setState(() {
+                                selectedDialCode = newDialCode;
+                                selectedCountryCode = newCountryCode;
+                              });
+                            },
+                          ),
 
-                        PassWordTextfield(
-                          errorText: _passwordErrorText,
-                          hintText: 'Password*',
-                          textEditingController: _passwordController,
-                        ),
-                        SizedBox(height: elementPaddingVertical),
-                        PassWordTextfield(
-                          errorText: _confirmpasswordErrorText,
-                          hintText: 'Confirm Password*',
-                          textEditingController: _confirmpasswordcontroller,
-                        ),
+                          SizedBox(height: elementPaddingVertical),
+                          //  Spacer(),
 
-                        SizedBox(height: perc375),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/tick_icon.svg'),
-                            SizedBox(width: width203),
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: 'I agree to the  ',
-                                    style: TextStyles.rubikregular14grey66w500,
-                                  ),
-                                  TextSpan(
-                                    text: 'Terms of Service',
-                                    style: TextStyles.rubikregular14black3Bw500,
-                                  ),
-                                ],
+                          PassWordTextfield(
+                            focusNode: passwordfocusNode,
+                            errorText: _passwordErrorText,
+                            hintText: 'Password*',
+                            textEditingController: _passwordController,
+                          ),
+                          SizedBox(height: elementPaddingVertical),
+                          PassWordTextfield(
+                            focusNode: confirmpassfocusNode,
+                            errorText: _confirmpasswordErrorText,
+                            hintText: 'Confirm Password*',
+                            textEditingController: _confirmpasswordcontroller,
+                          ),
+
+                          //SizedBox(height: perc375),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: adeebpadding),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isTermsAgreed = !isTermsAgreed;
+                              });
+                            },
+                            icon: MSHCheckbox(
+                              size: 20,
+                              value: isTermsAgreed,
+                              colorConfig:
+                                  MSHColorConfig.fromCheckedUncheckedDisabled(
+                                checkedColor: Colors.red,
                               ),
+                              style: MSHCheckboxStyle.stroke,
+                              onChanged: (selected) {
+                                setState(() {
+                                  isTermsAgreed = selected;
+                                });
+                              },
                             ),
-                          ],
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _launched = _launchInBrowser(termsandService);
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'I agree to the  ',
+                                        style:
+                                            TextStyles.rubikregular14grey66w500,
+                                      ),
+                                      TextSpan(
+                                        text: 'Terms of Service',
+                                        style: TextStyles
+                                            .rubikregular14black3Bw500,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: adeebpadding),
+                    //   child: Row(
+                    //     children: [
+                    //       IconButton(
+                    //         onPressed: () {
+                    //           setState(() {
+                    //             isTermsAgreed = !isTermsAgreed;
+                    //           });
+                    //         },
+                    //         icon: MSHCheckbox(
+                    //           size: 20,
+                    //           value: isTermsAgreed,
+                    //           colorConfig:
+                    //               MSHColorConfig.fromCheckedUncheckedDisabled(
+                    //             checkedColor: Colors.red,
+                    //           ),
+                    //           style: MSHCheckboxStyle.stroke,
+                    //           onChanged: (selected) {
+                    //             setState(() {
+                    //               isTermsAgreed = selected;
+                    //             });
+                    //           },
+                    //         ),
+                    //       ),
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           setState(() {
+                    //             _launched = _launchInBrowser(termsandService);
+                    //           });
+                    //         },
+                    //         child: Positioned(
+                    //           left: 49,
+                    //           top: 15,
+                    //           child: Row(
+                    //             children: [
+                    //               RichText(
+                    //                 text: TextSpan(
+                    //                   children: [
+                    //                     TextSpan(
+                    //                       text: 'I agree to the  ',
+                    //                       style:
+                    //                           TextStyles.rubikregular14grey66w500,
+                    //                     ),
+                    //                     TextSpan(
+                    //                       text: 'Terms of Service',
+                    //                       style: TextStyles
+                    //                           .rubikregular14black3Bw500,
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    SizedBox(height: perc187),
+                    ColoredButton(
+                      isactive: isTermsAgreed,
+                      onPressed: _submitForm,
+                      text: 'Sign Up',
+                    ),
+                    SizedBox(height: perc187),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Have an account?  ",
+                          style: TextStyles.rubikregular16grey77w400,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "Sign in",
+                            style: TextStyles.medium16black3Bw500,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: perc187),
-                  ColoredButton(
-                    onPressed: _submitForm,
-                    text: 'Sign Up',
-                  ),
-                  SizedBox(height: perc187),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Have an account?  ",
-                        style: TextStyles.rubikregular16grey77w400,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          context.go("/sign_in");
-                       
-                        },
-                        child: Text(
-                          "Sign in",
-                          style: TextStyles.medium16black3Bw500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: perc20),
-                ],
-              );
-            },
+                    SizedBox(height: perc20),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-//  Padding(
-//         padding:  EdgeInsets.only(left: width16),
-//         child:
-
-//         Stack(
-//           children: [
-//             Row(
-//               children: [
-//                 IconButton(
-//                   onPressed: () {
-//                     setState(() {
-//                       isChecked = !isChecked;
-//                     });
-//                   },
-//                   icon: MSHCheckbox(
-//                     size: 20,
-//                     value: isChecked,
-//                     colorConfig:
-//                         MSHColorConfig.fromCheckedUncheckedDisabled(
-//                       checkedColor: Colors.red,
-//                     ),
-//                     style: MSHCheckboxStyle.stroke,
-//                     onChanged: (selected) {
-//                       setState(() {
-//                         isChecked = selected;
-//                       });
-//                     },
-//                   ),
-//                 ),
-//                 SizedBox(width: width203),
-//               ],
-//             ),
-//             const SizedBox(width: 30),
-//             Positioned(
-//               left: 49,
-//               top: 15,
-//               child: Row(
-//                 children: [
-//                   RichText(
-//                     text: TextSpan(
-//                       children: [
-//                         TextSpan(
-//                           text: 'I agree to the  ',
-//                           style:
-//                               TextStyles.rubikregular14grey66w500,
-//                         ),
-//                         TextSpan(
-//                           text: 'Terms of Service',
-//                           style:
-//                               TextStyles.rubikregular14black3Bw500,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),

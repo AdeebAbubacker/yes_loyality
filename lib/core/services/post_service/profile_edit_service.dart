@@ -1,16 +1,22 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
+import 'dart:core';
 import 'dart:io';
-import 'package:Yes_Loyalty/core/db/hive_db/adapters/user_details_adapter/user_details_adapter.dart';
-import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
-import 'package:Yes_Loyalty/core/model/register/register.dart';
-import 'package:Yes_Loyalty/core/view_model/user_details/user_details_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:Yes_Loyalty/core/model/validation_response/validation_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 
+import 'package:dartz/dartz.dart';
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:Yes_Loyalty/core/constants/const.dart';
+
 class ProfileEditService {
-  static Future<Register> editProfile({
+  static Future<Either<dynamic, dynamic>> editProfile({
     required String name,
     required String email,
     required String phone,
@@ -41,7 +47,7 @@ class ProfileEditService {
     }
 
     // Set Authorization header with Bearer token
-    request.headers['Authorization'] = 'Bearer ${accessToken}';
+    request.headers['Authorization'] = 'Bearer $accessToken';
 
     // Send the request
     try {
@@ -53,34 +59,23 @@ class ProfileEditService {
 
       // Check the response status code
       if (response.statusCode == 200) {
-        print('Success in fetching $response');
-        // Decode the response body
         var jsonMap = json.decode(responseBody);
-        // Store user details in Hive
-        await UserDetailsBox.put(
-          await GetSharedPreferences.getCustomerId(),
-          UserDetailsDB(
-            email: jsonMap['email'],
-            name: jsonMap['name'],
-            phone: jsonMap['phone']
+        print('aaaaaaaaaaaaaaaa${jsonMap.toString()}');
+        return right(1);
+      } else if (response.statusCode == 500) {
+        var jsonMap = json.decode(responseBody);
 
-            // Add other fields if needed
-          ),
-        );
-
-        Register register = Register.fromJson(jsonMap);
-
-        return register; // Return UserDetails object
-      } else {
-        print("FAILURE $response");
-        // Handle non-200 status codes appropriately
-        print('Request failed with status: $responseBody');
-        throw Exception('Request failed: ${response.statusCode}');
+        var validate = ValidationResponse.fromJson(jsonMap);
+        print('vvvvvvvvvvvvvvvv${validate.data?.email}');
+        return left(validate);
       }
     } catch (e) {
-      // Print error and consider retry logic or informative error messages
-      print('Error sending request: $e');
-      rethrow;
+      return left(e.toString());
     }
+    return left("Unexpected error occurred");
   }
+
+
+
 }
+

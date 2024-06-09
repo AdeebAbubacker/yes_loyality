@@ -14,7 +14,6 @@ part 'register_bloc.freezed.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterState.initial()) {
-
     on<_Register>((event, emit) async {
       emit(const RegisterState.loading());
       final result = await RegsiterService.register(
@@ -42,4 +41,3 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     });
   }
 }
-

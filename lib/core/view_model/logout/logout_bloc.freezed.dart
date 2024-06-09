@@ -282,10 +282,7 @@ abstract class _Logout implements LogoutEvent {
 mixin _$LogoutState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isError => throw _privateConstructorUsedError;
-  dynamic get register =>
-      throw _privateConstructorUsedError; // Change type to dynamic
-  Option<Either<MainFailure, dynamic>> get successorFailure =>
-      throw _privateConstructorUsedError;
+  int get statusCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LogoutStateCopyWith<LogoutState> get copyWith =>
@@ -298,11 +295,7 @@ abstract class $LogoutStateCopyWith<$Res> {
           LogoutState value, $Res Function(LogoutState) then) =
       _$LogoutStateCopyWithImpl<$Res, LogoutState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool isError,
-      dynamic register,
-      Option<Either<MainFailure, dynamic>> successorFailure});
+  $Res call({bool isLoading, bool isError, int statusCode});
 }
 
 /// @nodoc
@@ -320,8 +313,7 @@ class _$LogoutStateCopyWithImpl<$Res, $Val extends LogoutState>
   $Res call({
     Object? isLoading = null,
     Object? isError = null,
-    Object? register = freezed,
-    Object? successorFailure = null,
+    Object? statusCode = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -332,14 +324,10 @@ class _$LogoutStateCopyWithImpl<$Res, $Val extends LogoutState>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      register: freezed == register
-          ? _value.register
-          : register // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      successorFailure: null == successorFailure
-          ? _value.successorFailure
-          : successorFailure // ignore: cast_nullable_to_non_nullable
-              as Option<Either<MainFailure, dynamic>>,
+      statusCode: null == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -352,11 +340,7 @@ abstract class _$$LogoutStateImplCopyWith<$Res>
       __$$LogoutStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool isError,
-      dynamic register,
-      Option<Either<MainFailure, dynamic>> successorFailure});
+  $Res call({bool isLoading, bool isError, int statusCode});
 }
 
 /// @nodoc
@@ -372,8 +356,7 @@ class __$$LogoutStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isError = null,
-    Object? register = freezed,
-    Object? successorFailure = null,
+    Object? statusCode = null,
   }) {
     return _then(_$LogoutStateImpl(
       isLoading: null == isLoading
@@ -384,14 +367,10 @@ class __$$LogoutStateImplCopyWithImpl<$Res>
           ? _value.isError
           : isError // ignore: cast_nullable_to_non_nullable
               as bool,
-      register: freezed == register
-          ? _value.register
-          : register // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      successorFailure: null == successorFailure
-          ? _value.successorFailure
-          : successorFailure // ignore: cast_nullable_to_non_nullable
-              as Option<Either<MainFailure, dynamic>>,
+      statusCode: null == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -402,22 +381,18 @@ class _$LogoutStateImpl implements _LogoutState {
   const _$LogoutStateImpl(
       {required this.isLoading,
       required this.isError,
-      required this.register,
-      required this.successorFailure});
+      required this.statusCode});
 
   @override
   final bool isLoading;
   @override
   final bool isError;
   @override
-  final dynamic register;
-// Change type to dynamic
-  @override
-  final Option<Either<MainFailure, dynamic>> successorFailure;
+  final int statusCode;
 
   @override
   String toString() {
-    return 'LogoutState(isLoading: $isLoading, isError: $isError, register: $register, successorFailure: $successorFailure)';
+    return 'LogoutState(isLoading: $isLoading, isError: $isError, statusCode: $statusCode)';
   }
 
   @override
@@ -428,14 +403,12 @@ class _$LogoutStateImpl implements _LogoutState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isError, isError) || other.isError == isError) &&
-            const DeepCollectionEquality().equals(other.register, register) &&
-            (identical(other.successorFailure, successorFailure) ||
-                other.successorFailure == successorFailure));
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isError,
-      const DeepCollectionEquality().hash(register), successorFailure);
+  int get hashCode => Object.hash(runtimeType, isLoading, isError, statusCode);
 
   @JsonKey(ignore: true)
   @override
@@ -448,18 +421,14 @@ abstract class _LogoutState implements LogoutState {
   const factory _LogoutState(
       {required final bool isLoading,
       required final bool isError,
-      required final dynamic register,
-      required final Option<Either<MainFailure, dynamic>>
-          successorFailure}) = _$LogoutStateImpl;
+      required final int statusCode}) = _$LogoutStateImpl;
 
   @override
   bool get isLoading;
   @override
   bool get isError;
   @override
-  dynamic get register;
-  @override // Change type to dynamic
-  Option<Either<MainFailure, dynamic>> get successorFailure;
+  int get statusCode;
   @override
   @JsonKey(ignore: true)
   _$$LogoutStateImplCopyWith<_$LogoutStateImpl> get copyWith =>

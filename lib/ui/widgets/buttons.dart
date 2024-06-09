@@ -50,13 +50,14 @@ class ColorlessButton extends StatelessWidget {
 class SolidColorButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
-    final Color backgroundColor;
-      final Color borderColor;
+  final Color backgroundColor;
+  final Color borderColor;
 
   const SolidColorButton({
     super.key,
     required this.text,
-    required this.onPressed, required this.backgroundColor,
+    required this.onPressed,
+    required this.backgroundColor,
     required this.borderColor,
   });
 
@@ -73,13 +74,12 @@ class SolidColorButton extends StatelessWidget {
         onPressed: onPressed,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-          //  ColorConstants.greyF5,
-            backgroundColor
-          ),
+              //  ColorConstants.greyF5,
+              backgroundColor),
           shape: MaterialStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side:  BorderSide(
+              side: BorderSide(
                 color: borderColor,
                 width: 1.0,
               ),
@@ -130,11 +130,13 @@ class AddToCartButton extends StatelessWidget {
 }
 
 class ColoredButton extends StatelessWidget {
+  final bool isactive;
   final VoidCallback? onPressed;
   final String text;
   const ColoredButton({
     Key? key,
     required this.text,
+    this.isactive = true,
     required this.onPressed,
   }) : super(key: key);
 
@@ -152,12 +154,17 @@ class ColoredButton extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFFF6D70),
-                      Color(0xFFEE1F23),
-                    ],
+                    colors: isactive
+                        ? [
+                            Color(0xFFFF6D70),
+                            Color(0xFFEE1F23),
+                          ]
+                        : [
+                            Color.fromARGB(210, 255, 109, 111),
+                            Color.fromARGB(207, 238, 31, 34),
+                          ],
                   ),
                 ),
               ),

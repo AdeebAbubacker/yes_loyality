@@ -10,7 +10,7 @@ class HomeAppBar extends StatefulWidget {
   final bool isthereQr;
   final bool isthereback;
   final VoidCallback? onBackTap; // Define the callback function
- final  bool isVisible;
+  final bool isVisible;
   const HomeAppBar({
     super.key,
     this.isthereQr = true,
@@ -63,7 +63,20 @@ class _HomeAppBarState extends State<HomeAppBar> {
             //         onTap: widget.onBackTap,
             //         child: SvgPicture.asset("assets/back_arrow.svg"))),
             const Spacer(),
-            Image.asset('assets/yes_loyality_log.png'),
+            // Image.asset('assets/yes_loyality_log.png'),
+
+            Container(
+              constraints: const BoxConstraints(
+                maxHeight: 70, // Set maximum height
+                maxWidth: 160, // Set maximum width
+              ),
+              child: Image.asset(
+                'assets/yes_loyality_s.png',
+                fit: BoxFit
+                    .contain, // Maintain aspect ratio while fitting the image within the box
+              ),
+            ),
+
             const Spacer(),
             InkWell(
               radius: 233,
@@ -78,7 +91,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                       onPopInvoked: (didPop) {
                         // Check if it's the first back press
                         final isFirstPop = !Navigator.of(context).canPop();
-      
+
                         if (didPop && isFirstPop) {
                           // Close the dialog without navigation
                           Navigator.of(context)

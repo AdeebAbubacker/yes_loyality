@@ -59,13 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    _loadCountryCode();
     context
         .read<UserDetailsBloc>()
         .add(const UserDetailsEvent.fetchUserDetails());
     BlocListener<UserDetailsBloc, UserDetailsState>(
       listener: (context, state) async {
         UserDetailsBox.put(
-          await GetSharedPreferences.getCustomerId(),
+          0,
           UserDetailsDB(
             customer_id: state.userDetails.data?.customerId.toString(),
             email: state.userDetails.data!.email.toString(),
@@ -74,8 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
             phone: state.userDetails.data!.phoneNumber.toString(),
             wallet_balance: state.userDetails.data!.walletBalance.toString(),
             wallet_total: state.userDetails.data!.walletTotal.toString(),
-            wallet_used: state.userDetails.data!.walletUsed.toString(),     countryDialcode: state.userDetails.data!.countryCode.toString(),
-            countrycode: state.userDetails.data!.countryAlphaCode.toString(),
+            wallet_used: state.userDetails.data!.walletUsed.toString(),
           ),
         );
 
@@ -141,6 +141,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Map bankData = {};
   var bank;
   bool isexit = false;
+String _countryCode = 'Loading...';
+    Future<void> _loadCountryCode() async {
+    String? countryCode = await GetSharedPreferences.getCountrycodes();
+
+    setState(() {
+      _countryCode = countryCode ?? 'No country code found';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     context
@@ -173,6 +182,12 @@ class _HomeScreenState extends State<HomeScreen> {
     double height92 = screenheight * 92 / FigmaConstants.figmaDeviceHeight;
     double height10 = screenheight * 10 / FigmaConstants.figmaDeviceHeight;
     Map<String, dynamic> row = {};
+    final Box<UserDetailsDB> UserDetailsBox =
+        Hive.box<UserDetailsDB>('UserDetailsBox');
+
+    Future<List<UserDetailsDB>> _getCountryCodes() async {
+      return UserDetailsBox.values.toList();
+    }
 
     return WillPopScope(
       onWillPop: () async {
@@ -223,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocListener<UserDetailsBloc, UserDetailsState>(
               listener: (context, state) async {
                 await UserDetailsBox.put(
-                  await GetSharedPreferences.getCustomerId(),
+                  0,
                   UserDetailsDB(
                     customer_id: state.userDetails.data?.customerId.toString(),
                     email: state.userDetails.data!.email.toString(),
@@ -234,17 +249,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         state.userDetails.data!.walletBalance.toString(),
                     wallet_total:
                         state.userDetails.data!.walletTotal.toString(),
-                    wallet_used: state.userDetails.data!.walletUsed.toString(),     countryDialcode: state.userDetails.data!.countryCode.toString(),
-            countrycode: state.userDetails.data!.countryAlphaCode.toString(),
+                    wallet_used: state.userDetails.data!.walletUsed.toString(),
+                    dial_code: state.userDetails.data!.countryAlphaCode.toString(),
                   ),
                 );
-                // await countryCodeBox.put(
-                //   0,
-                //   CountryCodeDB(
-                //     country_code: state.userDetails.data!.countryCode.toString(),
-                //     dial_code: state.userDetails.data!.countryCode.toString(),
-                //   ),
-                // );
+                await countryCodeBox.put(
+                  0,
+                  CountryCodeDB(
+                    country_code: state.userDetails.data!.countryAlphaCode.toString(),
+                    dial_code: state.userDetails.data!.countryCode.toString(),
+                  ),
+                );
+                await SetSharedPreferences.storeCountrycode(state.userDetails.data!.countryAlphaCode.toString());
                 print(state.userDetails.data?.imgUrl.toString());
               },
             ),
@@ -253,21 +269,21 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Visibility(
-                    visible: _selectedIndex == 3 ? false : true,
-                    child: SizedBox(height: height23)),
+                
+                SizedBox(height: height23),
                 HomeAppBar(
-                  isVisible: _selectedIndex == 3 ? false : true,
                   onBackTap: () async {
                     setState(() {
-                      if (_selectedIndex == 0 || _selectedIndex == 2) {
+                      if (_selectedIndex == 0 ||
+                          _selectedIndex == 2 ||
+                          _selectedIndex == 3) {
                         _selectedIndex = 1; // Navigate to Profile
                       } else if (_selectedIndex == 1) {
                         showExitPopup(context); // Show exit popup
                       }
                     });
                   },
-                ),
+                ), 
                 Visibility(
                     visible: _selectedIndex == 3 ? false : true,
                     child: SizedBox(height: height23)),

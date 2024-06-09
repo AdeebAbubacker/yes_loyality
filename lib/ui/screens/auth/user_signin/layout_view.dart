@@ -1,3 +1,4 @@
+import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
 import 'package:Yes_Loyalty/ui/screens/auth/user_signup/layout_view.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:Yes_Loyalty/ui/widgets/password_textfield.dart';
 import 'package:Yes_Loyalty/ui/widgets/textfield.dart';
 
 class SignInScreen extends StatefulWidget {
+  static const routeName = '/signIn';
   const SignInScreen({super.key});
 
   @override
@@ -24,6 +26,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _emailcontroller = TextEditingController();
+  final FocusNode emailfocusNode = FocusNode();
+  final FocusNode passwordfocusNode = FocusNode();
   String? _emailErrorText;
   String? _passwordErrorText;
   bool _formSubmitted = false; // Add this boolean flag
@@ -126,161 +130,176 @@ class _SignInScreenState extends State<SignInScreen> {
     double perc281 = screenHeight * 0.0281;
     double perc375 = screenHeight * 0.0375;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Center(
-        child: BlocConsumer<LoginBloc, LoginState>(
-          listener: (context, state)
-              {
-            state.maybeMap(
-              authsuccess: (value) {
-                setState(() {
-                  showDots = false;
-                });
-                // Navigate to home screen on successful login
-               context.push('/home');
-            
-                // You can also perform any other actions on success
-              },
-              authError: (value) {
-                setState(() {
-                  showDots = false;
-                });
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //     content: Text(value.message),
-                //     duration: const Duration(seconds: 2),
-                //   ),
-                // );
-                showCustomToast(
-                  context, "${value.message}",
-                  MediaQuery.of(context).size.height *
-                      0.9, // Adjust vertical position here
-                );
-              },
-              validationError: (value) {
-                setState(() {
-                  showDots = false;
-                });
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //     content: Text(value.Error),
-                //     duration: const Duration(seconds: 2),
-                //   ),
-                // );
-                showCustomToast(
-                  context, "${value.Error}",
-                  MediaQuery.of(context).size.height *
-                      0.9, // Adjust vertical position here
-                );
-              },
-              orElse: () {
-                // Handle other states or do nothing
-              },
-            );
-          },
-          builder: (context, state) {
-            return Center(
-              child: Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // const SizedBox(
-                      //   height: 70,
-                      // ),
-                      Image.asset('assets/yes_loyality_log.png'),
-                      SizedBox(height: perc20),
-                      Text(
-                        'Hello, Welcome back!',
-                        style: TextStyles.bold24black24,
-                      ),
-                      SizedBox(height: perc20),
-                      Text(
-                        'Sign in to continue',
-                        style: TextStyles.semibold16grey77,
-                      ),
-                      SizedBox(height: perc281),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: devicePadding),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+    return GestureDetector(
+      onTap: (){
+        emailfocusNode.unfocus();
+        passwordfocusNode.unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Center(
+          child: BlocConsumer<LoginBloc, LoginState>(
+            listener: (context, state) {
+              state.maybeMap(
+                authsuccess: (value) {
+                  setState(() {
+                    showDots = false;
+                  });
+      
+                  return navigateToHomeCleared(context);
+      
+                  // You can also perform any other actions on success
+                },
+                authError: (value) {
+                  setState(() {
+                    showDots = false;
+                  });
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text(value.message),
+                  //     duration: const Duration(seconds: 2),
+                  //   ),
+                  // );
+                  showCustomToast(
+                    context, "${value.message}",
+                    MediaQuery.of(context).size.height *
+                        0.9, // Adjust vertical position here
+                  );
+                },
+                validationError: (value) {
+                  setState(() {
+                    showDots = false;
+                  });
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text(value.Error),
+                  //     duration: const Duration(seconds: 2),
+                  //   ),
+                  // );
+                  showCustomToast(
+                    context, "${value.Error}",
+                    MediaQuery.of(context).size.height *
+                        0.9, // Adjust vertical position here
+                  );
+                },
+                orElse: () {
+                  // Handle other states or do nothing
+                },
+              );
+            },
+            builder: (context, state) {
+              return Center(
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // const SizedBox(
+                        //   height: 70,
+                        // ),
+      
+                        FractionallySizedBox(
+                          widthFactor: 0.75, // Take full available width
+                          child: Image.asset(
+                            'assets/yes_loyality_s.png',
+                            fit: BoxFit
+                                .contain, // Maintain aspect ratio while fitting the image within the box
+                          ),
+                        ),
+      
+                        SizedBox(height: perc20),
+                        Text(
+                          'Hello, Welcome back!',
+                          style: TextStyles.bold24black24,
+                        ),
+                        SizedBox(height: perc20),
+                        Text(
+                          'Sign in to continue',
+                          style: TextStyles.semibold16grey77,
+                        ),
+                        SizedBox(height: perc281),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: devicePadding),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Textfield(
+                                focusNode: emailfocusNode,
+                                errorText: _emailErrorText,
+                                hintText: 'Enter Email',
+                                textEditingController: _emailcontroller,
+                              ),
+                              SizedBox(height: elementPaddingVertical),
+                              PassWordTextfield(
+                                focusNode: passwordfocusNode,
+                                errorText: _passwordErrorText,
+                                hintText: 'Enter Password',
+                                textEditingController: _passwordController,
+                              ),
+                              SizedBox(height: perc187),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Forgot your password ?',
+                                  style: TextStyles.medium11grey66,
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: perc375),
+                        ColoredButton(
+                          onPressed: _submitForm,
+                          text: 'Sign In',
+                        ),
+                        SizedBox(height: perc187),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Textfield(
-                              errorText: _emailErrorText,
-                              hintText: 'Enter Email',
-                              textEditingController: _emailcontroller,
+                            Text(
+                              "Don't have an account?  ",
+                              style: TextStyles.rubikregular16black24w400,
                             ),
-                            SizedBox(height: elementPaddingVertical),
-                            PassWordTextfield(
-                              errorText: _passwordErrorText,
-                              hintText: 'Enter Password',
-                              textEditingController: _passwordController,
-                            ),
-                            SizedBox(height: perc187),
-                            Align(
-                              alignment: Alignment.centerLeft,
+                            InkWell(
+                              onTap: () {
+                                navigateToSignUp(context);
+                              },
                               child: Text(
-                                'Forgot your password ?',
-                                style: TextStyles.medium11grey66,
-                                textAlign: TextAlign.start,
+                                "Sign Up",
+                                style: TextStyles.medium16black3B,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(height: perc375),
-                      ColoredButton(
-                        onPressed: _submitForm,
-                        text: 'Sign In',
-                      ),
-                      SizedBox(height: perc187),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?  ",
-                            style: TextStyles.rubikregular16black24w400,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              context.push("/user_signup");
-                          
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyles.medium16black3B,
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Visibility(
+                        visible: showDots,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Container(
+                            width: 120,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(137, 212, 210, 210),
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Visibility(
-                      visible: showDots,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Container(
-                          width: 120,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(137, 212, 210, 210),
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                          ),
-                          child: JumpingDots(
-                            color: const Color.fromARGB(255, 129, 106, 205),
+                            child: JumpingDots(
+                              color: Color.fromARGB(210, 255, 109, 111),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

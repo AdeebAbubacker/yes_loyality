@@ -1,3 +1,4 @@
+import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 import 'package:Yes_Loyalty/core/model/login_validation/login_validation.dart';
 import 'package:dartz/dartz.dart';
 import 'dart:convert';
@@ -51,11 +52,15 @@ class LoginService {
     // Check the response status code
     if (response.statusCode == 200) {
       // Decode the response body
+       
       var jsonMap = json.decode(response.body);
 
       // Construct Login object from parsed data
       var login = Login.fromJson(jsonMap);
       print('Request successful ${login.data.email}');
+      var accessToken = await SetSharedPreferences.storeAccessToken(
+                 login.misc.accessToken) ??
+              'Access Token empty';
       return right(login);
     } else if (response.statusCode == 500) {
       var jsonMap = json.decode(response.body);
