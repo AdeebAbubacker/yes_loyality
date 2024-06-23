@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class Enter_otp_page extends StatelessWidget {

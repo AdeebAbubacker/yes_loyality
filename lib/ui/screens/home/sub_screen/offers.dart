@@ -21,7 +21,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
-
 class Offers extends StatefulWidget {
   const Offers({super.key});
 
@@ -30,11 +29,9 @@ class Offers extends StatefulWidget {
 }
 
 class _OffersState extends State<Offers> {
-
-
- List<Color> baseColors = [];
+  List<Color> baseColors = [];
   List<Color> gradientColors = [];
-    Color _generateDarkColor() {
+  Color _generateDarkColor() {
     Random random = Random();
     return Color.fromARGB(
       255,
@@ -43,14 +40,13 @@ class _OffersState extends State<Offers> {
       random.nextInt(156),
     );
   }
+
   Color _generateSlightVariationColor(Color baseColor) {
     HSLColor hslColor = HSLColor.fromColor(baseColor);
-    double newLightness = (hslColor.lightness + 0.1).clamp(0.0, 0.5); // Ensure it remains dark
+    double newLightness =
+        (hslColor.lightness + 0.1).clamp(0.0, 0.5); // Ensure it remains dark
     return hslColor.withLightness(newLightness).toColor();
   }
-
-
-
 
   String _formatExpiryDateWithMonthAsString(String? expiryEnd) {
     if (expiryEnd == null) return '';
@@ -144,86 +140,129 @@ class _OffersState extends State<Offers> {
     // double screenwidth = screenWidth(context);
     double height23 = screenheight * 23 / FigmaConstants.figmaDeviceHeight;
 
-    return SingleChildScrollView(
-      child: BlocBuilder<OffersListBloc, OffersListState>(
-          builder: (context, state) {
-        if (state.isLoading) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade200,
-            child: Container(
-              height: 110,
-              width: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                color: Colors.white,
+    String formatExpiryDate(String? expiryEnd) {
+      if (expiryEnd == null || expiryEnd.isEmpty) {
+        return 'Currently Available';
+      }
+
+      try {
+        DateTime parsedDate = DateTime.parse(expiryEnd);
+        String day = DateFormat('d').format(parsedDate);
+        String suffix = 'th';
+
+        if (day.endsWith('1') && day != '11') {
+          suffix = 'st';
+        } else if (day.endsWith('2') && day != '12') {
+          suffix = 'nd';
+        } else if (day.endsWith('3') && day != '13') {
+          suffix = 'rd';
+        }
+
+        String formattedDate =
+            DateFormat("d'$suffix' MMMM yyyy").format(parsedDate);
+        return formattedDate;
+      } catch (e) {
+        return 'Currently Available';
+      }
+    }
+
+    return BlocBuilder<OffersListBloc, OffersListState>(
+        builder: (context, state) {
+      if (state.isLoading) {
+        return Column(
+          children: [
+            Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade200,
+              child: Container(
+                height: 110,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.white,
+                ),
               ),
             ),
-          );
-        } else if (state.isError) {
-          return Text("Error");
-        }
-        if (state.offersList.data != null &&
-            state.offersList.data!.isNotEmpty) {
-               if (baseColors.isEmpty || gradientColors.isEmpty) {
-              for (var i = 0; i < state.offersList.data!.length; i++) {
-                Color baseColor = _generateDarkColor();
-                baseColors.add(baseColor);
-                gradientColors.add(_generateSlightVariationColor(baseColor));
-              }
-            }
-          return Column(
-            children: [
-              MasonryGridView.count(
-                padding: outerpadding,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                mainAxisSpacing: 19,
-                crossAxisSpacing: 18,
-                itemCount: state.offersList.data?.length ?? 3,
-                itemBuilder: (context, index) {
-                  List color1 = const [
-                    Color(0xFF328C76),
-                    Color(0xFFF5A443),
-                    Color(0xFFFFA0BC),
-                    Color.fromARGB(255, 82, 171, 255),
-                    Color(0xFF328C76),
-                    Color(0xFFF5A443),
-                    Color(0xFFFFA0BC),
-                    Color.fromARGB(255, 82, 171, 255),
-                  ];
-                  List color2 = const [
-                    Color(0xFF00B288),
-                    Color(0xFFFF9E2D),
-                    Color(0xFFFF1B5E),
-                    Color.fromARGB(255, 63, 162, 255),
-                    Color(0xFF328C76),
-                    Color(0xFFF5A443),
-                    Color(0xFFFFA0BC),
-                    Color.fromARGB(255, 82, 171, 255),
-                  ];
-                  return ContentBox(
-                    lineargradient1: baseColors[index],
-                      lineargradient2: gradientColors[index],
-                    offerinfo: '${state.offersList.data?[index].name}' ??
-                        'Special Offer',
-                    // comments:
-                    //     '${state.offersList.data?[index].comments}',
-                    comments: 'Hurry Up',
-                    expiryDate: 'Valid Up to - 04 th May 2024',
-
-                    // expiryDate:
-                    //     'Valid Up to - ${_formatExpiryDateWithMonthAsString('${state.offersList.data?[index].expiryEnd}')}',
-                  );
-                },
-              ),
-              SizedBox(height: height23),
-            ],
-          );
-        }
-       
+          ],
+        );
+      } else if (state.isError) {
         return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: Image.asset('assets/offers_error.png')),
+          ],
+        );
+      }
+      if (state.offersList.data != null && state.offersList.data!.isNotEmpty) {
+        if (baseColors.isEmpty ||
+            gradientColors.isEmpty ||
+            baseColors.length != state.offersList.data!.length ||
+            gradientColors.length != state.offersList.data!.length) {
+          baseColors.clear();
+          gradientColors.clear();
+          for (var i = 0; i < state.offersList.data!.length; i++) {
+            Color baseColor = _generateDarkColor();
+            baseColors.add(baseColor);
+            gradientColors.add(_generateSlightVariationColor(baseColor));
+          }
+        }
+        if (gradientColors.length == state.offersList.data!.length) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                MasonryGridView.count(
+                  padding: outerpadding,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 19,
+                  crossAxisSpacing: 18,
+                  itemCount: state.offersList.data?.length ?? 3,
+                  itemBuilder: (context, index) {
+                    List color1 = const [
+                      Color(0xFF328C76),
+                      Color(0xFFF5A443),
+                      Color(0xFFFFA0BC),
+                      Color.fromARGB(255, 82, 171, 255),
+                      Color(0xFF328C76),
+                      Color(0xFFF5A443),
+                      Color(0xFFFFA0BC),
+                      Color.fromARGB(255, 82, 171, 255),
+                    ];
+                    List color2 = const [
+                      Color(0xFF00B288),
+                      Color(0xFFFF9E2D),
+                      Color(0xFFFF1B5E),
+                      Color.fromARGB(255, 63, 162, 255),
+                      Color(0xFF328C76),
+                      Color(0xFFF5A443),
+                      Color(0xFFFFA0BC),
+                      Color.fromARGB(255, 82, 171, 255),
+                    ];
+                    String expiryEnd =
+                        '${state.offersList.data?[index].expiryEnd}';
+                    String formattedDate = formatExpiryDate(expiryEnd);
+                    return ContentBox(
+                      lineargradient1: baseColors[index],
+                      lineargradient2: gradientColors[index],
+                      offerinfo: '${state.offersList.data?[index].name}' ??
+                          'Special Offer',
+                      comments: '${state.offersList.data?[index].comments}' ??
+                          'Special Offer',
+                      expiryDate:
+                          '${formattedDate == "Currently Available" ? 'Currently Available' : 'Valid up to ${formattedDate}'}',
+                    );
+                  },
+                ),
+                SizedBox(height: height23),
+              ],
+            ),
+          );
+        }
+      }
+
+      return SingleChildScrollView(
+        child: Column(
           children: [
             MasonryGridView.count(
               padding: outerpadding,
@@ -232,7 +271,7 @@ class _OffersState extends State<Offers> {
               crossAxisCount: 2,
               mainAxisSpacing: 19,
               crossAxisSpacing: 18,
-              itemCount: state.offersList.data?.length ?? 4,
+              itemCount: 13,
               itemBuilder: (context, index) {
                 return Shimmer.fromColors(
                   baseColor: Colors.grey.shade300,
@@ -250,9 +289,9 @@ class _OffersState extends State<Offers> {
             ),
             SizedBox(height: height23),
           ],
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 }
 
@@ -341,67 +380,42 @@ class ContentBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return PopScope(
-              // Allow dismissing the popup on initial back press
-              canPop: true,
-              onPopInvoked: (didPop) {
-                // Check if it's the first back press
-                final isFirstPop = !Navigator.of(context).canPop();
-
-                if (didPop && isFirstPop) {
-                  // Close the dialog without navigation
-                  Navigator.of(context).pop(); // No need for (false) argument
-                }
-              },
-
-              child: const OfferPopup(), // Your dialog content
-            );
-          },
-        );
-      },
-      child: Container(
-        width: 200,
-        // height: 101,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                lineargradient1,
-                lineargradient2,
-              ],
-            ),
-            borderRadius: BorderRadius.circular(15)),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 17,
-            top: 17,
-            bottom: 17,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Special Offer',
-                style: TextStyles.rubik12whiteFFw400,
-              ),
-              const SizedBox(height: 5),
-              Text(offerinfo, style: TextStyles.rubik18whiteFFw600),
-              const SizedBox(height: 11),
-              Text(
-                comments,
-                style: TextStyles.rubik12whiteFFw400,
-              ),
-              const SizedBox(height: 11),
-              Text(expiryDate, style: TextStyles.rubik9whiteFFw300),
+    return Container(
+      width: 200,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              lineargradient1,
+              lineargradient2,
             ],
           ),
+          borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 8,
+          top: 17,
+          bottom: 17,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Special Offer',
+              style: TextStyles.rubik12whiteFFw400,
+            ),
+            const SizedBox(height: 5),
+            Text(offerinfo, style: TextStyles.rubik18whiteFFw600),
+            const SizedBox(height: 11),
+            Text(
+              comments,
+              style: TextStyles.rubik12whiteFFw400,
+            ),
+            const SizedBox(height: 11),
+            Text(expiryDate, style: TextStyles.rubik9whiteFFw300),
+          ],
         ),
       ),
     );
@@ -409,7 +423,8 @@ class ContentBox extends StatelessWidget {
 }
 
 class OfferPopup extends StatelessWidget {
-  const OfferPopup({Key? key}) : super(key: key);
+  final String expiryDate;
+  const OfferPopup({Key? key, this.expiryDate = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -437,25 +452,11 @@ class OfferPopup extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Align(
-                        //     alignment: Alignment.centerRight,
-                        //     child: GestureDetector(
-                        //         onTap: () {
-                        //           Navigator.pop(context); // Close the dialog
-                        //         },
-                        //         child: SvgPicture.asset(
-                        //           "assets/Close.svg",
-                        //           width: 13,
-                        //           color: Colors.white,
-                        //         ))),
                         Text(
                           'Super Sale',
                           style: TextStyles.regular28whiteFF,
                         ),
-                        const SizedBox(height: 4),
-                        Text("Up to 10% OFF on all cake orders",
-                            style: TextStyles.regular16whiteFF),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 20),
                         PopupSectionButton(
                           text: 'Apply code',
                           onPressed: () {},
@@ -481,7 +482,7 @@ class OfferPopup extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Offer valid till 11 May 2024',
+                            expiryDate,
                             style: TextStyles.rubikregular14black70,
                           ),
                           const SizedBox(height: 20),
@@ -571,12 +572,12 @@ class OfferPopup extends StatelessWidget {
             top: 0,
             right: 0,
             child: Material(
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               color: Colors.transparent,
               child: IconButton(
                 splashRadius: 50,
                 onPressed: () {
-                  Navigator.pop(context); // Close the dialog
+                  Navigator.pop(context);
                 },
                 icon: SvgPicture.asset(
                   "assets/Close.svg",
@@ -592,39 +593,6 @@ class OfferPopup extends StatelessWidget {
   }
 }
 
-// class BulletPointList extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: 200,
-//       child:
-
-//        ListView(
-//         shrinkWrap: true,
-//         children: <Widget>[
-//           ListTile(
-//             leading: Icon(
-//               Icons.circle,
-//               size: 6,
-//               weight: 6,
-//             ),
-//             title: Text(
-//                 'Item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'),
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.circle),
-//             title: Text('Item 2'),
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.circle),
-//             title: Text('Item 3'),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class BulletPointList extends StatelessWidget {
   const BulletPointList({super.key});
 
@@ -634,8 +602,7 @@ class BulletPointList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center, // Align icon vertically centered
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.only(top: 6),
@@ -653,7 +620,6 @@ class BulletPointList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Wrap(
-                // Use Wrap widget for text wrapping
                 children: [
                   Text(
                       "Donec vel tortor quis justo iaculis elementum sit amet vel magna.",

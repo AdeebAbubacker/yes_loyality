@@ -1,14 +1,11 @@
 import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
-import 'package:Yes_Loyalty/ui/screens/auth/user_signup/layout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:Yes_Loyalty/core/view_model/login/login_bloc.dart';
-import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
 import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
 import 'package:Yes_Loyalty/ui/widgets/password_textfield.dart';
 import 'package:Yes_Loyalty/ui/widgets/textfield.dart';
@@ -65,18 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
           _emailErrorText = null;
         });
       }
-      if (!isEmailValid(value)) {
-        setState(() {
-          _emailErrorText = 'Enter a valid email address';
-        });
-      }
     }
-  }
-
-  bool isEmailValid(String email) {
-    // Basic email validation using regex
-    // You can implement more complex validation if needed
-    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
   }
 
   void _onPasswordChanged() {
@@ -107,17 +93,17 @@ class _SignInScreenState extends State<SignInScreen> {
       _validatePassword(_passwordController.text);
     });
 
-    BlocProvider.of<LoginBloc>(context).add(
-      LoginEvent.signInWithEmailAndPassword(
-        email: _emailcontroller.text,
-        password: _passwordController.text,
-        // email: emailcontroller.text,
-        // password: emailcontroller.text,
-      ),
-    );
-    setState(() {
-      showDots = true;
-    });
+    if (_emailcontroller.text.isNotEmpty) {
+      setState(() {
+        showDots = true;
+      });
+      BlocProvider.of<LoginBloc>(context).add(
+        LoginEvent.signInWithEmailAndPassword(
+          email: _emailcontroller.text,
+          password: _passwordController.text,
+        ),
+      );
+    }
   }
 
   @override
@@ -131,7 +117,7 @@ class _SignInScreenState extends State<SignInScreen> {
     double perc375 = screenHeight * 0.0375;
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         emailfocusNode.unfocus();
         passwordfocusNode.unfocus();
       },
@@ -145,37 +131,22 @@ class _SignInScreenState extends State<SignInScreen> {
                   setState(() {
                     showDots = false;
                   });
-      
                   return navigateToHomeCleared(context);
-      
-                  // You can also perform any other actions on success
                 },
                 authError: (value) {
                   setState(() {
                     showDots = false;
                   });
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: Text(value.message),
-                  //     duration: const Duration(seconds: 2),
-                  //   ),
-                  // );
                   showCustomToast(
-                    context, "${value.message}",
-                    MediaQuery.of(context).size.height *
-                        0.9, // Adjust vertical position here
+                    context,
+                    "Oops something went wrong!",
+                    MediaQuery.of(context).size.height * 0.9,
                   );
                 },
                 validationError: (value) {
                   setState(() {
                     showDots = false;
                   });
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: Text(value.Error),
-                  //     duration: const Duration(seconds: 2),
-                  //   ),
-                  // );
                   showCustomToast(
                     context, "${value.Error}",
                     MediaQuery.of(context).size.height *
@@ -189,40 +160,40 @@ class _SignInScreenState extends State<SignInScreen> {
             },
             builder: (context, state) {
               return Center(
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // const SizedBox(
-                        //   height: 70,
-                        // ),
-      
-                        FractionallySizedBox(
-                          widthFactor: 0.75, // Take full available width
-                          child: Image.asset(
-                            'assets/yes_loyality_s.png',
-                            fit: BoxFit
-                                .contain, // Maintain aspect ratio while fitting the image within the box
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: devicePadding),
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const SizedBox(
+                          //   height: 70,
+                          // ),
+
+                          FractionallySizedBox(
+                            widthFactor: 0.75, // Take full available width
+                            child: Image.asset(
+                              'assets/yes_loyality_s.png',
+                              fit: BoxFit
+                                  .contain, // Maintain aspect ratio while fitting the image within the box
+                            ),
                           ),
-                        ),
-      
-                        SizedBox(height: perc20),
-                        Text(
-                          'Hello, Welcome back!',
-                          style: TextStyles.bold24black24,
-                        ),
-                        SizedBox(height: perc20),
-                        Text(
-                          'Sign in to continue',
-                          style: TextStyles.semibold16grey77,
-                        ),
-                        SizedBox(height: perc281),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: devicePadding),
-                          child: Column(
+
+                          SizedBox(height: perc20),
+                          Text(
+                            'Hello, Welcome back!',
+                            style: TextStyles.bold24black24,
+                          ),
+                          SizedBox(height: perc20),
+                          Text(
+                            'Sign in to continue',
+                            style: TextStyles.semibold16grey77,
+                          ),
+                          SizedBox(height: perc281),
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Textfield(
                                 focusNode: emailfocusNode,
@@ -237,65 +208,73 @@ class _SignInScreenState extends State<SignInScreen> {
                                 hintText: 'Enter Password',
                                 textEditingController: _passwordController,
                               ),
-                              SizedBox(height: perc187),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Forgot your password ?',
-                                  style: TextStyles.medium11grey66,
-                                  textAlign: TextAlign.start,
+                              //SizedBox(height: 5),
+                              TextButton(
+                                onPressed: () {
+                                  navigateToForgotPassword(context);
+                                },
+                                child: IntrinsicWidth(
+                                  // Wrap the child with IntrinsicWidth
+                                  child: Align(
+                                    child: Text(
+                                      'Forgot your password?',
+                                      style: TextStyles.medium16black00,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(height: perc375),
-                        ColoredButton(
-                          onPressed: _submitForm,
-                          text: 'Sign In',
-                        ),
-                        SizedBox(height: perc187),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Don't have an account?  ",
-                              style: TextStyles.rubikregular16black24w400,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                navigateToSignUp(context);
-                              },
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyles.medium16black3B,
+                          SizedBox(height: 10),
+                          ColoredButton(
+                            onPressed: _submitForm,
+                            text: 'Sign In',
+                          ),
+                          SizedBox(height: perc187),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Don't have an account?  ",
+                                style: TextStyles.rubikregular16grey77w400,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Visibility(
-                        visible: showDots,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: Container(
-                            width: 120,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(137, 212, 210, 210),
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
-                            ),
-                            child: JumpingDots(
-                              color: Color.fromARGB(210, 255, 109, 111),
+                              InkWell(
+                                onTap: () {
+                                  navigateToSignUp(context);
+                                },
+                                child: Text(
+                                  "Sign Up",
+                                  style: TextStyles.medium16black3B,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Visibility(
+                          visible: showDots,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 30),
+                            child: Container(
+                              width: 120,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(137, 212, 210, 210),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              ),
+                              child: JumpingDots(
+                                color: const Color.fromARGB(210, 255, 109, 111),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

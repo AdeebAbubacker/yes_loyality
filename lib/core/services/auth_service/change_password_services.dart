@@ -22,7 +22,7 @@ class ChangePassWordService {
     // Define form data
     Map<String, String> formData = {
       'current_password': currentPassword,
-      'new_password': newPassword,
+      'password': newPassword,
       'confirm_password': confirmPassword,
     };
 

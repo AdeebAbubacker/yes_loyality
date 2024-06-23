@@ -10,15 +10,15 @@ class PointsCredited extends StatelessWidget {
   final String paymentTime;
   final String barnchName;
   final String invoiceId;
-    final String coins;
+  final String coins;
   final bool isCredited;
   const PointsCredited({
     Key? key,
     required this.paymentTime,
-     required this.coins,
+    required this.coins,
     required this.barnchName,
     required this.invoiceId,
-       required this.isCredited,
+    required this.isCredited,
   }) : super(key: key);
 
   @override
@@ -36,14 +36,16 @@ class PointsCredited extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const PaymentStatusWidget(),
+                PaymentStatusWidget(
+                  isCredited: isCredited,
+                ),
                 const SizedBox(height: 10),
-                 Text(
-                 isCredited? 'Loyalty Credited' : 'Loyalty Debited',
+                Text(
+                  isCredited ? 'Loyalty Credited' : 'Loyalty Debited',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                 Text(coins,
+                Text(coins,
                     style:
                         TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 20),
@@ -70,7 +72,7 @@ class PointsCredited extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 9),
-                 Row(
+                Row(
                   children: [
                     Text('Invoice ID',
                         style: TextStyle(fontSize: 10, color: Colors.grey)),
@@ -80,22 +82,12 @@ class PointsCredited extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 9),
-                 Row(
+                Row(
                   children: [
                     Text('Branch',
                         style: TextStyle(fontSize: 10, color: Colors.grey)),
                     Spacer(),
                     Text(barnchName,
-                        style: TextStyle(fontSize: 10, color: Colors.black)),
-                  ],
-                ),
-                const SizedBox(height: 9),
-                const Row(
-                  children: [
-                    Text('Payment Method',
-                        style: TextStyle(fontSize: 10, color: Colors.grey)),
-                    Spacer(),
-                    Text('Bank Transfer',
                         style: TextStyle(fontSize: 10, color: Colors.black)),
                   ],
                 ),
@@ -224,7 +216,8 @@ class PointsCredited extends StatelessWidget {
 // }
 
 class PaymentStatusWidget extends StatefulWidget {
-  const PaymentStatusWidget({Key? key}) : super(key: key);
+  bool isCredited;
+  PaymentStatusWidget({Key? key, this.isCredited = true}) : super(key: key);
 
   @override
   State<PaymentStatusWidget> createState() => _PaymentStatusWidgetState();
@@ -274,7 +267,9 @@ class _PaymentStatusWidgetState extends State<PaymentStatusWidget>
       width: 80, // Adjust width as needed
       height: 80, // Adjust height as needed
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 240, 255, 248), // Red background color
+        color: widget.isCredited
+            ? const Color.fromARGB(255, 240, 255, 248)
+            : Color.fromARGB(255, 255, 240, 240), // Red background color
         borderRadius: BorderRadius.circular(80), // Border radius of 80
       ),
       child: Center(
@@ -287,7 +282,9 @@ class _PaymentStatusWidgetState extends State<PaymentStatusWidget>
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF23A26D),
+                  color: widget.isCredited
+                      ? const Color(0xFF23A26D)
+                      : Color.fromARGB(255, 236, 41, 41),
                   borderRadius: BorderRadius.circular(90),
                 ),
                 child: const Icon(

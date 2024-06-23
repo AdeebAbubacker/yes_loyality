@@ -3,8 +3,6 @@ import 'package:Yes_Loyalty/core/db/hive_db/adapters/user_details_adapter/user_d
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
 import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
-import 'package:Yes_Loyalty/testing/final_testing.dart';
-import 'package:Yes_Loyalty/testing/profile_edit.dart';
 
 import 'package:Yes_Loyalty/ui/animations/point_details_shimmer.dart';
 import 'package:Yes_Loyalty/ui/animations/profile_shimmer.dart';
@@ -23,7 +21,6 @@ import 'package:Yes_Loyalty/ui/screens/home/widgets/available_balance.dart';
 import 'package:Yes_Loyalty/ui/screens/home/widgets/expense_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class Profile extends StatefulWidget {
@@ -319,7 +316,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                                           //   style: TextStyles.ibmMono14whiteFF,
                                           // ),
                                           Text(
-                                            'Customer Id :${userDetails[0].customer_id}',
+                                            'Customer Id: ${userDetails[0].customer_id}',
                                             style: TextStyles.rubik14whiteFF,
                                           ),
                                           SizedBox(width: 9),

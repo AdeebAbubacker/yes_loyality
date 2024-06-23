@@ -8,20 +8,13 @@ import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/core/view_model/logout/logout_bloc.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
-
-import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/home/sub_screen/settings.dart';
-import 'package:Yes_Loyalty/ui/screens/settings/user/change_password/change_password.dart';
-import 'package:Yes_Loyalty/ui/screens/settings/user/delete_account/delete_account.dart';
-import 'package:Yes_Loyalty/ui/screens/settings/user/logout/logout.dart';
 import 'package:Yes_Loyalty/ui/widgets/appbar.dart';
+import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'dart:math';
-import 'package:intl/intl.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({
@@ -48,21 +41,20 @@ class _UserSettingsState extends State<UserSettings> {
 
     return Scaffold(
         body: SafeArea(
-      child:
-      
-       BlocListener<LogoutBloc, LogoutState>(
+      child: BlocListener<LogoutBloc, LogoutState>(
         listener: (context, state) async {
           if (state.isError) {
             showCustomToast(context, 'Failed to logout',
                 MediaQuery.of(context).size.height * 0.7);
           } else if (!state.isLoading && state.statusCode != 0) {
             await GetSharedPreferences.deleteAccessToken();
+            await GetSharedPreferences.getCountrycodes();
             await selectedBranchBox.clear();
             await UserDetailsBox.clear();
             await countryCodeBox.clear();
-           if (context.mounted) {
-              return  navigateTosiginCleared(context);
-              }
+            if (context.mounted) {
+              return navigateTosiginCleared(context);
+            }
           }
         },
         child: Column(
@@ -78,8 +70,10 @@ class _UserSettingsState extends State<UserSettings> {
             const SizedBox(height: 20),
             const SizedBox(height: 10),
             SettingsContent(
-                description: 'Change Password',
-                icon: SvgPicture.asset('assets/change_p_settings.svg'),
+                description: '  Change Password',
+                icon: SvgPicture.asset(
+                  'assets/change_p_settings.svg',
+                ),
                 onTap: () {
                   print("sss");
 
@@ -87,15 +81,19 @@ class _UserSettingsState extends State<UserSettings> {
                 }),
             SettingsContent(
                 description: 'Delete Account',
-                icon: SvgPicture.asset('assets/delete_settings.svg'),
+                icon: SvgPicture.asset(
+                  'assets/delete_settings.svg',
+                ),
                 onTap: () {
                   print("sss");
 
                   navigateTodeleteAcc(context);
                 }),
             SettingsContent(
-              description: 'Logout',
-              icon: SvgPicture.asset('assets/logout_settings.svg'),
+              description: ' Logout',
+              icon: SvgPicture.asset(
+                'assets/logout_settings.svg',
+              ),
               onTap: () {
                 showExitPopup(context);
               },
@@ -111,54 +109,62 @@ class _UserSettingsState extends State<UserSettings> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: SizedBox(
-            height: 90,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Do you want to exit?"),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            context
-                                .read<LogoutBloc>()
-                                .add(const LogoutEvent.logout());
-                          } catch (e) {
-                            // Handle any errors that occur during the asynchronous operations
-                            print('Error during logout: $e');
-                            showCustomToast(
-                                context,
-                                'Failed to log out. Please try again.',
-                                MediaQuery.of(context).size.height * 0.7);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red.shade800),
-                        child: const Text("Yes"),
-                      ),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                        child: ElevatedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          contentPadding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text("Logout", style: TextStyles.rubik16black33w600),
+                  Spacer(),
+                  IconButton(
                       onPressed: () {
-                        // ignore: avoid_print
-                        print('no selected');
                         Navigator.of(context).pop();
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      child: const Text("No",
-                          style: TextStyle(color: Colors.black)),
-                    ))
+                      icon: Icon(Icons.close))
+                ],
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Column(
+                  children: [
+                    Text("Are you sure you want to logout your account?",
+                        style: TextStyles.rubik16black33w400),
+                    const SizedBox(height: 20),
+                    LogoutColoredButton(
+                      text: 'Logout',
+                      onPressed: () async {
+                        try {
+                          context
+                              .read<LogoutBloc>()
+                              .add(const LogoutEvent.logout());
+                        } catch (e) {
+                          // Handle any errors that occur during the asynchronous operations
+                          print('Error during logout: $e');
+                          showCustomToast(
+                              context,
+                              'Failed to log out. Please try again.',
+                              MediaQuery.of(context).size.height * 0.7);
+                        }
+                      },
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyles.rubik16black33w300,
+                        )),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         );
       },

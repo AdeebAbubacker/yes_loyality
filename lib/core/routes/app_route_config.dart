@@ -14,6 +14,16 @@ void navigateToHomeCleared(BuildContext context) =>
       (Route route) => false,
     );
 
+
+void navigateToSiginCleared(BuildContext context) =>
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/sigin',
+      (Route route) => false,
+    );
+
+void navigateToAccountCreatedSuccess(BuildContext context,) =>
+    Navigator.of(context).pushNamed('/accCreatedSuccess');
+
 void navigateToSignUp(BuildContext context) =>
     Navigator.of(context).pushNamed('/signup');
 
@@ -31,3 +41,15 @@ void navigateToChangePassword(BuildContext context) =>
 
 void navigateTodeleteAcc(BuildContext context) =>
     Navigator.of(context).pushNamed('/deleteAccount');
+
+void navigateToForgotPassword(BuildContext context) =>
+    Navigator.of(context).pushNamed('/forgotpassword');
+
+void navigateToOtpVerify(BuildContext context,) =>
+    Navigator.of(context).pushNamed('/verfyOtp');
+
+void navigateToPasswordChange(BuildContext context,) =>
+    Navigator.of(context).pushNamed('/resetpassword');
+
+
+

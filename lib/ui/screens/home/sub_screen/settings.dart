@@ -1,30 +1,9 @@
-import 'dart:math';
-
 import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
-import 'package:Yes_Loyalty/ui/animations/offer_shimmer.dart';
-import 'package:Yes_Loyalty/ui/screens/settings/support/support_screen.dart';
-import 'package:Yes_Loyalty/ui/screens/settings/user/user_settings.dart';
-import 'package:Yes_Loyalty/ui/widgets/appbar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
-import 'package:Yes_Loyalty/core/view_model/offers_list/offers_list_bloc.dart';
-import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
-import 'package:go_router/go_router.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
-
-import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:intl/intl.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -84,13 +63,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () {
               print("sss");
 
-            navigateToUserSettings(context);
+              navigateToUserSettings(context);
             }),
         SettingsContent(
             description: 'Get Support',
             icon: SvgPicture.asset('assets/support_settings.svg'),
             onTap: () {
-             navigateToGetSupport(context);
+              navigateToGetSupport(context);
               //  context.push("/user_signup");
             }),
         SettingsContent(
@@ -105,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             }),
         //ccc
         SettingsContent(
-          description: 'Terms and conditions',
+          description: 'Terms and Conditions',
           icon: SvgPicture.asset('assets/terms&c.svg'),
           onTap: () {
             setState(() {
@@ -193,7 +172,7 @@ class ApppVersionContent extends StatelessWidget {
               Expanded(
                 child: Text(description, style: TextStyles.rubik16black33w400),
               ),
-              Text('V.1.0.0', style: TextStyles.rubik16black33w400),
+              Text('V.1.0.1', style: TextStyles.rubik16black33w400),
               SizedBox(width: 20),
             ],
           ),

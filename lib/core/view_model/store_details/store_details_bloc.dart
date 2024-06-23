@@ -13,7 +13,8 @@ class StoreDetailsBloc extends Bloc<StoreDetailsEvent, StoreDetailsState> {
   StoreDetailsBloc() : super(StoreDetailsState.initial()) {
     on<_FetchStoreDetails>((event, emit) async {
       try {
-        final response = await StoreService.fetchStoreDetails(storeId: event.storeId);
+        final response =
+            await StoreService.fetchStoreDetails(storeId: event.storeId);
         emit(StoreDetailsState(
           isLoading: false,
           isError: false,
@@ -31,6 +32,12 @@ class StoreDetailsBloc extends Bloc<StoreDetailsEvent, StoreDetailsState> {
         ));
       }
     });
+    on<_ClearStoreDetailsData>((event, emit) async {
+      emit(StoreDetailsState(
+          isLoading: false,
+          isError: false,
+          storeDetails: StoreDetails(),
+          successorFailure: None()));
+    });
   }
 }
-

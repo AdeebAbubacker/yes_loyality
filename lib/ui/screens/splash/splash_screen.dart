@@ -2,10 +2,7 @@ import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
-import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
-import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:Yes_Loyalty/core/db/shared/shared_prefernce.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -27,7 +24,6 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/yesyes_loyality_logo.png'),
-              //  SizedBox(height: spacing1),
             ],
           ),
           Positioned(
@@ -37,12 +33,12 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Version 1.0.0",
+                  "Version 1.0.1",
                   style: TextStyles.rubikregular14black3B,
                 ),
                 SizedBox(height: height8),
                 Text(
-                  "Copyright @ 2024 Yes Loyalty",
+                  "Copyright @ 2024 Yes Yes Loyalty",
                   style: TextStyles.rubikregular14grey66,
                 ),
                 SizedBox(
@@ -60,12 +56,13 @@ class SplashScreen extends StatelessWidget {
     final String? accessToken = await GetSharedPreferences.getAccessToken();
     if (accessToken != null) {
       Future.delayed(const Duration(seconds: 3), () {
-       return navigateToHomeCleared(context);
+        return navigateToHomeCleared(context);
       });
     } else {
       // If no access token, navigate to sign-in screen after delay
       Future.delayed(const Duration(seconds: 3), () {
         return navigateTosiginCleared(context);
       });
-    }  }
+    }
+  }
 }

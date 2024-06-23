@@ -191,6 +191,71 @@ class ColoredButton extends StatelessWidget {
   }
 }
 
+
+class LogoutColoredButton extends StatelessWidget {
+  final bool isactive;
+  final VoidCallback? onPressed;
+  final String text;
+  const LogoutColoredButton({
+    Key? key,
+    required this.text,
+    this.isactive = true,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double screenwidth = screenWidth(context);
+    final buttonwidth = screenwidth * 335 / FigmaConstants.figmaDeviceWidth;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: SizedBox(
+        width: double.infinity,
+        height: 44,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: isactive
+                        ? [
+                            Color(0xFFFF6D70),
+                            Color(0xFFEE1F23),
+                          ]
+                        : [
+                            Color.fromARGB(210, 255, 109, 111),
+                            Color.fromARGB(207, 238, 31, 34),
+                          ],
+                  ),
+                ),
+              ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(5),
+                onTap: onPressed,
+                child: Center(
+                  // Centering text vertically
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.rubikmedium16whiteFF,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
 class PopupSectionButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
@@ -238,3 +303,5 @@ class PopupSectionButton extends StatelessWidget {
     );
   }
 }
+
+

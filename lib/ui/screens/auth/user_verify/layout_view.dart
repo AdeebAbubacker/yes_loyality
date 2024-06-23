@@ -3,7 +3,7 @@ import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
 import 'package:Yes_Loyalty/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 
 class VerifyYourAccount extends StatelessWidget {
   const VerifyYourAccount({super.key});

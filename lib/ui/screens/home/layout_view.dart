@@ -141,8 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Map bankData = {};
   var bank;
   bool isexit = false;
-String _countryCode = 'Loading...';
-    Future<void> _loadCountryCode() async {
+  String _countryCode = 'Loading...';
+  Future<void> _loadCountryCode() async {
     String? countryCode = await GetSharedPreferences.getCountrycodes();
 
     setState(() {
@@ -250,17 +250,20 @@ String _countryCode = 'Loading...';
                     wallet_total:
                         state.userDetails.data!.walletTotal.toString(),
                     wallet_used: state.userDetails.data!.walletUsed.toString(),
-                    dial_code: state.userDetails.data!.countryAlphaCode.toString(),
+                    dial_code:
+                        state.userDetails.data!.countryAlphaCode.toString(),
                   ),
                 );
                 await countryCodeBox.put(
                   0,
                   CountryCodeDB(
-                    country_code: state.userDetails.data!.countryAlphaCode.toString(),
+                    country_code:
+                        state.userDetails.data!.countryAlphaCode.toString(),
                     dial_code: state.userDetails.data!.countryCode.toString(),
                   ),
                 );
-                await SetSharedPreferences.storeCountrycode(state.userDetails.data!.countryAlphaCode.toString());
+                await SetSharedPreferences.storeCountrycode(
+                    state.userDetails.data!.countryAlphaCode.toString());
                 print(state.userDetails.data?.imgUrl.toString());
               },
             ),
@@ -269,7 +272,6 @@ String _countryCode = 'Loading...';
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 SizedBox(height: height23),
                 HomeAppBar(
                   onBackTap: () async {
@@ -283,7 +285,7 @@ String _countryCode = 'Loading...';
                       }
                     });
                   },
-                ), 
+                ),
                 Visibility(
                     visible: _selectedIndex == 3 ? false : true,
                     child: SizedBox(height: height23)),
@@ -492,6 +494,7 @@ String _countryCode = 'Loading...';
                       height: 1,
                       color: const Color.fromARGB(255, 211, 211, 208),
                     ),
+                    const SizedBox(height: 9),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 14, top: 8, right: 14, bottom: 8),
@@ -598,7 +601,7 @@ String _countryCode = 'Loading...';
                                                         "assets/Map icon.svg"),
                                                     const SizedBox(width: 13),
                                                     Text(
-                                                      "${branch.selctedBranchName ?? 'hhhhh'}",
+                                                      "${branch.selctedBranchName ?? 'N/A'}",
                                                       style: TextStyles
                                                           .rubik16black33,
                                                     ),

@@ -20,18 +20,21 @@ mixin _$StoreDetailsEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String storeId) fetchStoreDetails,
+    required TResult Function() clearStoreDetailsData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String storeId)? fetchStoreDetails,
+    TResult? Function()? clearStoreDetailsData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String storeId)? fetchStoreDetails,
+    TResult Function()? clearStoreDetailsData,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,22 @@ mixin _$StoreDetailsEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_FetchStoreDetails value) fetchStoreDetails,
+    required TResult Function(_ClearStoreDetailsData value)
+        clearStoreDetailsData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult? Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,6 +121,7 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String storeId) fetchStoreDetails,
+    required TResult Function() clearStoreDetailsData,
   }) {
     return started();
   }
@@ -123,6 +131,7 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String storeId)? fetchStoreDetails,
+    TResult? Function()? clearStoreDetailsData,
   }) {
     return started?.call();
   }
@@ -132,6 +141,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String storeId)? fetchStoreDetails,
+    TResult Function()? clearStoreDetailsData,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -145,6 +155,8 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_FetchStoreDetails value) fetchStoreDetails,
+    required TResult Function(_ClearStoreDetailsData value)
+        clearStoreDetailsData,
   }) {
     return started(this);
   }
@@ -154,6 +166,7 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult? Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
   }) {
     return started?.call(this);
   }
@@ -163,6 +176,7 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -243,6 +257,7 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String storeId) fetchStoreDetails,
+    required TResult Function() clearStoreDetailsData,
   }) {
     return fetchStoreDetails(storeId);
   }
@@ -252,6 +267,7 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String storeId)? fetchStoreDetails,
+    TResult? Function()? clearStoreDetailsData,
   }) {
     return fetchStoreDetails?.call(storeId);
   }
@@ -261,6 +277,7 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String storeId)? fetchStoreDetails,
+    TResult Function()? clearStoreDetailsData,
     required TResult orElse(),
   }) {
     if (fetchStoreDetails != null) {
@@ -274,6 +291,8 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_FetchStoreDetails value) fetchStoreDetails,
+    required TResult Function(_ClearStoreDetailsData value)
+        clearStoreDetailsData,
   }) {
     return fetchStoreDetails(this);
   }
@@ -283,6 +302,7 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult? Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
   }) {
     return fetchStoreDetails?.call(this);
   }
@@ -292,6 +312,7 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
     required TResult orElse(),
   }) {
     if (fetchStoreDetails != null) {
@@ -309,6 +330,117 @@ abstract class _FetchStoreDetails implements StoreDetailsEvent {
   @JsonKey(ignore: true)
   _$$FetchStoreDetailsImplCopyWith<_$FetchStoreDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClearStoreDetailsDataImplCopyWith<$Res> {
+  factory _$$ClearStoreDetailsDataImplCopyWith(
+          _$ClearStoreDetailsDataImpl value,
+          $Res Function(_$ClearStoreDetailsDataImpl) then) =
+      __$$ClearStoreDetailsDataImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ClearStoreDetailsDataImplCopyWithImpl<$Res>
+    extends _$StoreDetailsEventCopyWithImpl<$Res, _$ClearStoreDetailsDataImpl>
+    implements _$$ClearStoreDetailsDataImplCopyWith<$Res> {
+  __$$ClearStoreDetailsDataImplCopyWithImpl(_$ClearStoreDetailsDataImpl _value,
+      $Res Function(_$ClearStoreDetailsDataImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$ClearStoreDetailsDataImpl implements _ClearStoreDetailsData {
+  const _$ClearStoreDetailsDataImpl();
+
+  @override
+  String toString() {
+    return 'StoreDetailsEvent.clearStoreDetailsData()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClearStoreDetailsDataImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String storeId) fetchStoreDetails,
+    required TResult Function() clearStoreDetailsData,
+  }) {
+    return clearStoreDetailsData();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String storeId)? fetchStoreDetails,
+    TResult? Function()? clearStoreDetailsData,
+  }) {
+    return clearStoreDetailsData?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String storeId)? fetchStoreDetails,
+    TResult Function()? clearStoreDetailsData,
+    required TResult orElse(),
+  }) {
+    if (clearStoreDetailsData != null) {
+      return clearStoreDetailsData();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_FetchStoreDetails value) fetchStoreDetails,
+    required TResult Function(_ClearStoreDetailsData value)
+        clearStoreDetailsData,
+  }) {
+    return clearStoreDetailsData(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult? Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
+  }) {
+    return clearStoreDetailsData?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_FetchStoreDetails value)? fetchStoreDetails,
+    TResult Function(_ClearStoreDetailsData value)? clearStoreDetailsData,
+    required TResult orElse(),
+  }) {
+    if (clearStoreDetailsData != null) {
+      return clearStoreDetailsData(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ClearStoreDetailsData implements StoreDetailsEvent {
+  const factory _ClearStoreDetailsData() = _$ClearStoreDetailsDataImpl;
 }
 
 /// @nodoc

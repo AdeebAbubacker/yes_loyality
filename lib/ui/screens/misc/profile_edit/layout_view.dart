@@ -8,14 +8,13 @@ import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
 import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:Yes_Loyalty/core/view_model/user_details/user_details_bloc.dart';
 import 'package:Yes_Loyalty/ui/animations/toast.dart';
-import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
-import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
@@ -43,8 +42,8 @@ class _ProfileEditState extends State<ProfileEdit> {
   final TextEditingController namecontroller = TextEditingController();
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController phonecontroller = TextEditingController();
-    final FocusNode namefocusNode = FocusNode();
-  final FocusNode emailfocusNode  = FocusNode();
+  final FocusNode namefocusNode = FocusNode();
+  final FocusNode emailfocusNode = FocusNode();
   final FocusNode phonefocusNode = FocusNode();
   String? fileName = '';
   String? filePath = '';
@@ -113,25 +112,23 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   void _onPhoneChanged() {
     if (_formSubmitted) {
-      // Only validate if the form has been submitted at least once
       _validatePhone(phonecontroller.text);
     }
   }
 
   void _openFilePicker(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image, // Only allow image files
+      type: FileType.image,
     );
 
     if (result != null) {
       String? selectedFilePath = result.files.single.path;
       String? selectedFileName = basename(selectedFilePath!);
 
-      // Validate the file type (ensure it's an image file)
       if (!_isValidImageFile(selectedFileName)) {
         showCustomToast(
             context, 'Please select a valid image file (PNG or JPEG)', 200);
-        return; // Exit early if the file type is invalid
+        return;
       }
 
       setState(() {
@@ -140,9 +137,6 @@ class _ProfileEditState extends State<ProfileEdit> {
       });
 
       print("Selected file: $fileName");
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Invalid image format')));
     }
   }
 
@@ -155,7 +149,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     setState(() {
       if (value.isEmpty) {
         _phoneErrorText = 'Phone no is required';
-      }  else {
+      } else {
         _phoneErrorText = null;
       }
     });
@@ -167,7 +161,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     final countryCodeDB =
         CountryCodeDB(dial_code: dialCode, country_code: countryCode);
     await box.put(0, countryCodeDB);
-    print("Saved to Hive: $dialCode, $countryCode"); // Debug print
+    print("Saved to Hive: $dialCode, $countryCode");
   }
 
   void _submitForm(BuildContext context) async {
@@ -177,10 +171,8 @@ class _ProfileEditState extends State<ProfileEdit> {
           .add(const UserDetailsEvent.fetchUserDetails());
     });
 
-    // Set form submitted and validate phone
     setState(() {
-      _formSubmitted =
-          true; // Set form submitted to true when the button is clicked
+      _formSubmitted = true;
       _validatePhone(phonecontroller.text);
     });
 
@@ -191,16 +183,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         (filePath!.toLowerCase().endsWith('.jpg') ||
             filePath!.toLowerCase().endsWith('.jpeg') ||
             filePath!.toLowerCase().endsWith('.png'))) {
-      // file = File(filePath!);
-      // await UserDetailsBox.put(
-      //   0,
-      //   UserDetailsDB(
-      //     customer_id: customerId,
-      //     name: namecontroller.text,
-      //     email: emailcontroller.text,
-      //     phone: phonecontroller.text,
-      //   ),
-      // );
+      file = File(filePath!);
       context.read<ProfileEditBloc>().add(
             ProfileEditEvent.profileEdit(
               image: file,
@@ -210,15 +193,6 @@ class _ProfileEditState extends State<ProfileEdit> {
             ),
           );
     } else {
-      // await UserDetailsBox.put(
-      //   0,
-      //   UserDetailsDB(
-      //     customer_id: customerId,
-      //     name: namecontroller.text,
-      //     email: emailcontroller.text,
-      //     phone: phonecontroller.text,
-      //   ),
-      // );
       context.read<ProfileEditBloc>().add(
             ProfileEditEvent.profileEdit(
               name: namecontroller.text,
@@ -227,22 +201,6 @@ class _ProfileEditState extends State<ProfileEdit> {
             ),
           );
     }
-
-    // await UserDetailsBox.put(
-    //   0,
-    //   UserDetailsDB(
-    //     customer_id: customerId,
-    //     name: namecontroller.text,
-    //     email: emailcontroller.text,
-    //     phone: phonecontroller.text,
-    //     image: file,
-    //   ),
-    // );
-
-    // Update state synchronously
-    setState(() {
-      _isEditable = !_isEditable;
-    });
   }
 
   @override
@@ -312,6 +270,9 @@ class _ProfileEditState extends State<ProfileEdit> {
             state.maybeMap(
               loading: (_) {},
               success: (successState) {
+                setState(() {
+                  _isEditable = false;
+                });
                 context
                     .read<UserDetailsBloc>()
                     .add(UserDetailsEvent.fetchUserDetails());
@@ -324,9 +285,8 @@ class _ProfileEditState extends State<ProfileEdit> {
               },
               failure: (failureState) {
                 // Show failure message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(failureState.error)),
-                );
+                showCustomToast(context, 'Oops something went wrong!',
+                    MediaQuery.of(context).size.height * 0.7);
               },
               validationError: (validationErrorState) {
                 setState(() {
@@ -369,7 +329,7 @@ class _ProfileEditState extends State<ProfileEdit> {
               await UserDetailsBox.clear();
               await countryCodeBox.clear();
               if (context.mounted) {
-              return  navigateTosiginCleared(context);
+                return navigateTosiginCleared(context);
               }
             }
           },
@@ -378,7 +338,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       child: WillPopScope(
         onWillPop: _onBackPressed,
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             namefocusNode.unfocus();
             emailfocusNode.unfocus();
             phonefocusNode.unfocus();
@@ -414,162 +374,207 @@ class _ProfileEditState extends State<ProfileEdit> {
                                           _openFilePicker(context);
                                         },
                                   customBorder: const CircleBorder(),
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 235, 234, 234),
-                                    child: filePath != null &&
-                                            filePath!.isNotEmpty
-                                        ? ClipOval(
-                                            child: Image.file(
-                                              File(filePath!),
-                                              fit: BoxFit.cover,
-          
-                                              width:
-                                                  77, // Adjusted to fit within the padding
-                                              height:
-                                                  77, // Adjusted to fit within the padding
+                                  child: SizedBox(
+                                    height: 81,
+                                    width: 81,
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      fit: StackFit.expand,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors
+                                                  .black, // Customize border color
+                                              width: 1.0, // Adjust border width
                                             ),
-                                          )
-                                        : (img_url != null && img_url.isNotEmpty
-                                            ? ClipOval(
-                                                child: Image.network(
-                                                  img_url,
-                                                  fit: BoxFit.cover,
-                                                  width:
-                                                      77, // Adjusted to fit within the padding
-                                                  height:
-                                                      77, // Adjusted to fit within the padding
-                                                  loadingBuilder: (context, child,
-                                                      loadingProgress) {
-                                                    if (loadingProgress == null) {
-                                                      return child;
-                                                    }
-                                                    return Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        value: loadingProgress
-                                                                    .expectedTotalBytes !=
-                                                                null
-                                                            ? loadingProgress
-                                                                    .cumulativeBytesLoaded /
-                                                                loadingProgress
-                                                                    .expectedTotalBytes!
-                                                            : null,
-                                                      ),
-                                                    );
-                                                  },
-                                                  errorBuilder: (context, error,
-                                                          stackTrace) =>
-                                                      const Icon(
-                                                    Icons.person,
-                                                    color: Colors.grey,
-                                                    size: 30,
-                                                  ),
+                                          ),
+                                          child: CircleAvatar(
+                                            radius: 40,
+                                            backgroundColor: Color.fromARGB(
+                                                255, 235, 234, 234),
+                                            child: filePath != null &&
+                                                    filePath!.isNotEmpty
+                                                ? ClipOval(
+                                                    child: Image.file(
+                                                      File(filePath!),
+                                                      fit: BoxFit.cover,
+
+                                                      width:
+                                                          77, // Adjusted to fit within the padding
+                                                      height:
+                                                          77, // Adjusted to fit within the padding
+                                                    ),
+                                                  )
+                                                : (img_url != null &&
+                                                        img_url.isNotEmpty
+                                                    ? ClipOval(
+                                                        child: Image.network(
+                                                          img_url,
+                                                          fit: BoxFit.cover,
+                                                          width:
+                                                              77, // Adjusted to fit within the padding
+                                                          height:
+                                                              77, // Adjusted to fit within the padding
+                                                          loadingBuilder: (context,
+                                                              child,
+                                                              loadingProgress) {
+                                                            if (loadingProgress ==
+                                                                null) {
+                                                              return child;
+                                                            }
+                                                            return Center(
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                value: loadingProgress
+                                                                            .expectedTotalBytes !=
+                                                                        null
+                                                                    ? loadingProgress
+                                                                            .cumulativeBytesLoaded /
+                                                                        loadingProgress
+                                                                            .expectedTotalBytes!
+                                                                    : null,
+                                                              ),
+                                                            );
+                                                          },
+                                                          errorBuilder: (context,
+                                                                  error,
+                                                                  stackTrace) =>
+                                                              const Icon(
+                                                            Icons.person,
+                                                            color: Colors.grey,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : ClipOval(
+                                                        child: Container(
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              235, 234, 234),
+                                                          child: const Icon(
+                                                            Icons.person,
+                                                            size: 59,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                      )),
+                                          ),
+                                        ),
+                                        if (_isEditable)
+                                          Positioned(
+                                              right: -6,
+                                              bottom: 0,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: const Color.fromARGB(
+                                                        255, 248, 99, 88),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                height: 30,
+                                                width: 30,
+                                                child: const Icon(
+                                                  size: 15,
+                                                  Icons.camera_alt_rounded,
+                                                  color: Colors.white,
                                                 ),
-                                              )
-                                            : ClipOval(
-                                                child: Container(
-                                                  color: const Color.fromARGB(
-                                                      255, 235, 234, 234),
-                                                  child: const Icon(
-                                                    Icons.person,
-                                                    size: 59,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                              )),
+                                              ))
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: height8),
                                 Text(
                                   namecontroller.text,
-                                  style: TextStyles.rubik16red23w700,
+                                  style: TextStyles.rubik16black24,
                                 ),
                                 Column(
-                                    children: _isEditable
-                                        ? [
-                                            SizedBox(height: height22),
-                                            NameTextfield(
-                                              focusNode: namefocusNode,
-                                              hintText: '',
-                                              textstyle: TextStyle(),
-                                              textEditingController:
-                                                  namecontroller,
-                                              errorText: _nameErrorText,
-                                            ),
-                                            SizedBox(height: height22),
-                                            Textfield(
-                                              focusNode: emailfocusNode,
-                                              textEditingController:
-                                                  emailcontroller,
-                                              errorText: _emailErrorText,
-                                            ),
-                                            SizedBox(height: height22),
-                                            NumberTextFieldWithCountry(
-                                              focusNode: phonefocusNode,
-                                              selectedCountryCode:
-                                                  selectedCountryCode,
-                                              selectedDialCode:
-                                                  selectedCountryCode,
-                                              phoneController: phonecontroller,
-                                              onCountryChanged: (String
-                                                      newDialCode,
-                                                  String newCountryCode) async {
-                                                setState(() {
-                                                  selectedDialCode = newDialCode;
-                                                  selectedCountryCode =
-                                                      newCountryCode;
-                                                });
-                                              },
-                                              errorText: _phoneErrorText,
-                                            ),
-                                            SizedBox(height: height86),
-                                          ]
-                                        : [
-                                            SizedBox(height: height22),
-                                            NameTextfield(
-                                              focusNode: namefocusNode,
-                                              hintText: '',
-                                              textstyle:
-                                                  TextStyles.rubikregular16hint,
-                                              enabled: false,
-                                              textEditingController:
-                                                  namecontroller,
-                                              errorText: _nameErrorText,
-                                            ),
-                                            SizedBox(height: height22),
-                                            Textfield(
-                                              focusNode: emailfocusNode,
-                                              textstyle:
-                                                  TextStyles.rubikregular16hint,
-                                              textEditingController:
-                                                  emailcontroller,
-                                              errorText: _emailErrorText,
-                                              enabled: false,
-                                            ),
-                                            SizedBox(height: height22),
-                                            NumberTextFieldWithCountry(
-                                              focusNode: phonefocusNode,
-                                              enabled: false,
-                                              selectedCountryCode:
-                                                  selectedCountryCode,
-                                              selectedDialCode:
-                                                  selectedCountryCode,
-                                              phoneController: phonecontroller,
-                                              onCountryChanged: (String
-                                                      newDialCode,
-                                                  String newCountryCode) async {
-                                                setState(() {
-                                                  selectedDialCode = newDialCode;
-                                                  selectedCountryCode =
-                                                      newCountryCode;
-                                                });
-                                              },
-                                              errorText: _phoneErrorText,
-                                            ),
-                                            SizedBox(height: height86),
-                                          ]),
+                                  children: _isEditable
+                                      ? [
+                                          SizedBox(height: height22),
+                                          NameTextfield(
+                                            focusNode: namefocusNode,
+                                            hintText: '',
+                                            textstyle: TextStyle(),
+                                            textEditingController:
+                                                namecontroller,
+                                            errorText: _nameErrorText,
+                                          ),
+                                          SizedBox(height: height22),
+                                          Textfield(
+                                            focusNode: emailfocusNode,
+                                            textEditingController:
+                                                emailcontroller,
+                                            errorText: _emailErrorText,
+                                          ),
+                                          SizedBox(height: height22),
+                                          NumberTextFieldWithCountry(
+                                            focusNode: phonefocusNode,
+                                            selectedCountryCode:
+                                                selectedCountryCode,
+                                            selectedDialCode:
+                                                selectedCountryCode,
+                                            phoneController: phonecontroller,
+                                            onCountryChanged: (String
+                                                    newDialCode,
+                                                String newCountryCode) async {
+                                              setState(() {
+                                                selectedDialCode = newDialCode;
+                                                selectedCountryCode =
+                                                    newCountryCode;
+                                              });
+                                            },
+                                            errorText: _phoneErrorText,
+                                          ),
+                                          SizedBox(height: height86),
+                                        ]
+                                      : [
+                                          SizedBox(height: height22),
+                                          NameTextfield(
+                                            focusNode: namefocusNode,
+                                            hintText: '',
+                                            textstyle:
+                                                TextStyles.rubikregular16hint,
+                                            enabled: false,
+                                            textEditingController:
+                                                namecontroller,
+                                            errorText: _nameErrorText,
+                                          ),
+                                          SizedBox(height: height22),
+                                          Textfield(
+                                            focusNode: emailfocusNode,
+                                            textstyle:
+                                                TextStyles.rubikregular16hint,
+                                            textEditingController:
+                                                emailcontroller,
+                                            errorText: _emailErrorText,
+                                            enabled: false,
+                                          ),
+                                          SizedBox(height: height22),
+                                          NumberTextFieldWithCountry(
+                                            focusNode: phonefocusNode,
+                                            enabled: false,
+                                            selectedCountryCode:
+                                                selectedCountryCode,
+                                            selectedDialCode:
+                                                selectedCountryCode,
+                                            phoneController: phonecontroller,
+                                            onCountryChanged: (String
+                                                    newDialCode,
+                                                String newCountryCode) async {
+                                              setState(() {
+                                                selectedDialCode = newDialCode;
+                                                selectedCountryCode =
+                                                    newCountryCode;
+                                              });
+                                            },
+                                            errorText: _phoneErrorText,
+                                          ),
+                                          SizedBox(height: height86),
+                                        ],
+                                ),
                               ],
                             ),
                           ),
@@ -609,29 +614,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     borderColor: const Color(0xFF1B92FF),
                                   ),
                             const SizedBox(height: 12),
-                            Visibility(
-                                visible: !_isEditable,
-                                child: ColorlessButton(
-                                  onPressed: () async {
-                                    try {
-                                   
-                                      context
-                                          .read<LogoutBloc>()
-                                          .add(const LogoutEvent.logout());
-          
-                                    
-                                    } catch (e) {
-                                      // Handle any errors that occur during the asynchronous operations
-                                      print('Error during logout: $e');
-                                      showCustomToast(
-                                          context,
-                                          'Failed to log out. Please try again.',
-                                          MediaQuery.of(context).size.height *
-                                              0.7);
-                                    }
-                                  },
-                                  text: 'Log out',
-                                )),
                             const SizedBox(height: 34)
                           ],
                         ),

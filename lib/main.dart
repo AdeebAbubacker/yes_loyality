@@ -2,21 +2,23 @@ import 'package:Yes_Loyalty/core/db/hive_db/adapters/country_code_adapter/countr
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/country_code_box.dart';
 import 'package:Yes_Loyalty/core/view_model/change_password/change_password_bloc.dart';
 import 'package:Yes_Loyalty/core/view_model/delete_account/delete_account_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/forgot_password/forgot_password_bloc.dart';
 import 'package:Yes_Loyalty/core/view_model/get_support/get_support_bloc.dart';
-import 'package:Yes_Loyalty/firebase_options.dart';
-import 'package:Yes_Loyalty/testing/call_mapi.dart';
+import 'package:Yes_Loyalty/core/view_model/reset_password/reset_password_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/verify_otp/verify_otp_bloc.dart';
+import 'package:Yes_Loyalty/ui/screens/auth/acc_created_success/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/auth/user_signup/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/home/layout_view.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/password-reset/reset-password.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/password-reset/password-forgot.dart';
+import 'package:Yes_Loyalty/ui/screens/misc/password-reset/verify-otp.dart';
 import 'package:Yes_Loyalty/ui/screens/misc/profile_edit/layout_view.dart';
 import 'package:Yes_Loyalty/ui/screens/settings/support/support_screen.dart';
 import 'package:Yes_Loyalty/ui/screens/settings/user/change_password/change_password.dart';
 import 'package:Yes_Loyalty/ui/screens/settings/user/delete_account/delete_account.dart';
 import 'package:Yes_Loyalty/ui/screens/settings/user/user_settings.dart';
-
 import 'package:Yes_Loyalty/ui/screens/splash/splash_screen.dart';
-import 'package:Yes_Loyalty/ui/widgets/number_textfield_cache.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/branch_list_adater/branch_list_adapter.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/adapters/selected_branch_adater/selected_adapter.dart';
@@ -24,7 +26,6 @@ import 'package:Yes_Loyalty/core/db/hive_db/adapters/user_details_adapter/user_d
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/branch_list_box.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/selected_branch_box.dart';
 import 'package:Yes_Loyalty/core/db/hive_db/boxes/user_details_box.dart';
-import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,9 +45,6 @@ void main() async {
 
   ///-------------Initialize Hive----------------------------
   await Hive.initFlutter();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   ///-------------Register Adapter----------------------------
 
@@ -63,15 +61,9 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
-    // DevicePreview(
-    //   // enabled: !kReleaseMode,
-    //   enabled: true,
-    //   builder: (context) => const MyApp(), // Wrap your app
-
-    // );
   });
 }
-//0000000000000000
+
 //-----------
 
 class MyApp extends StatelessWidget {
@@ -120,33 +112,43 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => DeleteAccountBloc(),
           ),
+          BlocProvider(
+            create: (context) => ForgotPasswordBloc(),
+          ),
+          BlocProvider(
+            create: (context) => VerifyOtpBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ResetPasswordBloc(),
+          ),
         ],
-        child:
-
-            // MaterialApp(
-            //   // useInheritedMediaQuery: true,
-            //   // locale: DevicePreview.locale(context),
-            //   // builder: DevicePreview.appBuilder,
-
-            //   // routerConfig: MyappRoutes.routes,
-            //    home: SplashScreen(),
-
-            // ),
-            MaterialApp(
+        child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(useMaterial3: false),
-          initialRoute: '/', // Set the initial route (Screen1)
+          initialRoute: '/',
           routes: {
-             '/': (context) => SplashScreen(),
-            '/sigin': (context) => SignInScreen(),
+            '/': (context) => const SplashScreen(),
+            '/sigin': (context) => const SignInScreen(),
+            '/accCreatedSuccess': (context) =>
+                const AccountCreatedSuccessScreen(),
             '/signup': (context) => SignupScreen(),
-            '/profileEdit': (context) => ProfileEdit(),
-            '/userSettings': (context) => UserSettings(),
-            '/getSupport': (context) => GetSupportScreen(),
-            '/changepassword': (context) => ChangePassWord(),
-            '/deleteAccount': (context) => DeleteAccount(),
-            '/home': (context) => HomeScreen(), // Define the home route
+            '/profileEdit': (context) => const ProfileEdit(),
+            '/changepassword': (context) => const ChangePassWord(),
+            '/forgotpassword': (context) => const ForgotPassWord(),
+            '/verfyOtp': (context) => const VerifyOtpScreen(),
+            '/userSettings': (context) => const UserSettings(),
+            '/getSupport': (context) => const GetSupportScreen(),
+            '/resetpassword': (context) => const ResetPasswordChangeScreen(),
+            '/deleteAccount': (context) => const DeleteAccount(),
+            '/home': (context) => const HomeScreen(),
           },
         ));
   }
 }
+
+
+
+
+
+
+

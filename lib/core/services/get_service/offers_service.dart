@@ -9,10 +9,14 @@ import 'package:Yes_Loyalty/core/model/offers_list/offers_list.dart';
 
 class OffersService {
   static Future<OffersList> fetchOfferListData() async {
-    final url = Uri.parse('${ApiConstants.baseUrl}branch/1000/offers/list');
-       // Print the stored access token
-    String accessToken =  await GetSharedPreferences.getAccessToken() ?? 'Access Token empty';
-   
+    String? storedBranchId = await GetSharedPreferences.getbranchId();
+    final url = storedBranchId != null && storedBranchId.isNotEmpty
+        ? Uri.parse(
+            '${ApiConstants.baseUrl}branch/$storedBranchId/offers/list')
+        : Uri.parse('${ApiConstants.baseUrl}branch/offers/list');
+     
+    String accessToken =
+        await GetSharedPreferences.getAccessToken() ?? 'Access Token empty';
 
     // Add your Bearer token here
     final token = accessToken;
@@ -41,9 +45,10 @@ class OffersService {
 
   static Future<OffersInfo> fetchOfferInfo() async {
     final url = Uri.parse('${ApiConstants.baseUrl}branch/1000/offers/12');
-      // Print the stored access token
-    String accessToken = await  GetSharedPreferences.getAccessToken() ?? 'Access Token empty';
-   
+    // Print the stored access token
+    String accessToken =
+        await GetSharedPreferences.getAccessToken() ?? 'Access Token empty';
+
     // Add your Bearer token here
     final token = accessToken;
     try {
@@ -68,6 +73,4 @@ class OffersService {
       rethrow;
     }
   }
-
-
 }

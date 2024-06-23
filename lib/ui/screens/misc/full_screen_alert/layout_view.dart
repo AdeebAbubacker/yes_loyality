@@ -1,10 +1,9 @@
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
 import 'package:Yes_Loyalty/core/constants/text_styles.dart';
-import 'package:Yes_Loyalty/ui/screens/auth/user_signin/layout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+
 
 class EnterOtpVerified extends StatelessWidget {
   const EnterOtpVerified({Key? key}) : super(key: key);

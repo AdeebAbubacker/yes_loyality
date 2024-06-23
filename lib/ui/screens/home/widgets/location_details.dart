@@ -1,3 +1,5 @@
+import 'package:Yes_Loyalty/core/view_model/offer_info/offer_info_bloc.dart';
+import 'package:Yes_Loyalty/core/view_model/offers_list/offers_list_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -127,6 +129,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                       height: 1,
                       color: const Color.fromARGB(255, 211, 211, 208),
                     ),
+                    const SizedBox(height: 9),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 14, top: 8, right: 14, bottom: 8),
@@ -217,6 +220,10 @@ class _LocationDetailsState extends State<LocationDetails> {
                                             .add(const TransactionDetailsEvent
                                                 .fetchTransactionDetails());
 
+                                        context.read<OffersListBloc>().add(
+                                            const OffersListEvent
+                                                .fetchOffersList());
+
                                         _isModalOpenNotifier.value =
                                             false; // Modal is closed
 
@@ -285,6 +292,8 @@ class _LocationDetailsState extends State<LocationDetails> {
                                             .read<TransactionDetailsBloc>()
                                             .add(const TransactionDetailsEvent
                                                 .fetchTransactionDetails());
+                                        context.read<OffersListBloc>().add(
+                                            OffersListEvent.fetchOffersList());
                                         _isModalOpenNotifier.value =
                                             false; // Modal is closed
                                       },
@@ -522,6 +531,13 @@ class LocationListItem extends StatelessWidget {
 class StoreDetails extends StatelessWidget {
   final String storeId;
   const StoreDetails({Key? key, required this.storeId}) : super(key: key);
+  String limitString(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + '...';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -529,128 +545,129 @@ class StoreDetails extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: SizedBox(
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: BlocBuilder<StoreDetailsBloc, StoreDetailsState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return const CircularProgressIndicator();
-              } else if (state.isError) {
-                return const Text("Some errro occurred");
-              }
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Ashis Super Mercato",
-                        style: TextStyles.rubik14black33semibold,
-                      ),
-                      const Spacer(),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context); // Close the dialog
-                              },
-                              icon: SvgPicture.asset(
-                                "assets/Close.svg",
-                              ))),
-                    ],
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    children: [
-                      Text("Store Name", style: TextStyles.rubik10grey70),
-                      const Spacer(),
-                      Text(state.storeDetails.data?.name ?? 'erewr',
-                          style: TextStyles.rubik10grey70medium),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Store Details",
-                              style: TextStyles.rubik10grey70),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 37,
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "Shanmugham Rd, Marine Drive , Kochi",
-                                style: TextStyles.rubik10grey70medium,
-                                textAlign: TextAlign.end,
-                              ),
-                            ],
+      child: WillPopScope(
+        // Add a WillPopScope to listen for when the dialog is dismissed
+        onWillPop: () async {
+          // Dispatch the event to fetch offers list when dialog is dismissed
+          // context
+          //     .read<StoreDetailsBloc>()
+          //     .add(const StoreDetailsEvent.clearStoreDetailsData());
+          return true; // Return true to allow dialog to be dismissed
+        },
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: BlocBuilder<StoreDetailsBloc, StoreDetailsState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const CircularProgressIndicator();
+                } else if (state.isError) {
+                  return const Text("Some errro occurred");
+                }
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          limitString(
+                              state.storeDetails.data?.name ?? 'N/A', 23),
+                          style: TextStyles.rubik14black33semibold,
+                        ),
+                        const Spacer(),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Close the dialog
+                                },
+                                icon: SvgPicture.asset(
+                                  "assets/Close.svg",
+                                ))),
+                      ],
+                    ),
+                    const SizedBox(height: 25),
+                    Row(
+                      children: [
+                        Text("Store Name", style: TextStyles.rubik10grey70),
+                        const Spacer(),
+                        Text(state.storeDetails.data?.name ?? 'N/A',
+                            style: TextStyles.rubik10black33),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Store Address",
+                                style: TextStyles.rubik10grey70),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 37,
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  state.storeDetails.data?.address ?? 'N/A',
+                                  style: TextStyles.rubik10black33,
+                                  textAlign: TextAlign.end,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text("Phone", style: TextStyles.rubik10grey70),
-                      const Spacer(),
-                      Text("0484 236 1403", style: TextStyles.ibmMono10grey33),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text("Email", style: TextStyles.rubik10grey70),
-                      const Spacer(),
-                      Text("ashissupermercato@gmail.com",
-                          style: TextStyles.rubik10grey70medium),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 43,
-                  ),
-                  ColoredButton(
-                      text: "View In Map",
-                      onPressed: () async {
-                        await MapsLauncher.launchQuery(
-                            state.storeDetails.data?.coordinates.toString() ??
-                                "Lulu Mall");
-                      }),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                ],
-              );
-            },
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text("Phone", style: TextStyles.rubik10grey70),
+                        const Spacer(),
+                        Text(state.storeDetails.data?.phone1 ?? 'N/A',
+                            style: TextStyles.rubik10black33),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text("Email", style: TextStyles.rubik10grey70),
+                        const Spacer(),
+                        Text(
+                            limitString(
+                                state.storeDetails.data?.email1 ?? 'N/A', 30),
+                            style: TextStyles.rubik10black33),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 43,
+                    ),
+                    ColoredButton(
+                        text: "View In Map",
+                        onPressed: () async {
+                          await MapsLauncher.launchQuery(
+                              state.storeDetails.data?.coordinates.toString() ??
+                                  "Lulu Mall");
+                        }),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-
-// This is the one i should do 
-
-  // return NotificationListener<DraggableScrollableNotification>(
-  //           onNotification: (notification) {
-  //             if (notification.extent < 0.2) {
-  //               // When the sheet is minimized, execute the desired action
-  //               // For example, updating the isModalOpen state
-  //               _toggleModal(false);
-  //             }
-  //             return true;
-  //           },

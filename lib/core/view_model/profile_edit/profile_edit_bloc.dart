@@ -21,7 +21,7 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
         name: event.name,
         email: event.email,
         phone: event.phone,
-       
+       image: event.image,
       );
       result.fold((failure) {
         if (failure is ValidationResponse) {
