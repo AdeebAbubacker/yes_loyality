@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Version 1.0.20 ${ApiConstants.baseUrl == "https://yl.tekpeak.in/api/" ? "D" : ''}",
+                  "Version 1.0.24 ${ApiConstants.baseUrl == "https://yl.tekpeak.in/api/" ? "D" : ''}",
                   style: TextStyles.rubikregular14black3B,
                 ),
                 SizedBox(height: height8),

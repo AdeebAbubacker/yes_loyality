@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:Yes_Loyalty/core/routes/app_route_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Yes_Loyalty/core/constants/common.dart';
 import 'package:Yes_Loyalty/core/constants/const.dart';
@@ -172,6 +173,7 @@ class _OffersState extends State<Offers> {
       print('object${state.offersList.message.toString()}');
       if (state.isLoading) {
         return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               MasonryGridView.count(
@@ -232,6 +234,7 @@ class _OffersState extends State<Offers> {
         }
         if (gradientColors.length == state.offersList.data!.length) {
           return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               children: [
                 MasonryGridView.count(
@@ -247,19 +250,21 @@ class _OffersState extends State<Offers> {
                         '${state.offersList.data?[index].expiryEnd}';
                     String formattedDate = formatExpiryDate(expiryEnd);
                     return ContentBox(
-                      lineargradient1: baseColors[index],
-                      lineargradient2: gradientColors[index],
-                      offerinfo: '${state.offersList.data?[index].name}' ??
-                          'Special Offer',
-                      comments: '${state.offersList.data?[index].comments}' ??
-                          'Special Offer',
-                      expiryDate:
-                          '${formattedDate == "Currently Available" ? 'Currently Available' : 'Valid up to ${formattedDate}'}',
-                      lighterColor: lighterColors[index],
-                      branchName:
-                          '${state.offersList.data?[index].branchName}' ??
-                              'Special Offer',
-                    );
+                        lineargradient1: baseColors[index],
+                        lineargradient2: gradientColors[index],
+                        offerinfo: '${state.offersList.data?[index].name}' ??
+                            'Special Offer',
+                        comments: '${state.offersList.data?[index].comments}' ??
+                            'Special Offer',
+                        expiryDate:
+                            '${formattedDate == "Currently Available" ? 'Currently Available' : 'Valid up to ${formattedDate}'}',
+                        lighterColor: lighterColors[index],
+                        branchName:
+                            '${state.offersList.data?[index].branchName}' ??
+                                'Special Offer',
+                        brochure_url:
+                            '${state.offersList.data?[index].brochureUrl}' ??
+                                '');
                   },
                 ),
                 SizedBox(height: height23),
@@ -279,6 +284,7 @@ class _OffersState extends State<Offers> {
         );
       }
       return SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             MasonryGridView.count(
@@ -320,7 +326,8 @@ class ContentBox extends StatelessWidget {
   final String expiryDate;
   final lineargradient1;
   final lineargradient2;
-  const ContentBox({
+  String brochure_url;
+  ContentBox({
     super.key,
     required this.offerinfo,
     required this.lineargradient1,
@@ -329,6 +336,7 @@ class ContentBox extends StatelessWidget {
     required this.comments,
     required this.lighterColor,
     required this.branchName,
+    required this.brochure_url,
   });
   // final double height;
   String _formatExpiryDateWithMonthAsString(String? expiryEnd) {
@@ -401,6 +409,10 @@ class ContentBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    brochure_url =
+        (brochure_url == 'null' || brochure_url.isEmpty || brochure_url == null)
+            ? 'null'
+            : brochure_url;
     return Container(
       width: 200,
       decoration: BoxDecoration(
@@ -423,7 +435,7 @@ class ContentBox extends StatelessWidget {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -453,12 +465,31 @@ class ContentBox extends StatelessWidget {
               ),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(width: 8),
                 Text(
-                  limitString(branchName, 15),
+                  limitString(branchName, 13),
                   style: TextStyles.rubik12whiteFFw500,
-                )
+                ),
+                Spacer(),
+                brochure_url == 'null'
+                    ? SizedBox.shrink()
+                    : Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                            borderRadius: BorderRadius.circular(8.0),
+                            onTap: () {
+                              navigateTopdfScreen(context,
+                                  broshureUrl: brochure_url);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:
+                                  SvgPicture.asset('assets/download_icon.svg'),
+                            )),
+                      ),
+                SizedBox(width: 8),
               ],
             ),
           ),

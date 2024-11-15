@@ -74,6 +74,9 @@ class _$TransactionDetailsEventCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TransactionDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -90,6 +93,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -196,6 +202,9 @@ class __$$FetchTransactionDetailsImplCopyWithImpl<$Res>
       _$FetchTransactionDetailsImpl _value,
       $Res Function(_$FetchTransactionDetailsImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransactionDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -295,7 +304,9 @@ mixin _$TransactionDetailsState {
   Option<Either<MainFailure, TransactionDetails>> get successorFailure =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionDetailsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionDetailsStateCopyWith<TransactionDetailsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -324,6 +335,8 @@ class _$TransactionDetailsStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionDetailsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -379,6 +392,8 @@ class __$$TransactionDetailsStateImplCopyWithImpl<$Res>
       $Res Function(_$TransactionDetailsStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionDetailsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -449,7 +464,9 @@ class _$TransactionDetailsStateImpl implements _TransactionDetailsState {
   int get hashCode => Object.hash(
       runtimeType, isLoading, isError, transactionDetails, successorFailure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionDetailsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionDetailsStateImplCopyWith<_$TransactionDetailsStateImpl>
@@ -473,8 +490,11 @@ abstract class _TransactionDetailsState implements TransactionDetailsState {
   TransactionDetails get transactionDetails;
   @override
   Option<Either<MainFailure, TransactionDetails>> get successorFailure;
+
+  /// Create a copy of TransactionDetailsState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionDetailsStateImplCopyWith<_$TransactionDetailsStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -77,6 +77,9 @@ class _$GetSupportEventCopyWithImpl<$Res, $Val extends GetSupportEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of GetSupportEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -93,6 +96,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of GetSupportEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -203,6 +209,8 @@ class __$$GetSupportEventImplCopyWithImpl<$Res>
       _$GetSupportEventImpl _value, $Res Function(_$GetSupportEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetSupportEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -269,7 +277,9 @@ class _$GetSupportEventImpl implements _GetSupportEvent {
   @override
   int get hashCode => Object.hash(runtimeType, name, email, subject, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetSupportEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetSupportEventImplCopyWith<_$GetSupportEventImpl> get copyWith =>
@@ -355,7 +365,10 @@ abstract class _GetSupportEvent implements GetSupportEvent {
   String get email;
   String get subject;
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetSupportEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetSupportEventImplCopyWith<_$GetSupportEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -436,6 +449,9 @@ class _$GetSupportStateCopyWithImpl<$Res, $Val extends GetSupportState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -452,6 +468,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -572,6 +591,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -695,6 +717,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -734,7 +758,9 @@ class _$SuccessImpl implements _Success {
   @override
   int get hashCode => Object.hash(runtimeType, getSupport);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -825,7 +851,10 @@ abstract class _Success implements GetSupportState {
   const factory _Success(final GetSupportModel getSupport) = _$SuccessImpl;
 
   GetSupportModel get getSupport;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -847,6 +876,8 @@ class __$$FailureImplCopyWithImpl<$Res>
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -885,7 +916,9 @@ class _$FailureImpl implements _Failure {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
@@ -976,7 +1009,10 @@ abstract class _Failure implements GetSupportState {
   const factory _Failure(final String error) = _$FailureImpl;
 
   String get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -998,6 +1034,8 @@ class __$$ValidationErrorImplCopyWithImpl<$Res>
       _$ValidationErrorImpl _value, $Res Function(_$ValidationErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1036,7 +1074,9 @@ class _$ValidationErrorImpl implements _ValidationError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
@@ -1129,7 +1169,10 @@ abstract class _ValidationError implements GetSupportState {
       _$ValidationErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

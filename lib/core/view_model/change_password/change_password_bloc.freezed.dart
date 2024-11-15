@@ -78,6 +78,9 @@ class _$ChangePasswordEventCopyWithImpl<$Res, $Val extends ChangePasswordEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChangePasswordEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -94,6 +97,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChangePasswordEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -206,6 +212,8 @@ class __$$ChangePasswordImplCopyWithImpl<$Res>
       _$ChangePasswordImpl _value, $Res Function(_$ChangePasswordImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChangePasswordEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -267,7 +275,9 @@ class _$ChangePasswordImpl implements _ChangePassword {
   int get hashCode =>
       Object.hash(runtimeType, currentPassword, newPassword, confirmPassword);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangePasswordEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChangePasswordImplCopyWith<_$ChangePasswordImpl> get copyWith =>
@@ -352,7 +362,10 @@ abstract class _ChangePassword implements ChangePasswordEvent {
   String get currentPassword;
   String get newPassword;
   String get confirmPassword;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChangePasswordEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChangePasswordImplCopyWith<_$ChangePasswordImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -439,6 +452,9 @@ class _$ChangePasswordStateCopyWithImpl<$Res, $Val extends ChangePasswordState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -455,6 +471,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -581,6 +600,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -710,6 +732,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -749,7 +773,9 @@ class _$SuccessImpl implements _Success {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(response));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -846,7 +872,10 @@ abstract class _Success implements ChangePasswordState {
   const factory _Success(final dynamic response) = _$SuccessImpl;
 
   dynamic get response;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -868,6 +897,8 @@ class __$$FailureImplCopyWithImpl<$Res>
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -906,7 +937,9 @@ class _$FailureImpl implements _Failure {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
@@ -1003,7 +1036,10 @@ abstract class _Failure implements ChangePasswordState {
   const factory _Failure(final String error) = _$FailureImpl;
 
   String get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1028,6 +1064,8 @@ class __$$ValidationErrorImplCopyWithImpl<$Res>
       _$ValidationErrorImpl _value, $Res Function(_$ValidationErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1092,7 +1130,9 @@ class _$ValidationErrorImpl implements _ValidationError {
       const DeepCollectionEquality().hash(newPasswordError),
       const DeepCollectionEquality().hash(confirmPasswordError));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
@@ -1198,7 +1238,10 @@ abstract class _ValidationError implements ChangePasswordState {
   dynamic get currentPasswordError;
   dynamic get newPasswordError;
   dynamic get confirmPasswordError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChangePasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -79,6 +79,9 @@ class _$StoreDetailsEventCopyWithImpl<$Res, $Val extends StoreDetailsEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of StoreDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -95,6 +98,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of StoreDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -207,6 +213,8 @@ class __$$FetchStoreDetailsImplCopyWithImpl<$Res>
       $Res Function(_$FetchStoreDetailsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StoreDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -245,7 +253,9 @@ class _$FetchStoreDetailsImpl implements _FetchStoreDetails {
   @override
   int get hashCode => Object.hash(runtimeType, storeId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StoreDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FetchStoreDetailsImplCopyWith<_$FetchStoreDetailsImpl> get copyWith =>
@@ -327,7 +337,10 @@ abstract class _FetchStoreDetails implements StoreDetailsEvent {
       _$FetchStoreDetailsImpl;
 
   String get storeId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StoreDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FetchStoreDetailsImplCopyWith<_$FetchStoreDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -347,6 +360,9 @@ class __$$ClearStoreDetailsDataImplCopyWithImpl<$Res>
   __$$ClearStoreDetailsDataImplCopyWithImpl(_$ClearStoreDetailsDataImpl _value,
       $Res Function(_$ClearStoreDetailsDataImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of StoreDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -451,7 +467,9 @@ mixin _$StoreDetailsState {
   Option<Either<MainFailure, StoreDetails>> get successorFailure =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StoreDetailsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StoreDetailsStateCopyWith<StoreDetailsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -479,6 +497,8 @@ class _$StoreDetailsStateCopyWithImpl<$Res, $Val extends StoreDetailsState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StoreDetailsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -531,6 +551,8 @@ class __$$StoreDetailsStateImplCopyWithImpl<$Res>
       $Res Function(_$StoreDetailsStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StoreDetailsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -601,7 +623,9 @@ class _$StoreDetailsStateImpl implements _StoreDetailsState {
   int get hashCode => Object.hash(
       runtimeType, isLoading, isError, storeDetails, successorFailure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StoreDetailsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StoreDetailsStateImplCopyWith<_$StoreDetailsStateImpl> get copyWith =>
@@ -625,8 +649,11 @@ abstract class _StoreDetailsState implements StoreDetailsState {
   StoreDetails get storeDetails;
   @override
   Option<Either<MainFailure, StoreDetails>> get successorFailure;
+
+  /// Create a copy of StoreDetailsState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StoreDetailsStateImplCopyWith<_$StoreDetailsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

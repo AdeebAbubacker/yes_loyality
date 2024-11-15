@@ -34,6 +34,7 @@ class OffersService {
         // Parse response body to UserDetails object
         final jsonData = json.decode(response.body);
         OffersList offersList = OffersList.fromJson(jsonData);
+        print(offersList.data?[0].brochure);
         return right(offersList);
       } else {
         print('response --------------------- ${response.statusCode}');

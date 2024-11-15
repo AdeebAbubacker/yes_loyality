@@ -72,6 +72,9 @@ class _$StoreListEventCopyWithImpl<$Res, $Val extends StoreListEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of StoreListEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -88,6 +91,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of StoreListEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -190,6 +196,9 @@ class __$$fetchStoreListImplCopyWithImpl<$Res>
   __$$fetchStoreListImplCopyWithImpl(
       _$fetchStoreListImpl _value, $Res Function(_$fetchStoreListImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of StoreListEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -286,7 +295,9 @@ mixin _$StoreListState {
   Option<Either<MainFailure, StoreList>> get successorFailure =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StoreListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StoreListStateCopyWith<StoreListState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -314,6 +325,8 @@ class _$StoreListStateCopyWithImpl<$Res, $Val extends StoreListState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StoreListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -366,6 +379,8 @@ class __$$StoreListStateImplCopyWithImpl<$Res>
       _$StoreListStateImpl _value, $Res Function(_$StoreListStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StoreListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -436,7 +451,9 @@ class _$StoreListStateImpl implements _StoreListState {
   int get hashCode => Object.hash(
       runtimeType, isLoading, isError, storeDetails, successorFailure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StoreListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StoreListStateImplCopyWith<_$StoreListStateImpl> get copyWith =>
@@ -460,8 +477,11 @@ abstract class _StoreListState implements StoreListState {
   StoreList get storeDetails;
   @override
   Option<Either<MainFailure, StoreList>> get successorFailure;
+
+  /// Create a copy of StoreListState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StoreListStateImplCopyWith<_$StoreListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

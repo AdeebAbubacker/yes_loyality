@@ -1,10 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
-
 import 'datum.dart';
 
-part 'offers_list.g.dart';
-
-@JsonSerializable()
 class OffersList {
 	int? status;
 	String? message;
@@ -20,9 +15,21 @@ class OffersList {
 		this.redirect, 
 	});
 
-	factory OffersList.fromJson(Map<String, dynamic> json) {
-		return _$OffersListFromJson(json);
-	}
+	factory OffersList.fromJson(Map<String, dynamic> json) => OffersList(
+				status: json['status'] as int?,
+				message: json['message'] as String?,
+				data: (json['data'] as List<dynamic>?)
+						?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+						.toList(),
+				misc: json['misc'] as List<dynamic>?,
+				redirect: json['redirect'] as dynamic,
+			);
 
-	Map<String, dynamic> toJson() => _$OffersListToJson(this);
+	Map<String, dynamic> toJson() => {
+				'status': status,
+				'message': message,
+				'data': data?.map((e) => e.toJson()).toList(),
+				'misc': misc,
+				'redirect': redirect,
+			};
 }

@@ -9,8 +9,6 @@ part 'login_event.dart';
 part 'login_state.dart';
 part 'login_bloc.freezed.dart';
 
-
-
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(const _Initial()) {
     on<_SignInWithEmailAndPassword>((event, emit) async {
@@ -18,11 +16,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       try {
         final result = await LoginService.login(
-            email: event.email, password: event.password);
+          email: event.email,
+          password: event.password,
+          fcm_token: event?.fcm_token,
+        );
 
         await result.fold((failure) async {
           if (failure is LoginValidation) {
-         
             final emailError = failure.data?.email?.join(', ');
             final passwordError = failure.data?.password?.join(', ');
             final error = emailError ?? passwordError; // Prioritize email error
@@ -35,6 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           // var accessToken = await SetSharedPreferences.storeAccessToken(
           //         success.misc.accessToken) ??
           //     'Access Token empty';
+          print(success.misc.accessToken);
           emit(LoginState.authsuccess(user: success));
         });
       } catch (e) {

@@ -72,6 +72,9 @@ class _$OfferInfoEventCopyWithImpl<$Res, $Val extends OfferInfoEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of OfferInfoEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -88,6 +91,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OfferInfoEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -190,6 +196,9 @@ class __$$FetchOffersInfoImplCopyWithImpl<$Res>
   __$$FetchOffersInfoImplCopyWithImpl(
       _$FetchOffersInfoImpl _value, $Res Function(_$FetchOffersInfoImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OfferInfoEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -286,7 +295,9 @@ mixin _$OfferInfoState {
   Option<Either<MainFailure, OffersInfo>> get successorFailure =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OfferInfoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OfferInfoStateCopyWith<OfferInfoState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -314,6 +325,8 @@ class _$OfferInfoStateCopyWithImpl<$Res, $Val extends OfferInfoState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OfferInfoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -366,6 +379,8 @@ class __$$OfferInfoStateImplCopyWithImpl<$Res>
       _$OfferInfoStateImpl _value, $Res Function(_$OfferInfoStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OfferInfoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -436,7 +451,9 @@ class _$OfferInfoStateImpl implements _OfferInfoState {
   int get hashCode => Object.hash(
       runtimeType, isLoading, isError, offersInfo, successorFailure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OfferInfoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OfferInfoStateImplCopyWith<_$OfferInfoStateImpl> get copyWith =>
@@ -460,8 +477,11 @@ abstract class _OfferInfoState implements OfferInfoState {
   OffersInfo get offersInfo;
   @override
   Option<Either<MainFailure, OffersInfo>> get successorFailure;
+
+  /// Create a copy of OfferInfoState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OfferInfoStateImplCopyWith<_$OfferInfoStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

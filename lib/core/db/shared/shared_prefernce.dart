@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SetSharedPreferences {
+  static Future storeNotificationPreference(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('preference', value);
+  }
+
   static Future storeCustomerId(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('customerId', value);
@@ -36,7 +41,7 @@ class SetSharedPreferences {
     await prefs.setString('key', countrycode);
   }
 
-    // Method to check and clear data on the first run after reinstallation
+  // Method to check and clear data on the first run after reinstallation
   static Future checkAndClearFirstRunData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Check if this is the first run after installation
@@ -92,8 +97,13 @@ class GetSharedPreferences {
     return prefs.getBool('profileLoaded');
   }
 
-   static Future getCountrycodes() async {
+  static Future getCountrycodes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('key');
+  }
+
+  static Future<bool?> getNotificationPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('preference');
   }
 }

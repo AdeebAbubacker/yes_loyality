@@ -72,6 +72,9 @@ class _$MainFailureCopyWithImpl<$Res, $Val extends MainFailure>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -91,6 +94,8 @@ class __$$ClientFailureImplCopyWithImpl<$Res>
       _$ClientFailureImpl _value, $Res Function(_$ClientFailureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,7 +134,9 @@ class _$ClientFailureImpl implements ClientFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ClientFailureImplCopyWith<_$ClientFailureImpl> get copyWith =>
@@ -202,7 +209,10 @@ abstract class ClientFailure implements MainFailure {
   const factory ClientFailure({final String? message}) = _$ClientFailureImpl;
 
   String? get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClientFailureImplCopyWith<_$ClientFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -221,6 +231,9 @@ class __$$ServerFailureImplCopyWithImpl<$Res>
   __$$ServerFailureImplCopyWithImpl(
       _$ServerFailureImpl _value, $Res Function(_$ServerFailureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of MainFailure
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

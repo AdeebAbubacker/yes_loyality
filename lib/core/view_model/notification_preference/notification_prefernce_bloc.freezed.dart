@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'register_bloc.dart';
+part of 'notification_prefernce_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,71 +15,70 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$RegisterEvent {
+mixin _$NotificationPrefernceEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String name, String email, String phone,
-            String password, String confirmpassword)
-        register,
+    required TResult Function(String offer_notify) changeNotificationPrefernce,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String name, String email, String phone, String password,
-            String confirmpassword)?
-        register,
+    TResult? Function(String offer_notify)? changeNotificationPrefernce,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String name, String email, String phone, String password,
-            String confirmpassword)?
-        register,
+    TResult Function(String offer_notify)? changeNotificationPrefernce,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_Register value) register,
+    required TResult Function(_ChangeNotificationPrefernce value)
+        changeNotificationPrefernce,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_Register value)? register,
+    TResult? Function(_ChangeNotificationPrefernce value)?
+        changeNotificationPrefernce,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_Register value)? register,
+    TResult Function(_ChangeNotificationPrefernce value)?
+        changeNotificationPrefernce,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RegisterEventCopyWith<$Res> {
-  factory $RegisterEventCopyWith(
-          RegisterEvent value, $Res Function(RegisterEvent) then) =
-      _$RegisterEventCopyWithImpl<$Res, RegisterEvent>;
+abstract class $NotificationPrefernceEventCopyWith<$Res> {
+  factory $NotificationPrefernceEventCopyWith(NotificationPrefernceEvent value,
+          $Res Function(NotificationPrefernceEvent) then) =
+      _$NotificationPrefernceEventCopyWithImpl<$Res,
+          NotificationPrefernceEvent>;
 }
 
 /// @nodoc
-class _$RegisterEventCopyWithImpl<$Res, $Val extends RegisterEvent>
-    implements $RegisterEventCopyWith<$Res> {
-  _$RegisterEventCopyWithImpl(this._value, this._then);
+class _$NotificationPrefernceEventCopyWithImpl<$Res,
+        $Val extends NotificationPrefernceEvent>
+    implements $NotificationPrefernceEventCopyWith<$Res> {
+  _$NotificationPrefernceEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RegisterEvent
+  /// Create a copy of NotificationPrefernceEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -92,13 +91,13 @@ abstract class _$$StartedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StartedImplCopyWithImpl<$Res>
-    extends _$RegisterEventCopyWithImpl<$Res, _$StartedImpl>
+    extends _$NotificationPrefernceEventCopyWithImpl<$Res, _$StartedImpl>
     implements _$$StartedImplCopyWith<$Res> {
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegisterEvent
+  /// Create a copy of NotificationPrefernceEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -109,7 +108,7 @@ class _$StartedImpl implements _Started {
 
   @override
   String toString() {
-    return 'RegisterEvent.started()';
+    return 'NotificationPrefernceEvent.started()';
   }
 
   @override
@@ -125,9 +124,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String name, String email, String phone,
-            String password, String confirmpassword)
-        register,
+    required TResult Function(String offer_notify) changeNotificationPrefernce,
   }) {
     return started();
   }
@@ -136,9 +133,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String name, String email, String phone, String password,
-            String confirmpassword)?
-        register,
+    TResult? Function(String offer_notify)? changeNotificationPrefernce,
   }) {
     return started?.call();
   }
@@ -147,9 +142,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String name, String email, String phone, String password,
-            String confirmpassword)?
-        register,
+    TResult Function(String offer_notify)? changeNotificationPrefernce,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -162,7 +155,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_Register value) register,
+    required TResult Function(_ChangeNotificationPrefernce value)
+        changeNotificationPrefernce,
   }) {
     return started(this);
   }
@@ -171,7 +165,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_Register value)? register,
+    TResult? Function(_ChangeNotificationPrefernce value)?
+        changeNotificationPrefernce,
   }) {
     return started?.call(this);
   }
@@ -180,7 +175,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_Register value)? register,
+    TResult Function(_ChangeNotificationPrefernce value)?
+        changeNotificationPrefernce,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -190,63 +186,41 @@ class _$StartedImpl implements _Started {
   }
 }
 
-abstract class _Started implements RegisterEvent {
+abstract class _Started implements NotificationPrefernceEvent {
   const factory _Started() = _$StartedImpl;
 }
 
 /// @nodoc
-abstract class _$$RegisterImplCopyWith<$Res> {
-  factory _$$RegisterImplCopyWith(
-          _$RegisterImpl value, $Res Function(_$RegisterImpl) then) =
-      __$$RegisterImplCopyWithImpl<$Res>;
+abstract class _$$ChangeNotificationPrefernceImplCopyWith<$Res> {
+  factory _$$ChangeNotificationPrefernceImplCopyWith(
+          _$ChangeNotificationPrefernceImpl value,
+          $Res Function(_$ChangeNotificationPrefernceImpl) then) =
+      __$$ChangeNotificationPrefernceImplCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {String name,
-      String email,
-      String phone,
-      String password,
-      String confirmpassword});
+  $Res call({String offer_notify});
 }
 
 /// @nodoc
-class __$$RegisterImplCopyWithImpl<$Res>
-    extends _$RegisterEventCopyWithImpl<$Res, _$RegisterImpl>
-    implements _$$RegisterImplCopyWith<$Res> {
-  __$$RegisterImplCopyWithImpl(
-      _$RegisterImpl _value, $Res Function(_$RegisterImpl) _then)
+class __$$ChangeNotificationPrefernceImplCopyWithImpl<$Res>
+    extends _$NotificationPrefernceEventCopyWithImpl<$Res,
+        _$ChangeNotificationPrefernceImpl>
+    implements _$$ChangeNotificationPrefernceImplCopyWith<$Res> {
+  __$$ChangeNotificationPrefernceImplCopyWithImpl(
+      _$ChangeNotificationPrefernceImpl _value,
+      $Res Function(_$ChangeNotificationPrefernceImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegisterEvent
+  /// Create a copy of NotificationPrefernceEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? email = null,
-    Object? phone = null,
-    Object? password = null,
-    Object? confirmpassword = null,
+    Object? offer_notify = null,
   }) {
-    return _then(_$RegisterImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      confirmpassword: null == confirmpassword
-          ? _value.confirmpassword
-          : confirmpassword // ignore: cast_nullable_to_non_nullable
+    return _then(_$ChangeNotificationPrefernceImpl(
+      offer_notify: null == offer_notify
+          ? _value.offer_notify
+          : offer_notify // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -254,89 +228,66 @@ class __$$RegisterImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RegisterImpl implements _Register {
-  const _$RegisterImpl(
-      {required this.name,
-      required this.email,
-      required this.phone,
-      required this.password,
-      required this.confirmpassword});
+class _$ChangeNotificationPrefernceImpl
+    implements _ChangeNotificationPrefernce {
+  const _$ChangeNotificationPrefernceImpl({required this.offer_notify});
 
   @override
-  final String name;
-  @override
-  final String email;
-  @override
-  final String phone;
-  @override
-  final String password;
-  @override
-  final String confirmpassword;
+  final String offer_notify;
 
   @override
   String toString() {
-    return 'RegisterEvent.register(name: $name, email: $email, phone: $phone, password: $password, confirmpassword: $confirmpassword)';
+    return 'NotificationPrefernceEvent.changeNotificationPrefernce(offer_notify: $offer_notify)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RegisterImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.confirmpassword, confirmpassword) ||
-                other.confirmpassword == confirmpassword));
+            other is _$ChangeNotificationPrefernceImpl &&
+            (identical(other.offer_notify, offer_notify) ||
+                other.offer_notify == offer_notify));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, email, phone, password, confirmpassword);
+  int get hashCode => Object.hash(runtimeType, offer_notify);
 
-  /// Create a copy of RegisterEvent
+  /// Create a copy of NotificationPrefernceEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RegisterImplCopyWith<_$RegisterImpl> get copyWith =>
-      __$$RegisterImplCopyWithImpl<_$RegisterImpl>(this, _$identity);
+  _$$ChangeNotificationPrefernceImplCopyWith<_$ChangeNotificationPrefernceImpl>
+      get copyWith => __$$ChangeNotificationPrefernceImplCopyWithImpl<
+          _$ChangeNotificationPrefernceImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String name, String email, String phone,
-            String password, String confirmpassword)
-        register,
+    required TResult Function(String offer_notify) changeNotificationPrefernce,
   }) {
-    return register(name, email, phone, password, confirmpassword);
+    return changeNotificationPrefernce(offer_notify);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String name, String email, String phone, String password,
-            String confirmpassword)?
-        register,
+    TResult? Function(String offer_notify)? changeNotificationPrefernce,
   }) {
-    return register?.call(name, email, phone, password, confirmpassword);
+    return changeNotificationPrefernce?.call(offer_notify);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String name, String email, String phone, String password,
-            String confirmpassword)?
-        register,
+    TResult Function(String offer_notify)? changeNotificationPrefernce,
     required TResult orElse(),
   }) {
-    if (register != null) {
-      return register(name, email, phone, password, confirmpassword);
+    if (changeNotificationPrefernce != null) {
+      return changeNotificationPrefernce(offer_notify);
     }
     return orElse();
   }
@@ -345,92 +296,75 @@ class _$RegisterImpl implements _Register {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_Register value) register,
+    required TResult Function(_ChangeNotificationPrefernce value)
+        changeNotificationPrefernce,
   }) {
-    return register(this);
+    return changeNotificationPrefernce(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_Register value)? register,
+    TResult? Function(_ChangeNotificationPrefernce value)?
+        changeNotificationPrefernce,
   }) {
-    return register?.call(this);
+    return changeNotificationPrefernce?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_Register value)? register,
+    TResult Function(_ChangeNotificationPrefernce value)?
+        changeNotificationPrefernce,
     required TResult orElse(),
   }) {
-    if (register != null) {
-      return register(this);
+    if (changeNotificationPrefernce != null) {
+      return changeNotificationPrefernce(this);
     }
     return orElse();
   }
 }
 
-abstract class _Register implements RegisterEvent {
-  const factory _Register(
-      {required final String name,
-      required final String email,
-      required final String phone,
-      required final String password,
-      required final String confirmpassword}) = _$RegisterImpl;
+abstract class _ChangeNotificationPrefernce
+    implements NotificationPrefernceEvent {
+  const factory _ChangeNotificationPrefernce(
+      {required final String offer_notify}) = _$ChangeNotificationPrefernceImpl;
 
-  String get name;
-  String get email;
-  String get phone;
-  String get password;
-  String get confirmpassword;
+  String get offer_notify;
 
-  /// Create a copy of RegisterEvent
+  /// Create a copy of NotificationPrefernceEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RegisterImplCopyWith<_$RegisterImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ChangeNotificationPrefernceImplCopyWith<_$ChangeNotificationPrefernceImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$RegisterState {
+mixin _$NotificationPrefernceState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic response) success,
+    required TResult Function(OfferNotficationPrefenceModel response) success,
     required TResult Function(String error) failure,
-    required TResult Function(
-            dynamic nameError,
-            dynamic emailError,
-            dynamic phoneError,
-            dynamic passwordError,
-            dynamic passwordConfirmError)
-        validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic response)? success,
+    TResult? Function(OfferNotficationPrefenceModel response)? success,
     TResult? Function(String error)? failure,
-    TResult? Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic response)? success,
+    TResult Function(OfferNotficationPrefenceModel response)? success,
     TResult Function(String error)? failure,
-    TResult Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -440,7 +374,6 @@ mixin _$RegisterState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_ValidationError value) validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -449,7 +382,6 @@ mixin _$RegisterState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_ValidationError value)? validationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -458,30 +390,31 @@ mixin _$RegisterState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RegisterStateCopyWith<$Res> {
-  factory $RegisterStateCopyWith(
-          RegisterState value, $Res Function(RegisterState) then) =
-      _$RegisterStateCopyWithImpl<$Res, RegisterState>;
+abstract class $NotificationPrefernceStateCopyWith<$Res> {
+  factory $NotificationPrefernceStateCopyWith(NotificationPrefernceState value,
+          $Res Function(NotificationPrefernceState) then) =
+      _$NotificationPrefernceStateCopyWithImpl<$Res,
+          NotificationPrefernceState>;
 }
 
 /// @nodoc
-class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
-    implements $RegisterStateCopyWith<$Res> {
-  _$RegisterStateCopyWithImpl(this._value, this._then);
+class _$NotificationPrefernceStateCopyWithImpl<$Res,
+        $Val extends NotificationPrefernceState>
+    implements $NotificationPrefernceStateCopyWith<$Res> {
+  _$NotificationPrefernceStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -494,13 +427,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$NotificationPrefernceStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -511,7 +444,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'RegisterState.initial()';
+    return 'NotificationPrefernceState.initial()';
   }
 
   @override
@@ -528,15 +461,8 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic response) success,
+    required TResult Function(OfferNotficationPrefenceModel response) success,
     required TResult Function(String error) failure,
-    required TResult Function(
-            dynamic nameError,
-            dynamic emailError,
-            dynamic phoneError,
-            dynamic passwordError,
-            dynamic passwordConfirmError)
-        validationError,
   }) {
     return initial();
   }
@@ -546,11 +472,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic response)? success,
+    TResult? Function(OfferNotficationPrefenceModel response)? success,
     TResult? Function(String error)? failure,
-    TResult? Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
   }) {
     return initial?.call();
   }
@@ -560,11 +483,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic response)? success,
+    TResult Function(OfferNotficationPrefenceModel response)? success,
     TResult Function(String error)? failure,
-    TResult Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -580,7 +500,6 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_ValidationError value) validationError,
   }) {
     return initial(this);
   }
@@ -592,7 +511,6 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_ValidationError value)? validationError,
   }) {
     return initial?.call(this);
   }
@@ -604,7 +522,6 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -614,7 +531,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements RegisterState {
+abstract class _Initial implements NotificationPrefernceState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -627,13 +544,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$NotificationPrefernceStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -644,7 +561,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'RegisterState.loading()';
+    return 'NotificationPrefernceState.loading()';
   }
 
   @override
@@ -661,15 +578,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic response) success,
+    required TResult Function(OfferNotficationPrefenceModel response) success,
     required TResult Function(String error) failure,
-    required TResult Function(
-            dynamic nameError,
-            dynamic emailError,
-            dynamic phoneError,
-            dynamic passwordError,
-            dynamic passwordConfirmError)
-        validationError,
   }) {
     return loading();
   }
@@ -679,11 +589,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic response)? success,
+    TResult? Function(OfferNotficationPrefenceModel response)? success,
     TResult? Function(String error)? failure,
-    TResult? Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
   }) {
     return loading?.call();
   }
@@ -693,11 +600,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic response)? success,
+    TResult Function(OfferNotficationPrefenceModel response)? success,
     TResult Function(String error)? failure,
-    TResult Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -713,7 +617,6 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_ValidationError value) validationError,
   }) {
     return loading(this);
   }
@@ -725,7 +628,6 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_ValidationError value)? validationError,
   }) {
     return loading?.call(this);
   }
@@ -737,7 +639,6 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -747,7 +648,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements RegisterState {
+abstract class _Loading implements NotificationPrefernceState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -757,29 +658,29 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({dynamic response});
+  $Res call({OfferNotficationPrefenceModel response});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$NotificationPrefernceStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? response = freezed,
+    Object? response = null,
   }) {
     return _then(_$SuccessImpl(
-      freezed == response
+      null == response
           ? _value.response
           : response // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as OfferNotficationPrefenceModel,
     ));
   }
 }
@@ -790,11 +691,11 @@ class _$SuccessImpl implements _Success {
   const _$SuccessImpl(this.response);
 
   @override
-  final dynamic response;
+  final OfferNotficationPrefenceModel response;
 
   @override
   String toString() {
-    return 'RegisterState.success(response: $response)';
+    return 'NotificationPrefernceState.success(response: $response)';
   }
 
   @override
@@ -802,14 +703,14 @@ class _$SuccessImpl implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            const DeepCollectionEquality().equals(other.response, response));
+            (identical(other.response, response) ||
+                other.response == response));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(response));
+  int get hashCode => Object.hash(runtimeType, response);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -822,15 +723,8 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic response) success,
+    required TResult Function(OfferNotficationPrefenceModel response) success,
     required TResult Function(String error) failure,
-    required TResult Function(
-            dynamic nameError,
-            dynamic emailError,
-            dynamic phoneError,
-            dynamic passwordError,
-            dynamic passwordConfirmError)
-        validationError,
   }) {
     return success(response);
   }
@@ -840,11 +734,8 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic response)? success,
+    TResult? Function(OfferNotficationPrefenceModel response)? success,
     TResult? Function(String error)? failure,
-    TResult? Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
   }) {
     return success?.call(response);
   }
@@ -854,11 +745,8 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic response)? success,
+    TResult Function(OfferNotficationPrefenceModel response)? success,
     TResult Function(String error)? failure,
-    TResult Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -874,7 +762,6 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_ValidationError value) validationError,
   }) {
     return success(this);
   }
@@ -886,7 +773,6 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_ValidationError value)? validationError,
   }) {
     return success?.call(this);
   }
@@ -898,7 +784,6 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -908,12 +793,13 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements RegisterState {
-  const factory _Success(final dynamic response) = _$SuccessImpl;
+abstract class _Success implements NotificationPrefernceState {
+  const factory _Success(final OfferNotficationPrefenceModel response) =
+      _$SuccessImpl;
 
-  dynamic get response;
+  OfferNotficationPrefenceModel get response;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -931,13 +817,13 @@ abstract class _$$FailureImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FailureImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$FailureImpl>
+    extends _$NotificationPrefernceStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -963,7 +849,7 @@ class _$FailureImpl implements _Failure {
 
   @override
   String toString() {
-    return 'RegisterState.failure(error: $error)';
+    return 'NotificationPrefernceState.failure(error: $error)';
   }
 
   @override
@@ -977,7 +863,7 @@ class _$FailureImpl implements _Failure {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -990,15 +876,8 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic response) success,
+    required TResult Function(OfferNotficationPrefenceModel response) success,
     required TResult Function(String error) failure,
-    required TResult Function(
-            dynamic nameError,
-            dynamic emailError,
-            dynamic phoneError,
-            dynamic passwordError,
-            dynamic passwordConfirmError)
-        validationError,
   }) {
     return failure(error);
   }
@@ -1008,11 +887,8 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic response)? success,
+    TResult? Function(OfferNotficationPrefenceModel response)? success,
     TResult? Function(String error)? failure,
-    TResult? Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
   }) {
     return failure?.call(error);
   }
@@ -1022,11 +898,8 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic response)? success,
+    TResult Function(OfferNotficationPrefenceModel response)? success,
     TResult Function(String error)? failure,
-    TResult Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -1042,7 +915,6 @@ class _$FailureImpl implements _Failure {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_ValidationError value) validationError,
   }) {
     return failure(this);
   }
@@ -1054,7 +926,6 @@ class _$FailureImpl implements _Failure {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_ValidationError value)? validationError,
   }) {
     return failure?.call(this);
   }
@@ -1066,7 +937,6 @@ class _$FailureImpl implements _Failure {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_ValidationError value)? validationError,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -1076,247 +946,14 @@ class _$FailureImpl implements _Failure {
   }
 }
 
-abstract class _Failure implements RegisterState {
+abstract class _Failure implements NotificationPrefernceState {
   const factory _Failure(final String error) = _$FailureImpl;
 
   String get error;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of NotificationPrefernceState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ValidationErrorImplCopyWith<$Res> {
-  factory _$$ValidationErrorImplCopyWith(_$ValidationErrorImpl value,
-          $Res Function(_$ValidationErrorImpl) then) =
-      __$$ValidationErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {dynamic nameError,
-      dynamic emailError,
-      dynamic phoneError,
-      dynamic passwordError,
-      dynamic passwordConfirmError});
-}
-
-/// @nodoc
-class __$$ValidationErrorImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$ValidationErrorImpl>
-    implements _$$ValidationErrorImplCopyWith<$Res> {
-  __$$ValidationErrorImplCopyWithImpl(
-      _$ValidationErrorImpl _value, $Res Function(_$ValidationErrorImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? nameError = freezed,
-    Object? emailError = freezed,
-    Object? phoneError = freezed,
-    Object? passwordError = freezed,
-    Object? passwordConfirmError = freezed,
-  }) {
-    return _then(_$ValidationErrorImpl(
-      nameError: freezed == nameError
-          ? _value.nameError
-          : nameError // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      emailError: freezed == emailError
-          ? _value.emailError
-          : emailError // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      phoneError: freezed == phoneError
-          ? _value.phoneError
-          : phoneError // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      passwordError: freezed == passwordError
-          ? _value.passwordError
-          : passwordError // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      passwordConfirmError: freezed == passwordConfirmError
-          ? _value.passwordConfirmError
-          : passwordConfirmError // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ValidationErrorImpl implements _ValidationError {
-  const _$ValidationErrorImpl(
-      {this.nameError,
-      this.emailError,
-      this.phoneError,
-      this.passwordError,
-      this.passwordConfirmError});
-
-  @override
-  final dynamic nameError;
-  @override
-  final dynamic emailError;
-  @override
-  final dynamic phoneError;
-  @override
-  final dynamic passwordError;
-  @override
-  final dynamic passwordConfirmError;
-
-  @override
-  String toString() {
-    return 'RegisterState.validationError(nameError: $nameError, emailError: $emailError, phoneError: $phoneError, passwordError: $passwordError, passwordConfirmError: $passwordConfirmError)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ValidationErrorImpl &&
-            const DeepCollectionEquality().equals(other.nameError, nameError) &&
-            const DeepCollectionEquality()
-                .equals(other.emailError, emailError) &&
-            const DeepCollectionEquality()
-                .equals(other.phoneError, phoneError) &&
-            const DeepCollectionEquality()
-                .equals(other.passwordError, passwordError) &&
-            const DeepCollectionEquality()
-                .equals(other.passwordConfirmError, passwordConfirmError));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(nameError),
-      const DeepCollectionEquality().hash(emailError),
-      const DeepCollectionEquality().hash(phoneError),
-      const DeepCollectionEquality().hash(passwordError),
-      const DeepCollectionEquality().hash(passwordConfirmError));
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
-      __$$ValidationErrorImplCopyWithImpl<_$ValidationErrorImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(dynamic response) success,
-    required TResult Function(String error) failure,
-    required TResult Function(
-            dynamic nameError,
-            dynamic emailError,
-            dynamic phoneError,
-            dynamic passwordError,
-            dynamic passwordConfirmError)
-        validationError,
-  }) {
-    return validationError(
-        nameError, emailError, phoneError, passwordError, passwordConfirmError);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(dynamic response)? success,
-    TResult? Function(String error)? failure,
-    TResult? Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
-  }) {
-    return validationError?.call(
-        nameError, emailError, phoneError, passwordError, passwordConfirmError);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(dynamic response)? success,
-    TResult Function(String error)? failure,
-    TResult Function(dynamic nameError, dynamic emailError, dynamic phoneError,
-            dynamic passwordError, dynamic passwordConfirmError)?
-        validationError,
-    required TResult orElse(),
-  }) {
-    if (validationError != null) {
-      return validationError(nameError, emailError, phoneError, passwordError,
-          passwordConfirmError);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_Failure value) failure,
-    required TResult Function(_ValidationError value) validationError,
-  }) {
-    return validationError(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_Failure value)? failure,
-    TResult? Function(_ValidationError value)? validationError,
-  }) {
-    return validationError?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_Failure value)? failure,
-    TResult Function(_ValidationError value)? validationError,
-    required TResult orElse(),
-  }) {
-    if (validationError != null) {
-      return validationError(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ValidationError implements RegisterState {
-  const factory _ValidationError(
-      {final dynamic nameError,
-      final dynamic emailError,
-      final dynamic phoneError,
-      final dynamic passwordError,
-      final dynamic passwordConfirmError}) = _$ValidationErrorImpl;
-
-  dynamic get nameError;
-  dynamic get emailError;
-  dynamic get phoneError;
-  dynamic get passwordError;
-  dynamic get passwordConfirmError;
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

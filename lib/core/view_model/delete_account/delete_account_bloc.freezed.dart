@@ -72,6 +72,9 @@ class _$DeleteAccountEventCopyWithImpl<$Res, $Val extends DeleteAccountEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DeleteAccountEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -88,6 +91,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DeleteAccountEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -190,6 +196,9 @@ class __$$DeleteAccountImplCopyWithImpl<$Res>
   __$$DeleteAccountImplCopyWithImpl(
       _$DeleteAccountImpl _value, $Res Function(_$DeleteAccountImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DeleteAccountEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -284,7 +293,9 @@ mixin _$DeleteAccountState {
   bool get isError => throw _privateConstructorUsedError;
   int get statusCode => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteAccountState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteAccountStateCopyWith<DeleteAccountState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -308,6 +319,8 @@ class _$DeleteAccountStateCopyWithImpl<$Res, $Val extends DeleteAccountState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteAccountState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -351,6 +364,8 @@ class __$$DeleteAccountStateImplCopyWithImpl<$Res>
       $Res Function(_$DeleteAccountStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteAccountState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -410,7 +425,9 @@ class _$DeleteAccountStateImpl implements _DeleteAccountState {
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, isError, statusCode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteAccountState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteAccountStateImplCopyWith<_$DeleteAccountStateImpl> get copyWith =>
@@ -430,8 +447,11 @@ abstract class _DeleteAccountState implements DeleteAccountState {
   bool get isError;
   @override
   int get statusCode;
+
+  /// Create a copy of DeleteAccountState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteAccountStateImplCopyWith<_$DeleteAccountStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

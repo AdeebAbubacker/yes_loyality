@@ -18,7 +18,6 @@ void navigateBackToHome(BuildContext context) {
   Navigator.of(context).popUntil(ModalRoute.withName('/home'));
 }
 
-
 void navigateToSiginCleared(BuildContext context) =>
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/sigin',
@@ -54,10 +53,10 @@ void navigateToForgotPassword(BuildContext context) =>
     Navigator.of(context).pushNamed('/forgotpassword');
 
 void navigateToPrivacyPolicy(BuildContext context) =>
-    Navigator.of(context).pushNamed('/privacy');    
+    Navigator.of(context).pushNamed('/privacy');
 
 void navigateToTermsandCond(BuildContext context) =>
-    Navigator.of(context).pushNamed('/termsAndCondition');       
+    Navigator.of(context).pushNamed('/termsAndCondition');
 
 void navigateToOtpVerify(
   BuildContext context,
@@ -68,3 +67,6 @@ void navigateToPasswordChange(
   BuildContext context,
 ) =>
     Navigator.of(context).pushNamed('/resetpassword');
+
+void navigateTopdfScreen(BuildContext context,{required String broshureUrl}) =>
+    Navigator.of(context).pushNamed('/pdfScreen',arguments: broshureUrl);

@@ -72,6 +72,9 @@ class _$ChangeStoreEventCopyWithImpl<$Res, $Val extends ChangeStoreEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChangeStoreEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -88,6 +91,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChangeStoreEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -193,6 +199,8 @@ class __$$ChangeMyStoreImplCopyWithImpl<$Res>
       _$ChangeMyStoreImpl _value, $Res Function(_$ChangeMyStoreImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChangeStoreEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -231,7 +239,9 @@ class _$ChangeMyStoreImpl implements _ChangeMyStore {
   @override
   int get hashCode => Object.hash(runtimeType, storeId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangeStoreEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChangeMyStoreImplCopyWith<_$ChangeMyStoreImpl> get copyWith =>
@@ -305,7 +315,10 @@ abstract class _ChangeMyStore implements ChangeStoreEvent {
       _$ChangeMyStoreImpl;
 
   String get storeId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChangeStoreEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChangeMyStoreImplCopyWith<_$ChangeMyStoreImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -318,7 +331,9 @@ mixin _$ChangeStoreState {
   Option<Either<MainFailure, ChangeStore>> get successorFailure =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangeStoreState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChangeStoreStateCopyWith<ChangeStoreState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -346,6 +361,8 @@ class _$ChangeStoreStateCopyWithImpl<$Res, $Val extends ChangeStoreState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChangeStoreState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -398,6 +415,8 @@ class __$$ChangeStoreStateImplCopyWithImpl<$Res>
       $Res Function(_$ChangeStoreStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChangeStoreState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -468,7 +487,9 @@ class _$ChangeStoreStateImpl implements _ChangeStoreState {
   int get hashCode => Object.hash(
       runtimeType, isLoading, isError, changeStore, successorFailure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChangeStoreState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChangeStoreStateImplCopyWith<_$ChangeStoreStateImpl> get copyWith =>
@@ -492,8 +513,11 @@ abstract class _ChangeStoreState implements ChangeStoreState {
   ChangeStore get changeStore;
   @override
   Option<Either<MainFailure, ChangeStore>> get successorFailure;
+
+  /// Create a copy of ChangeStoreState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChangeStoreStateImplCopyWith<_$ChangeStoreStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
